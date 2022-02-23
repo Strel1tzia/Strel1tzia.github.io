@@ -5,15 +5,24 @@
   
 
   
-  <title>Hexo</title>
+  <title>初探NX与ROP技术 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/index.html">
+  <meta name="description" content="什么是NX与ROPNX即为no execute bit，即禁止执行位以下是wiki中文的解释  支持NX技术的系统会把内存中的区域分类为只供存储处理器指令集与只供存储数据使用的两种。任何标记了NX位的区块代表仅供存储数据使用而不是存储处理器的指令集，处理器将不会将此处的数据作为代码执行，以此这种技术可防止多数的缓存溢出式攻ji（即一些恶意程序把自身的恶意指令集通过特殊手段放在其他程序的存储区并被执">
+<meta property="og:type" content="article">
+<meta property="og:title" content="初探NX与ROP技术">
+<meta property="og:url" content="http://example.com/2022/02/23/%E5%88%9D%E6%8E%A2NX%E4%B8%8EROP%E6%8A%80%E6%9C%AF/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="什么是NX与ROPNX即为no execute bit，即禁止执行位以下是wiki中文的解释  支持NX技术的系统会把内存中的区域分类为只供存储处理器指令集与只供存储数据使用的两种。任何标记了NX位的区块代表仅供存储数据使用而不是存储处理器的指令集，处理器将不会将此处的数据作为代码执行，以此这种技术可防止多数的缓存溢出式攻ji（即一些恶意程序把自身的恶意指令集通过特殊手段放在其他程序的存储区并被执">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://s2.51cto.com/images/20220208/1644300104164777.png?x-oss-process=image/watermark,size_14,text_QDUxQ1RP5Y2a5a6i,color_FFFFFF,t_100,g_se,x_10,y_10,shadow_20,type_ZmFuZ3poZW5naGVpdGk=">
+<meta property="og:image" content="https://s2.51cto.com/images/20220208/1644300150920284.png?x-oss-process=image/watermark,size_14,text_QDUxQ1RP5Y2a5a6i,color_FFFFFF,t_100,g_se,x_10,y_10,shadow_20,type_ZmFuZ3poZW5naGVpdGk=">
+<meta property="og:image" content="https://s2.51cto.com/images/20220208/1644300196293150.png?x-oss-process=image/watermark,size_14,text_QDUxQ1RP5Y2a5a6i,color_FFFFFF,t_100,g_se,x_10,y_10,shadow_20,type_ZmFuZ3poZW5naGVpdGk=">
+<meta property="og:image" content="https://s2.51cto.com/images/20220208/1644300248302369.png?x-oss-process=image/watermark,size_14,text_QDUxQ1RP5Y2a5a6i,color_FFFFFF,t_100,g_se,x_10,y_10,shadow_20,type_ZmFuZ3poZW5naGVpdGk=">
+<meta property="article:published_time" content="2022-02-23T14:13:28.000Z">
+<meta property="article:modified_time" content="2022-02-23T14:13:58.120Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s2.51cto.com/images/20220208/1644300104164777.png?x-oss-process=image/watermark,size_14,text_QDUxQ1RP5Y2a5a6i,color_FFFFFF,t_100,g_se,x_10,y_10,shadow_20,type_ZmFuZ3poZW5naGVpdGk=">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -62,9 +71,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-初探NX与ROP技术" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-初探NX与ROP技术" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2022/02/23/%E5%88%9D%E6%8E%A2NX%E4%B8%8EROP%E6%8A%80%E6%9C%AF/" class="article-date">
   <time datetime="2022-02-23T14:13:28.000Z" itemprop="datePublished">2022-02-23</time>
@@ -77,8 +84,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/02/23/%E5%88%9D%E6%8E%A2NX%E4%B8%8EROP%E6%8A%80%E6%9C%AF/">初探NX与ROP技术</a>
+    <h1 class="article-title" itemprop="name">
+      初探NX与ROP技术
     </h1>
   
 
@@ -122,132 +129,19 @@
     </footer>
   </div>
   
-</article>
-
-
+    
+<nav id="article-nav">
   
-    <article id="post-start" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2022/02/23/start/" class="article-date">
-  <time datetime="2022-02-23T13:41:07.000Z" itemprop="datePublished">2022-02-23</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/02/23/start/">start</a>
-    </h1>
+    <a href="/2022/02/23/start/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">start</div>
+    </a>
   
+</nav>
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="测试一下"><a href="#测试一下" class="headerlink" title="测试一下"></a>测试一下</h2>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2022/02/23/start/" data-id="ckzzmh08a0001zouqgms35ywt" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
   
 </article>
-
-
-  
-    <article id="post-test-new-site" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2022/02/23/test-new-site/" class="article-date">
-  <time datetime="2022-02-23T07:28:21.000Z" itemprop="datePublished">2022-02-23</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/02/23/test-new-site/">test_new_site</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2022/02/23/test-new-site/" data-id="ckzzmh08i0002zouqbuwb89qp" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2022/02/23/hello-world/" class="article-date">
-  <time datetime="2022-02-23T07:23:31.737Z" itemprop="datePublished">2022-02-23</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/02/23/hello-world/">Hello World</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2022/02/23/hello-world/" data-id="ckzzmh0870000zouq1500ar6b" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-
 
 </section>
         
