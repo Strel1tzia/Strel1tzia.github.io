@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  
+  
+  
+  <entry>
+    <title>NX-ROP</title>
+    <link href="/2022/03/02/NX-ROP/"/>
+    <url>/2022/03/02/NX-ROP/</url>
+    
+    <content type="html"><![CDATA[<h1 id="什么是NX与ROP"><a href="#什么是NX与ROP" class="headerlink" title="什么是NX与ROP"></a>什么是NX与ROP</h1><p><strong>NX即为no execute bit，即禁止执行位</strong><br><br>以下是wiki中文的解释</p><blockquote><p>支持NX技术的系统会把内存中的区域分类为只供存储处理器指令集与只供存储数据使用的两种。任何标记了NX位的区块代表仅供存储数据使用而不是存储处理器的指令集，处理器将不会将此处的数据作为代码执行，以此这种技术可防止多数的缓存溢出式攻ji（即一些恶意程序把自身的恶意指令集通过特殊手段放在其他程序的存储区并被执行，从而攻ji甚至控制整台电脑系统）。</p></blockquote><p>个人理解就是不能用常规的最简单的栈溢出手段，来直接修改返回地址为目标函数地址。<br><br><strong>ROP即返回导向编程（英语：Return-Oriented Programming，缩写：ROP）</strong><br>其核心思想是通过栈溢出等方式控制堆栈调用以劫持程序控制流并执行针对性的机器语言指令序列（称为Gadgets）。所谓 gadgets 就是以 ret 结尾的指令序列，通过这些指令序列，我们可以修改某些地址的内容，方便控制程序的执行流程。</p><p><strong>因为开启了NX 保护，我们不可以把shellcode放到栈上来执行了，因此我们就需用用到ROP技术来迂回获得SHELL。</strong><br><br><br><strong>++本文是学习笔记形式，许多内容与原文章相同，但会加入部分个人理解。因为自学ctf确实费劲，一个地方搞不懂会困扰几天，希望我个人对样例的复现过程，和我的经验能帮助到后来者，少走弯路。++</strong><br><br><strong>原文地址</strong></p><blockquote><p><a href="https://bbs.pediy.com/thread-221041.htm">https://bbs.pediy.com/thread-221041.htm</a></p></blockquote><p>再次感谢原文大佬作者！</p><h2 id="win的IDA-pro与虚拟机中的linux联合调试方法"><a href="#win的IDA-pro与虚拟机中的linux联合调试方法" class="headerlink" title="win的IDA pro与虚拟机中的linux联合调试方法"></a>win的IDA pro与虚拟机中的linux联合调试方法</h2><p>1.在IDA中选中remote linux debugger<br><br>2.在菜单debugger下拉菜单里选择process option选项，设置如下：<br><img src="/2022/03/02/NX-ROP/cto1.png" alt="test-png"><br>其中目录就选择rop所在目录，hostname填上linux虚拟机的ip，端口默认选择23946<br><br>3.然后打开linux虚拟机，并把ida目录下的linxu_serverX64拷贝到虚拟机里并执行<br><img src="/2022/03/02/NX-ROP/cto2.png" alt="image.png"></p><p><br>4.用py编写调试代码rexp.py如下：<br><br> <br>#! /usr/bin/python<br>from pwn import *<br>import pdb<br>context.log_level = ‘debug’<br>target = process(‘./rop’)<br>elf=ELF(‘./rop’) #这个会显示rop用了哪些保护技术<br>pdb.set_trace()#这里设置一个pdb断点，可以让ida附加rop进程<br><br><br>target.sendline(‘a’64+’b’8+’c’*8)<br>target.interactive()<br>5.然后在linux系统上新开一个终端，执行rexp.py如下<br><img src="/2022/03/02/NX-ROP/cto3.png" alt="image.png"><br><br>6.在ida vuln函数里的gets函数后面下好断点<br><br>7.然后点击debugger,附加远程进程，找到./rop打开<br><img src="/2022/03/02/NX-ROP/cto4.png" alt="image.png"><br>并按F9执行<br><br>8.回到linux中，在Pdb终端里面输入n并回车（即next，下一步的意思)<br><br>9.可以看见IDA中出现同步的动态调试信息。<br><br><strong>以上便是IDA与linux的联合调试过程</strong><br><br>\</p><h2 id="开启NX保护与不开启时，做题时的不同感受"><a href="#开启NX保护与不开启时，做题时的不同感受" class="headerlink" title="开启NX保护与不开启时，做题时的不同感受"></a>开启NX保护与不开启时，做题时的不同感受</h2><p>1.开启NX以后，最直接的效果就是不能在栈上执行shellcode，也就是不能直接通过溢出，修改返回地址为shellcode，来获得shell。<br>2.但是开启NX以后，可以修改返回地址为已有的backdoor函数得到shell。<br>3.如果没有现成的backdoor函数，则需要我们想办法转移到其他空间，执行shellcode。</p><h2 id="64位与32位下，简单的应对NX保护的方式"><a href="#64位与32位下，简单的应对NX保护的方式" class="headerlink" title="64位与32位下，简单的应对NX保护的方式"></a>64位与32位下，简单的应对NX保护的方式</h2><p>即构造ROP链<br>1.64位环境下，一般先搜索有类似“pop rdi ; ret;”形式的代码段<br>命令：</p><blockquote><p>ROPgadget –binary 文件名 | grep “pop rdi”</p></blockquote><p>找到相关代码段后，payload第一部分覆盖缓冲区和rbp（ebp）后，便接上ROPgadget找到的gadget地址。<br>为什么要寻找pop rdi呢？<br>因为函数第一个参数一般都存在rdi中，这样可以达到传参的目的。<br>再寻找”/bin/sh”字符串地址，链接在rop链后。<br>随后传入_system函数地址，作用是，通过ret指令，跳转至该地址，执行system()<br>此时rdi已经被设置好为”/bin/sh”，即会执行system(“/bin/sh”)<br>获得系统权限。<br>payload一般如下：</p><blockquote><p>payload = b’A’*(缓冲区长度) + b’B’*8 + p64(pop_rdi_addr) + p64(/bin/sh_addr) + p64(_system_addr)</p></blockquote><p>2.32位环境下一般采用布置栈帧，达到调用函数、传递参数的目的<br>payload一般如下：</p><blockquote><p>payload = b’A’*(缓冲区长度) + b’B’*4 + p32(_system_addr) + p32(0x0) + p32(/bin/sh_addr)</p></blockquote><p>首先，覆盖完缓冲区后，为了达到返回地址处，要覆盖ebp，ebp的大小是4个字节。<br>然后通过修改返回地址，进入system函数，此时我们位于system函数栈帧中的ebp处，我们需要填充一下ebp下面的返回地址，随便设置为0x0.<br>紧接着导入/bin/sh字符串，达到传参的目的。</p><p><br>以上便是本人对NX及ROP技术初次认识的浅显简介，让各位见笑了。</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>ctf in door</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>start</title>
+    <link href="/2022/02/23/start/"/>
+    <url>/2022/02/23/start/</url>
+    
+    <content type="html"><![CDATA[<h2 id="测试一下"><a href="#测试一下" class="headerlink" title="测试一下"></a>测试一下</h2>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>test_new_site</title>
+    <link href="/2022/02/23/test-new-site/"/>
+    <url>/2022/02/23/test-new-site/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Hello World</title>
+    <link href="/2022/02/23/hello-world/"/>
+    <url>/2022/02/23/hello-world/</url>
+    
+    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  
+</search>
