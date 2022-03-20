@@ -16,19 +16,41 @@
   <meta name="author" content="kawa_von">
   <meta name="keywords" content="">
   
-    <meta property="og:type" content="website">
-<meta property="og:title" content="FCさん の Blog">
-<meta property="og:url" content="http://example.com/index.html">
+    <meta name="description" content="当目标有调用system函数，但无&#x2F;bin&#x2F;sh字符串时xctf pwn新手区最后三题之一，cgpwn2. 打开IDA乍一看，没有后门函数，没有明显的可导向的返回地址。  关注有两个读取输入的地方，一个是有限制大小的读取函数，另一个是gets()这个危险函数。 考虑到这题只开启了NX保护，栈溢出应该是必须的。 于是，思路是通过name字符串，导入“&#x2F;bin&#x2F;sh”字符串。 再通过gets()溢出，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="create &#x2F;bin&#x2F;sh">
+<meta property="og:url" content="http://example.com/2022/03/20/create-bin-sh/index.html">
 <meta property="og:site_name" content="FCさん の Blog">
+<meta property="og:description" content="当目标有调用system函数，但无&#x2F;bin&#x2F;sh字符串时xctf pwn新手区最后三题之一，cgpwn2. 打开IDA乍一看，没有后门函数，没有明显的可导向的返回地址。  关注有两个读取输入的地方，一个是有限制大小的读取函数，另一个是gets()这个危险函数。 考虑到这题只开启了NX保护，栈溢出应该是必须的。 于是，思路是通过name字符串，导入“&#x2F;bin&#x2F;sh”字符串。 再通过gets()溢出，">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2022/03/20/create-bin-sh/bin1.png">
+<meta property="article:published_time" content="2022-03-20T14:46:45.000Z">
+<meta property="article:modified_time" content="2022-03-20T15:06:45.066Z">
 <meta property="article:author" content="kawa_von">
+<meta property="article:tag" content="ctf in do♂r">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2022/03/20/create-bin-sh/bin1.png">
   
   
-  <title>FCさん の Blog</title>
+  <title>create /bin/sh - FCさん の Blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
 
 
 <!-- 主题依赖的图标库，不要自行修改 -->
@@ -55,7 +77,7 @@
 
 
 <body>
-  <header style="height: 100vh;">
+  <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand" href="/">
@@ -151,22 +173,52 @@
 </nav>
 
     <div class="banner" id="banner" parallax=true
-         style="background: url('/MyPic/bella1.jpg') no-repeat center center;
+         style="background: url('/img/default.png') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="Welcome to FCさん の Blog">
+            <span class="h2" id="subtitle" title="create /bin/sh">
               
             </span>
 
             
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-03-20 22:46" pubdate>
+        2022年3月20日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      564 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      5 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
           </div>
 
-          
-            <div class="scroll-down-bar">
-              <i class="iconfont icon-arrowdown"></i>
-            </div>
           
         </div>
       </div>
@@ -175,244 +227,102 @@
 
   <main>
     
-      <div class="container nopadding-x-md">
-        <div class="py-5" id="board"
-          style=margin-top:0>
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
+      
 
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/20/create-bin-sh/" target="_self">
-          create /bin/sh
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/20/create-bin-sh/" target="_self">
-          
-          当目标有调用system函数，但无&#x2F;bin&#x2F;sh字符串时xctf pwn新手区最后三题之一，cgpwn2. 打开IDA乍一看，没有后门函数，没有明显的可导向的返回地址。  关注有两个读取输入的地方，一个是有限制大小的读取函数，另一个是gets()这个危险函数。 考虑到这题只开启了NX保护，栈溢出应该是必须的。 于是，思路是通过name字符串，导入“&#x2F;bin&#x2F;sh”字符串。 再通过gets()溢出，
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-20 22:46" pubdate>
-              2022-03-20
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">create /bin/sh</h1>
             
-              <a href="/tags/ctf-in-do%E2%99%82r/">ctf in do♂r</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
+            <div class="markdown-body">
+              <h1 id="当目标有调用system函数，但无-bin-sh字符串时"><a href="#当目标有调用system函数，但无-bin-sh字符串时" class="headerlink" title="当目标有调用system函数，但无/bin/sh字符串时"></a>当目标有调用system函数，但无/bin/sh字符串时</h1><p>xctf pwn新手区最后三题之一，cgpwn2.</p>
+<p>打开IDA乍一看，没有后门函数，没有明显的可导向的返回地址。</p>
+<p><img src="/2022/03/20/create-bin-sh/bin1.png" srcset="/img/loading.gif" lazyload></p>
+<p>关注有两个读取输入的地方，一个是有限制大小的读取函数，另一个是gets()这个危险函数。</p>
+<p>考虑到这题只开启了NX保护，栈溢出应该是必须的。</p>
+<p>于是，思路是通过name字符串，导入“/bin/sh”字符串。</p>
+<p>再通过gets()溢出，传入_system函数地址，最后传入/bin/sh。</p>
+<p>\</p>
+<blockquote>
+<p>payload = b’a’*42 + p32(_system_addr) + p32(0x0) + p32(/bin/sh_addr)</p>
+</blockquote>
+<p>上面是脚本中核心语句。</p>
+<p>b’a’*42 填充字符串和ebp</p>
+<p>后面传入system函数地址替换原有返回地址，以调用system函数。</p>
+<p>进入system函数后，因为这里是32位程序，推荐用布置栈帧的方式传参。</p>
+<p>也就是，调用system后，此时位于system函数栈的ebp顶部。</p>
+<p>需要传入一个4字节的数据，填充返回地址，然后来到传入的参数部分。</p>
+<p>将/bin/sh 字符串的地址传入，完成传参。</p>
+<p>达到调用system(“/bin/sh”)的目的。</p>
+<p>劫持到程序，cat flag拿到答案。</p>
+<p>总结下，第一眼看上去没法溢出，是因为忽略了通过传参的手段，构造一个system(“/bin/sh”)的可能性。</p>
 
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/06/xctf-int-overflow%E6%95%B4%E6%95%B0%E7%B1%BB%E5%9E%8B%E7%9A%84%E6%BA%A2%E5%87%BA/" target="_self">
-          xctf int_overflow整数类型的溢出
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/06/xctf-int-overflow%E6%95%B4%E6%95%B0%E7%B1%BB%E5%9E%8B%E7%9A%84%E6%BA%A2%E5%87%BA/" target="_self">
-          
-          整数类型的溢出以xctf平台的pwn新手区int_overflow为例into 为rename的elf文件 0X1 file intochmod 777 into.&#x2F;into  先确定into为32位elf文件 0X2win环境下，32位IDA进行分析有明显的后门函数what_is_this()进入login()后结合下图看看首先，我们可以发现，目前为止，找不到合适的直接溢出点，read函数都未越
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-06 23:08" pubdate>
-              2022-03-06
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/ctf-in-do%E2%99%82r/">ctf in do♂r</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/02/NX-ROP/" target="_self">
-          NX-ROP
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/02/NX-ROP/" target="_self">
-          
-          什么是NX与ROPNX即为no execute bit，即禁止执行位以下是wiki中文的解释  支持NX技术的系统会把内存中的区域分类为只供存储处理器指令集与只供存储数据使用的两种。任何标记了NX位的区块代表仅供存储数据使用而不是存储处理器的指令集，处理器将不会将此处的数据作为代码执行，以此这种技术可防止多数的缓存溢出式攻ji（即一些恶意程序把自身的恶意指令集通过特殊手段放在其他程序的存储区并被执
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-02 20:59" pubdate>
-              2022-03-02
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/ctf-in-do%E2%99%82r/">ctf in do♂r</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/02/23/start/" target="_self">
-          start
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/02/23/start/" target="_self">
-          
-          测试一下
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-02-23 21:41" pubdate>
-              2022-02-23
-            </time>
-          </div>
-        
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/02/23/test-new-site/" target="_self">
-          test_new_site
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/02/23/test-new-site/" target="_self">
-          
-          
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-02-23 15:28" pubdate>
-              2022-02-23
-            </time>
-          </div>
-        
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/02/23/hello-world/" target="_self">
-          Hello World
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/02/23/hello-world/" target="_self">
-          
-          Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-02-23 15:23" pubdate>
-              2022-02-23
-            </time>
-          </div>
-        
-        
-        
-      </div>
-    </article>
-  </div>
-
-
-
-
-
-              </div>
             </div>
-          </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/ctf-in-do%E2%99%82r/">ctf in do♂r</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/06/xctf-int-overflow%E6%95%B4%E6%95%B0%E7%B1%BB%E5%9E%8B%E7%9A%84%E6%BA%A2%E5%87%BA/">
+                        <span class="hidden-mobile">xctf int_overflow整数类型的溢出</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
         </div>
       </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
     
 
     
@@ -495,6 +405,19 @@
   
 
 
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
 
 
 

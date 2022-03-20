@@ -4,6 +4,25 @@
   
   
   <entry>
+    <title>create /bin/sh</title>
+    <link href="/2022/03/20/create-bin-sh/"/>
+    <url>/2022/03/20/create-bin-sh/</url>
+    
+    <content type="html"><![CDATA[<h1 id="当目标有调用system函数，但无-bin-sh字符串时"><a href="#当目标有调用system函数，但无-bin-sh字符串时" class="headerlink" title="当目标有调用system函数，但无/bin/sh字符串时"></a>当目标有调用system函数，但无/bin/sh字符串时</h1><p>xctf pwn新手区最后三题之一，cgpwn2.</p><p>打开IDA乍一看，没有后门函数，没有明显的可导向的返回地址。</p><p><img src="/2022/03/20/create-bin-sh/bin1.png"></p><p>关注有两个读取输入的地方，一个是有限制大小的读取函数，另一个是gets()这个危险函数。</p><p>考虑到这题只开启了NX保护，栈溢出应该是必须的。</p><p>于是，思路是通过name字符串，导入“/bin/sh”字符串。</p><p>再通过gets()溢出，传入_system函数地址，最后传入/bin/sh。</p><p>\</p><blockquote><p>payload = b’a’*42 + p32(_system_addr) + p32(0x0) + p32(/bin/sh_addr)</p></blockquote><p>上面是脚本中核心语句。</p><p>b’a’*42 填充字符串和ebp</p><p>后面传入system函数地址替换原有返回地址，以调用system函数。</p><p>进入system函数后，因为这里是32位程序，推荐用布置栈帧的方式传参。</p><p>也就是，调用system后，此时位于system函数栈的ebp顶部。</p><p>需要传入一个4字节的数据，填充返回地址，然后来到传入的参数部分。</p><p>将/bin/sh 字符串的地址传入，完成传参。</p><p>达到调用system(“/bin/sh”)的目的。</p><p>劫持到程序，cat flag拿到答案。</p><p>总结下，第一眼看上去没法溢出，是因为忽略了通过传参的手段，构造一个system(“/bin/sh”)的可能性。</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>ctf in do♂r</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>xctf int_overflow整数类型的溢出</title>
     <link href="/2022/03/06/xctf-int-overflow%E6%95%B4%E6%95%B0%E7%B1%BB%E5%9E%8B%E7%9A%84%E6%BA%A2%E5%87%BA/"/>
     <url>/2022/03/06/xctf-int-overflow%E6%95%B4%E6%95%B0%E7%B1%BB%E5%9E%8B%E7%9A%84%E6%BA%A2%E5%87%BA/</url>
