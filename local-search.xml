@@ -4,6 +4,25 @@
   
   
   <entry>
+    <title>basic usage of libc</title>
+    <link href="/2022/03/22/basic-usage-of-libc/"/>
+    <url>/2022/03/22/basic-usage-of-libc/</url>
+    
+    <content type="html"><![CDATA[<h1 id="libc的基本用法"><a href="#libc的基本用法" class="headerlink" title="libc的基本用法"></a>libc的基本用法</h1><h2 id="题目来源：XCTF-PWN-新手区-level3"><a href="#题目来源：XCTF-PWN-新手区-level3" class="headerlink" title="题目来源：XCTF-PWN-新手区-level3"></a>题目来源：XCTF-PWN-新手区-level3</h2><h2 id="0下"><a href="#0下" class="headerlink" title="0下"></a>0下</h2><h2 id="0x1-基本分析"><a href="#0x1-基本分析" class="headerlink" title="0x1 基本分析"></a>0x1 基本分析</h2><p>32-bit elf文件</p><p>NX保护开启</p><p>32位IDA下，仅有一个read溢出点</p><p>栈溢出方式获取system权限</p><h2 id="0x2-找到突破口"><a href="#0x2-找到突破口" class="headerlink" title="0x2 找到突破口"></a>0x2 找到突破口</h2><p>没有任何后门函数，没有调用system函数<br><br>但是题目给出了libc_32.so.6文件<br><br>思路如下：<br><strong>利用题目中调用的write函数，打印自身got表地址，通过write函数与libc基址的offset值，获得libc基址，从而调用libc中的内容（libc中既有system函数又有/bin/sh字符串）</strong></p><p>构建exp脚本如下：<br><img src="/2022/03/22/basic-usage-of-libc/p1.png" alt="exp脚本"></p><ol><li>完成136大小的buf字符串数组溢出和32位下saved_register  ebp的溢出</li><li>用write函数地址覆盖返回地址，以调用write函数。</li><li>布置栈帧，此处覆盖意义为，write函数的返回地址，覆盖为main函数地址，准备第二次溢出。</li><li>布置栈帧，write函数的参数。（通过此处获取got地址）</li></ol><p><br>\</p><p>第二次溢出，覆盖后调用system(“/bin/sh”)<br>完成本题。</p><h2 id="0x03总结"><a href="#0x03总结" class="headerlink" title="0x03总结"></a>0x03总结</h2><ol><li>用elf = ELF(“./file”)的形式调用文件内，自有的函数的plt、got地址。</li><li>32位的题，用布置栈帧方法。</li><li>打印出来的got地址，用u32方法解码后，是该函数在libc中的真实地址。</li><li>用libc.symbols[“func”]的方法获取函数func相对基址的offset。</li><li>二次溢出，达到一次拿地址，二次打通的效果。</li><li>教科书式的题值得多次揣摩！</li></ol>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>ctf in do♂r</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>create /bin/sh</title>
     <link href="/2022/03/20/create-bin-sh/"/>
     <url>/2022/03/20/create-bin-sh/</url>
