@@ -1,0 +1,560 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/MyPic/bella.png">
+  <link rel="icon" href="/MyPic/bella.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="kawa_von">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Python 学习之路登神长阶笔者有C++基础，但在Python上还是noob一只。 0x0 Python初见Python是一种解释型语言与C语言对比，Python无需编译，而是执行时，通过解释器一行一行地进行解释。   Python是面向对象的语言与C++一样。   可拓展性 如果你需要一段运行很快的关键代码，或者是想要编写一些不愿开放的算法，你可以使用C或C++完成那部分程序，然后从你的Pyt">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python noob">
+<meta property="og:url" content="http://example.com/2022/03/23/Python-noob/index.html">
+<meta property="og:site_name" content="FCさん の Blog">
+<meta property="og:description" content="Python 学习之路登神长阶笔者有C++基础，但在Python上还是noob一只。 0x0 Python初见Python是一种解释型语言与C语言对比，Python无需编译，而是执行时，通过解释器一行一行地进行解释。   Python是面向对象的语言与C++一样。   可拓展性 如果你需要一段运行很快的关键代码，或者是想要编写一些不愿开放的算法，你可以使用C或C++完成那部分程序，然后从你的Pyt">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2022/03/23/Python-noob/p1.svg">
+<meta property="og:image" content="http://example.com/2022/03/23/Python-noob/p2">
+<meta property="og:image" content="http://example.com/2022/03/23/Python-noob/p3.png">
+<meta property="article:published_time" content="2022-03-23T08:28:46.000Z">
+<meta property="article:modified_time" content="2022-03-23T13:06:33.159Z">
+<meta property="article:author" content="kawa_von">
+<meta property="article:tag" content="embrace Python">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2022/03/23/Python-noob/p1.svg">
+  
+  
+  <title>Python noob - FCさん の Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.1"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>kawasuki</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Python noob">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-03-23 16:28" pubdate>
+        2022年3月23日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3.4k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      29 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Python noob</h1>
+            
+            <div class="markdown-body">
+              <h1 id="Python-学习之路"><a href="#Python-学习之路" class="headerlink" title="Python 学习之路"></a>Python 学习之路</h1><p><strong><del>登神长阶</del></strong><br>笔者有C++基础，但在Python上还是noob一只。</p>
+<h2 id="0x0-Python初见"><a href="#0x0-Python初见" class="headerlink" title="0x0 Python初见"></a>0x0 Python初见</h2><h3 id="Python是一种解释型语言"><a href="#Python是一种解释型语言" class="headerlink" title="Python是一种解释型语言"></a>Python是一种解释型语言</h3><p>与C语言对比，Python无需编译，而是执行时，通过解释器一行一行地进行解释。  </p>
+<h3 id="Python是面向对象的语言"><a href="#Python是面向对象的语言" class="headerlink" title="Python是面向对象的语言"></a>Python是面向对象的语言</h3><p>与C++一样。  </p>
+<h3 id="可拓展性"><a href="#可拓展性" class="headerlink" title="可拓展性"></a>可拓展性</h3><blockquote>
+<p>如果你需要一段运行很快的关键代码，或者是想要编写一些不愿开放的算法，你可以使用C或C++完成那部分程序，然后从你的Python程序中调用。  </p>
+</blockquote>
+<h3 id="可嵌入性"><a href="#可嵌入性" class="headerlink" title="可嵌入性"></a>可嵌入性</h3><blockquote>
+<p>你可以将Python嵌入到C/C++程序，让你的程序的用户获得”脚本化”的能力。</p>
+</blockquote>
+<h3 id="速度性能"><a href="#速度性能" class="headerlink" title="速度性能"></a>速度性能</h3><blockquote>
+<p>若想程序运行得更快，用C++改写关键部分</p>
+</blockquote>
+<h2 id="0x01-Python环境配置"><a href="#0x01-Python环境配置" class="headerlink" title="0x01 Python环境配置##"></a>0x01 Python环境配置##</h2><h3 id="安装Python环境"><a href="#安装Python环境" class="headerlink" title="安装Python环境"></a>安装Python环境</h3><blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.python.org/downloads/windows/">https://www.python.org/downloads/windows/</a><br>下载Download Windows installer (64-bit)<br>记得勾选add path选项。</p>
+</blockquote>
+<h3 id="Pycharm-运行Python"><a href="#Pycharm-运行Python" class="headerlink" title="Pycharm 运行Python"></a>Pycharm 运行Python</h3><blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.jetbrains.com/pycharm/download/">https://www.jetbrains.com/pycharm/download/</a><br>下载Pycharm</p>
+</blockquote>
+<h2 id="0x02-Python3-基础语法"><a href="#0x02-Python3-基础语法" class="headerlink" title="0x02 Python3 基础语法"></a>0x02 Python3 基础语法</h2><h3 id="编码"><a href="#编码" class="headerlink" title="编码"></a>编码</h3><p>默认utf-8编码，unicode字符串。</p>
+<h3 id="标识符"><a href="#标识符" class="headerlink" title="标识符"></a>标识符</h3><p><strong>第一个字符不能是数字，只能是字母表中字母或下划线_</strong><br>其余与C++相同。</p>
+<h3 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h3><p>以#开头，如</p>
+<blockquote>
+<p>#this is my file</p>
+</blockquote>
+<p>也可以用”””或’’’</p>
+<blockquote>
+<p>‘’’<br>注释<br>注释<br>‘’’</p>
+<p>“””<br>注释<br>注释<br>“””</p>
+</blockquote>
+<h3 id="行与缩进"><a href="#行与缩进" class="headerlink" title="行与缩进"></a>行与缩进</h3><p>python最具特色的就是用缩进表示代码块，不要用大括号{}<br>缩进空格数可变，但同一个代码块必须包含相同的缩进空格数。</p>
+<blockquote>
+<p>if True:<br> print(“true”)<br> print(“1111”)<br>else:<br> print(“false”)</p>
+<h2 id="the-following-part-will-not-be-allowed"><a href="#the-following-part-will-not-be-allowed" class="headerlink" title="the following part will not be allowed"></a>the following part will not be allowed</h2><p>if True:<br>  print(“111”)<br> print(“not allowed”)</p>
+</blockquote>
+<h3 id="多行语句"><a href="#多行语句" class="headerlink" title="多行语句"></a>多行语句</h3><p>Python可以用\实现多行语句</p>
+<blockquote>
+<p>total = item_one + <br>     item_two + <br>     item_three</p>
+<p>在[], {} , ()中的多行语句，不需要\ 如：<br>total = {‘it’,’it3’<br>     ‘it2’}</p>
+</blockquote>
+<h3 id="数字类型"><a href="#数字类型" class="headerlink" title="数字类型"></a>数字类型</h3><p>Python中有四种类型：整形，bool，float，复数。</p>
+<blockquote>
+<p>int (整数), 如 1, 只有一种整数类型 int，表示为长整型，没有 python2 中的 Long。<br>bool (布尔), 如 True。<br>float (浮点数), 如 1.23、3E-2<br>complex (复数), 如 1 + 2j、 1.1 + 2.2j</p>
+</blockquote>
+<p>注：float型中，如1.23，3E-2.<br>3E-2是3*10的负二次方的意思。</p>
+<h3 id="String"><a href="#String" class="headerlink" title="String"></a>String</h3><p>** Python中单引号<code>&#39;&#39;</code>与双引号<code>&quot;&quot;</code>的使用完全相同</p>
+<p>转义符<code>\</code>.<br>使用r让反斜杠不转义。如 <strong>r”this is line of words\n”</strong> 此时<code>\n</code>会显示，而非换行。</p>
+<p>字符串可用<code>+</code>链接，用<code>*</code>重复数次。<br>Python中字符串有两种索引方式，从左往右以<code>0</code>开始，从右往左以<code>-1</code>开始。<br>Python 中的字符串不能改变。<br>Python 没有单独的字符类型，一个字符就是长度为 1 的字符串。<br>字符串的截取的语法格式如下：<strong>变量[头下标:尾下标:步长]</strong><br><strong>关于Python字符串的下标，跟C++有出入</strong></p>
+<blockquote>
+<p>a= “123456”<br>print(a[0:1])<br>#会打印1<br>print(a[0:0])<br>#什么都不会打印出来</p>
+</blockquote>
+<h3 id="等待用户输入"><a href="#等待用户输入" class="headerlink" title="等待用户输入"></a>等待用户输入</h3><p>执行下面程序，会在回车键后等待用户输入</p>
+<blockquote>
+<p>input(“按下 enter 键后退出”)</p>
+</blockquote>
+<h3 id="同一行显示多条语句"><a href="#同一行显示多条语句" class="headerlink" title="同一行显示多条语句"></a>同一行显示多条语句</h3><p>语句间用<code>;</code>分割。</p>
+<blockquote>
+<p>import sys; x = ‘runoob’; sys.stdout.write(x + ‘\n’)</p>
+</blockquote>
+<h3 id="代码组"><a href="#代码组" class="headerlink" title="代码组"></a>代码组</h3><p>缩进相同的一组语句构成一个代码块，称之为代码组。<br>如if，while，def这种复合语句，首行以<code>:</code>结束，此行开始后的一行或多行构成代码组。</p>
+<h3 id="print输出"><a href="#print输出" class="headerlink" title="print输出"></a>print输出</h3><p><strong>print</strong>输出是默认换行的，若要禁止换行，需要在print第二个参数写上<code>end = &quot;&quot;</code></p>
+<blockquote>
+<p>x= “a”<br>y = “b”<br>#换行<br>print(x)<br>#不换行<br>print(y,end = “”)<br>print()</p>
+</blockquote>
+<h3 id="import-与-from-import"><a href="#import-与-from-import" class="headerlink" title="import 与 from  import"></a>import 与 from  import</h3><p>导入整个模块，格式为：import somemodule<br>导入某模块中全部函数：from pwn import*<br>（导入pwntools的所有函数）<br>从模块中导入函数：from somemodule import func1，func2</p>
+<h2 id="0x03-Python3-基本数据类型"><a href="#0x03-Python3-基本数据类型" class="headerlink" title="0x03 Python3 基本数据类型"></a>0x03 Python3 基本数据类型</h2><p>python中变量不需要声明类型（与C++不同）<br><del>所以</del>每个变量使用前都必须赋值，才能创建。<br><code>=</code>为赋值号，如<code>a = 1</code>就是给变量a赋值为1，a是整型变量。</p>
+<h3 id="多变量赋值"><a href="#多变量赋值" class="headerlink" title="多变量赋值"></a>多变量赋值</h3><p>规则：从后向前。<br>如</p>
+<blockquote>
+<p>a = b = c = 1</p>
+</blockquote>
+<p>就是c先被赋值为1，再b、a。  </p>
+<p>也可以对应式多变量赋值。</p>
+<blockquote>
+<p>a, b, c = 1, 2, “new booob”</p>
+</blockquote>
+<p>就是a = 1;b = 2; c = “new booob”的效果。  </p>
+<h3 id="标准数据类型"><a href="#标准数据类型" class="headerlink" title="标准数据类型"></a>标准数据类型</h3><p>Python3 中有六个标准数据类型：</p>
+<ol>
+<li>Number（数字）</li>
+<li>String （字符串）</li>
+<li>List （列表）</li>
+<li>Tuple（元组）</li>
+<li>Set（集合）</li>
+<li>Dictionary（字典）</li>
+</ol>
+<p>Python3的六个标准数据类型中：<br>Number，String，Tuple   为不可变数据。<br>List，Dictionary，Set   为可变数据。</p>
+<h3 id="Number详解"><a href="#Number详解" class="headerlink" title="Number详解"></a>Number详解</h3><p><strong>int,float,bool,complex.</strong><br>注：内置type()函数可以查询变量所指对象类型</p>
+<blockquote>
+<p>&gt;&gt;&gt; a, b, c, d = 20, 5.5, True, 4+3j<br>&gt;&gt;&gt; print(type(a), type(b), type(c), type(d))<br>&lt;class ‘int’&gt; &lt;class ‘float’&gt; &lt;class ‘bool’&gt; &lt;class ‘complex’&gt;</p>
+</blockquote>
+<p>注：<code>//</code>双除号会得到一个整数（仅仅保留整数部分，如1.9保留为1）<br>一个变量可以通过赋值指向不同类型的对象。<br>混合计算时，Python会将整型转化为浮点数。</p>
+<h3 id="String字符串"><a href="#String字符串" class="headerlink" title="String字符串"></a>String字符串</h3><p>截取：</p>
+<blockquote>
+<p>变量[头下标:尾下标]</p>
+</blockquote>
+<p><img src="/2022/03/23/Python-noob/p1.svg" srcset="/img/loading.gif" lazyload></p>
+<p>可见，其与C++的索引模式有点区别，小心搞混力。<br><strong>与C字符串不同的是，Python字符串不能被改变。对一个索引位置赋值是错误的！！</strong><br><strong>w[0]就会报错</strong></p>
+<p>总结：<br>1、反斜杠可以用来转义，使用r可以让反斜杠不发生转义。<br>2、字符串可以用+运算符连接在一起，用*运算符重复。<br>3、Python中的字符串有两种索引方式，从左往右以0开始，从右往左以-1开始。<br>4、Python中的字符串不能改变。</p>
+<h3 id="List-（列表）"><a href="#List-（列表）" class="headerlink" title="List （列表）"></a>List （列表）</h3><p>List（列表）是Python中使用最频繁的数据类型。<br>可以看作一个混合数组，其中各个元素类型可以互不相同。<br>创建方式</p>
+<blockquote>
+<p>list1 = [“a”, 100 , 12.5, b]</p>
+<p>列表的截取语法与字符串相同：<br>变量[头下标:尾下标]     </p>
+</blockquote>
+<p><img src="/2022/03/23/Python-noob/p2" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>print(list1[0])     #输出列表第一个元素<br>print(list1[1:3])  #输出列表第2，3个元素<br>print(list1[1:])   #输出列表第二个元素开始的所有元素</p>
+</blockquote>
+<p>注：列表也是可以链接的。</p>
+<p>与Python字符串不同，列表中元素可以改变</p>
+<p><strong>索引的理解方式</strong>：<br>与C++一样的部分：从0号元素开始。<br>不同：左闭右开，即[start_index:end_index]中，start_index是取得到的，end_index是取不到的</p>
+<p><strong>如[1:3]就是位置为1，第二个元素会取到，但位置为3，第四个元素不会取到，也就是对第2到3，这两个元素进行操作！！！</strong></p>
+<p>总结：<br>1、List写在方括号之间，元素用逗号隔开。<br>2、和字符串一样，list可以被索引和切片。<br>3、List可以使用+操作符进行拼接。<br>4、List中的元素是可以改变的。</p>
+<h3 id="Tuple（元组）"><a href="#Tuple（元组）" class="headerlink" title="Tuple（元组）###"></a>Tuple（元组）###</h3><p>元组与列表相似，不同之处在于元组的元素<strong>不能修改</strong>。<br>元组写在小括号<code>()</code>内，元素之间用逗号分割。</p>
+<blockquote>
+<p>tup = (1,2,3,4,5)#Tuple<br>list1 = [1,2,3,4,5]#List</p>
+</blockquote>
+<p>虽然tuple元素不可修改，但是它可以包含可变的对象，如list列表。<br><img src="/2022/03/23/Python-noob/p3.png" srcset="/img/loading.gif" lazyload alt="可见，元组中list的元素可以被修改"><br>当构造包含0个或1个元素的元组时，有额外的语法规则：</p>
+<blockquote>
+<p>tup0 = ()<br>tup1 = (1,)#一个元素，要在元素后面打逗号</p>
+</blockquote>
+<p>string，list，tuple都属于sequence（序列）。</p>
+<p>总结：</p>
+<p>1、与字符串一样，元组的元素不能修改。<br>2、元组也可以被索引和切片，方法一样。<br>3、注意构造包含 0 或 1 个元素的元组的特殊语法规则。<br>4、元组也可以使用+操作符进行拼接。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/embrace-Python/">embrace Python</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/22/basic-usage-of-libc/">
+                        <span class="hidden-mobile">basic usage of libc</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
