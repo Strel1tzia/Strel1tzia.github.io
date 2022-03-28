@@ -4,6 +4,25 @@
   
   
   <entry>
+    <title>Machine Learning</title>
+    <link href="/2022/03/28/Machine-Learning/"/>
+    <url>/2022/03/28/Machine-Learning/</url>
+    
+    <content type="html"><![CDATA[<h1 id="Basic-Machine-Learning"><a href="#Basic-Machine-Learning" class="headerlink" title="Basic Machine Learning"></a>Basic Machine Learning</h1><p>This blog is based on <a href="https://www.coursera.org/learn/machine-learning">Machine Learning</a> on coursera taughted by Andrew Ng.</p><h2 id="0x01-Welcome-to-Machine-Learning"><a href="#0x01-Welcome-to-Machine-Learning" class="headerlink" title="0x01 Welcome to Machine Learning"></a>0x01 Welcome to Machine Learning</h2><h3 id="What-is-Supervised-Learning"><a href="#What-is-Supervised-Learning" class="headerlink" title="What is Supervised Learning"></a>What is Supervised Learning</h3><p>Try to imagine that you’ve got some datas of the house price, but the datas you have were separated points, and you want to know how much your house are worthy. You need to fit a curve for sake that you can get an approximate price of your house.<br>When you print your datas into the computer, they are one kind of “<strong>correct answers</strong>“, and that is one of the treats of <strong>Supervised Learning</strong>.</p><p>And there are two modes of Supervised Learning:</p><ol><li>Regression<br>We are supposed to predict results within a continues output, meaning that we are trying to map input variables to some continuous function.</li><li>Classfication<br>We are instead trying to predict results in a discrete output. In other words, we are trying to map the variables into discrete categories.</li></ol><h3 id="Unsupervised-Learning"><a href="#Unsupervised-Learning" class="headerlink" title="Unsupervised Learning"></a>Unsupervised Learning</h3>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>M_L</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Python noob</title>
     <link href="/2022/03/23/Python-noob/"/>
     <url>/2022/03/23/Python-noob/</url>
