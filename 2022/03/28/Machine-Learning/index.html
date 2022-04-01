@@ -23,11 +23,18 @@
 <meta property="og:site_name" content="FCさん の Blog">
 <meta property="og:description" content="Basic Machine LearningThis blog is based on Machine Learning on coursera taughted by Andrew Ng. 0x01 Welcome to Machine LearningWhat is Supervised LearningTry to imagine that you’ve got some datas of">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2022/03/28/Machine-Learning/p1.png">
+<meta property="og:image" content="http://example.com/2022/03/28/Machine-Learning/p2">
+<meta property="og:image" content="http://example.com/2022/03/28/Machine-Learning/p3.png">
+<meta property="og:image" content="http://example.com/2022/03/28/Machine-Learning/p4.png">
+<meta property="og:image" content="http://example.com/2022/03/28/Machine-Learning/p5.png">
+<meta property="og:image" content="http://example.com/2022/03/28/Machine-Learning/p6.png">
 <meta property="article:published_time" content="2022-03-28T06:55:55.000Z">
-<meta property="article:modified_time" content="2022-03-28T08:40:15.498Z">
+<meta property="article:modified_time" content="2022-04-01T12:50:41.705Z">
 <meta property="article:author" content="kawa_von">
 <meta property="article:tag" content="M_L">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2022/03/28/Machine-Learning/p1.png">
   
   
   <title>Machine Learning - FCさん の Blog</title>
@@ -197,7 +204,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      762 字
+      2.4k 字
     </span>
   
 
@@ -206,7 +213,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      7 分钟
+      20 分钟
     </span>
   
 
@@ -245,7 +252,17 @@
 <li>Regression<br>We are supposed to predict results within a continues output, meaning that we are trying to map input variables to some continuous function.</li>
 <li>Classfication<br>We are instead trying to predict results in a discrete output. In other words, we are trying to map the variables into discrete categories.</li>
 </ol>
-<h3 id="Unsupervised-Learning"><a href="#Unsupervised-Learning" class="headerlink" title="Unsupervised Learning"></a>Unsupervised Learning</h3>
+<h3 id="Unsupervised-Learning"><a href="#Unsupervised-Learning" class="headerlink" title="Unsupervised Learning"></a>Unsupervised Learning</h3><p>Compareed to Supervised Learning, Unsupervised Learning fucos on separate the datas into several categories. Such as classification of the news, and tell certain groups of plenty of cells.<br>I regard Unsupervised Learning as a method to classify datasets, but not to tell whether it is false or true, negative or positive.<br>We can derive structure from data where we don’t necessarily know the effect of the variables.<br>So, we just need to tell which category each date should belongs to.<br><strong>Example</strong>:</p>
+<p>Clustering: Take a collection of 1,000,000 different genes, and find a way to automatically group these genes into groups that are somehow similar or related by different variables, such as lifespan, location, roles, and so on.</p>
+<h2 id="0x02-Model-and-Cost-Function"><a href="#0x02-Model-and-Cost-Function" class="headerlink" title="0x02 Model and Cost Function"></a>0x02 Model and Cost Function</h2><h3 id="Model-Representation"><a href="#Model-Representation" class="headerlink" title="Model Representation"></a>Model Representation</h3><p>we’ll use x^{(i)} to denote the “input” variables (living area in this example), also called input features, and y^{(i)} to denote the “output” or target variable that we are trying to predict (price).</p>
+<p>the function we used to predict the result is called “hypothesis”(假设).</p>
+<h3 id="Cost-Function"><a href="#Cost-Function" class="headerlink" title="Cost Function"></a>Cost Function</h3><p>We can measure the accuracy of our hypothesis function by using a cost function. This takes an average difference (actually a fancier version of an average) of all the results of the hypothesis with inputs from x’s and the actual output y’s.<br><img src="/2022/03/28/Machine-Learning/p1.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/2022/03/28/Machine-Learning/p2" srcset="/img/loading.gif" lazyload><br>In this image, h(x) is the function which passes through these scattered data points.<br>And J(θ) is the function describe the error h() made for each θ.</p>
+<h2 id="0x03-Parameter-Learning"><a href="#0x03-Parameter-Learning" class="headerlink" title="0x03 Parameter Learning"></a>0x03 Parameter Learning</h2><h3 id="Gradient-Descent"><a href="#Gradient-Descent" class="headerlink" title="Gradient Descent"></a>Gradient Descent</h3><p>Gradient Descent are used in measuring which j(θ) means the best curve.<br>梯度下降<br><img src="/2022/03/28/Machine-Learning/p3.png" srcset="/img/loading.gif" lazyload alt="Gradient Descent"></p>
+<p>in this function, α is called the learning rate, it decided how long one step you can take.<br><img src="/2022/03/28/Machine-Learning/p4.png" srcset="/img/loading.gif" lazyload alt="we must ensure the simultaneously update"><br><img src="/2022/03/28/Machine-Learning/p5.png" srcset="/img/loading.gif" lazyload><br>we can find that in most times whatever α you choose, the step you take will be smaller and smaller.</p>
+<p><img src="/2022/03/28/Machine-Learning/p6.png" srcset="/img/loading.gif" lazyload alt="Congratulations"></p>
+<p>Congratulations! The first Machine Learning algorithm we got is Gradient Descent. It is an excellent algorithm for us to calculate the Local Optima.</p>
+
             </div>
             <hr>
             <div>
