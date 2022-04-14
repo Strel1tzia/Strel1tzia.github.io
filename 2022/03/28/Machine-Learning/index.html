@@ -29,8 +29,13 @@
 <meta property="og:image" content="http://example.com/2022/03/28/Machine-Learning/p4.png">
 <meta property="og:image" content="http://example.com/2022/03/28/Machine-Learning/p5.png">
 <meta property="og:image" content="http://example.com/2022/03/28/Machine-Learning/p6.png">
+<meta property="og:image" content="http://example.com/2022/03/28/Machine-Learning/p7.png">
+<meta property="og:image" content="http://example.com/2022/03/28/Machine-Learning/p8.png">
+<meta property="og:image" content="http://example.com/2022/03/28/Machine-Learning/p9.png">
+<meta property="og:image" content="http://example.com/2022/03/28/Machine-Learning/p10.png">
+<meta property="og:image" content="http://example.com/2022/03/28/Machine-Learning/p11.png">
 <meta property="article:published_time" content="2022-03-28T06:55:55.000Z">
-<meta property="article:modified_time" content="2022-04-01T12:50:41.705Z">
+<meta property="article:modified_time" content="2022-04-14T09:44:10.323Z">
 <meta property="article:author" content="kawa_von">
 <meta property="article:tag" content="M_L">
 <meta name="twitter:card" content="summary_large_image">
@@ -204,7 +209,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      2.4k 字
+      3.4k 字
     </span>
   
 
@@ -213,7 +218,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      20 分钟
+      29 分钟
     </span>
   
 
@@ -262,6 +267,16 @@
 <p>in this function, α is called the learning rate, it decided how long one step you can take.<br><img src="/2022/03/28/Machine-Learning/p4.png" srcset="/img/loading.gif" lazyload alt="we must ensure the simultaneously update"><br><img src="/2022/03/28/Machine-Learning/p5.png" srcset="/img/loading.gif" lazyload><br>we can find that in most times whatever α you choose, the step you take will be smaller and smaller.</p>
 <p><img src="/2022/03/28/Machine-Learning/p6.png" srcset="/img/loading.gif" lazyload alt="Congratulations"></p>
 <p>Congratulations! The first Machine Learning algorithm we got is Gradient Descent. It is an excellent algorithm for us to calculate the Local Optima.</p>
+<h3 id="Gradient-Descent-For-Multiple-Variables"><a href="#Gradient-Descent-For-Multiple-Variables" class="headerlink" title="Gradient Descent For Multiple Variables"></a>Gradient Descent For Multiple Variables</h3><p>When we have to deal with Multiple Variables, there are several θ(j) waiting for us to calculate.<br>We can use those functions to make it.<br><img src="/2022/03/28/Machine-Learning/p7.png" srcset="/img/loading.gif" lazyload><br>可以看出，求各个θ值对应的下降值时，其对应的公式就是对它求偏导。  </p>
+<h3 id="Feature-Scaling-to-make-the-Gradient-Descent-faster"><a href="#Feature-Scaling-to-make-the-Gradient-Descent-faster" class="headerlink" title="Feature Scaling to make the Gradient Descent faster"></a>Feature Scaling to make the Gradient Descent faster</h3><p>We are supposed to replace x(i) as (x(i) - μ(i))/s(i)<br>μ(i) is equal to the avg of x(i), and s(i) is equal to the range(max - min) of x(i).<br><img src="/2022/03/28/Machine-Learning/p8.png" srcset="/img/loading.gif" lazyload alt="放缩法"></p>
+<h3 id="The-Learning-Rate-α"><a href="#The-Learning-Rate-α" class="headerlink" title="The Learning Rate α"></a>The Learning Rate α</h3><p> If α is too small: slow convergence. </p>
+<p> If α is too large:may not decrease on every iteration and thus may not converge.</p>
+<h3 id="Features-and-Polynomial-Regression"><a href="#Features-and-Polynomial-Regression" class="headerlink" title="Features and Polynomial Regression"></a>Features and Polynomial Regression</h3><p>We are supposed to find some model fitted the function better.<br><img src="/2022/03/28/Machine-Learning/p9.png" srcset="/img/loading.gif" lazyload></p>
+<p><strong>we can use all three methods there to make our algorithm better</strong></p>
+<h2 id="0x04-Normal-Equation"><a href="#0x04-Normal-Equation" class="headerlink" title="0x04 Normal Equation"></a>0x04 Normal Equation</h2><p>Here, we have another method to measure the value of θ that makes J(θ) the min.<br><img src="/2022/03/28/Machine-Learning/p10.png" srcset="/img/loading.gif" lazyload alt="Nromal Equation"></p>
+<p>For in this function, we can calculate the calue of θ directly.<br>But the cost of time is about T(n) = O(n^3)<br>So, if m &lt; 10^6, we consider to use Normal Equation<br>and if m is too large, the Gradient Descent is better for us.<br><img src="/2022/03/28/Machine-Learning/p11.png" srcset="/img/loading.gif" lazyload alt="Adventages and shortages"></p>
+<p>But when XTX turns to be noninvertible(不可逆的):<br>  Redundant features, where two features are very closely related (i.e. they are linearly dependent)</p>
+<p>  Too many features (e.g. m ≤ n). In this case, delete some features or use “regularization” (to be explained in a later lesson).</p>
 
             </div>
             <hr>
