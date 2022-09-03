@@ -28,8 +28,9 @@
 <meta property="og:image" content="http://example.com/2022/06/30/front/p3.jpg">
 <meta property="og:image" content="http://example.com/2022/06/30/front/p4.png">
 <meta property="og:image" content="http://example.com/2022/06/30/front/p5.png">
+<meta property="og:image" content="http://example.com/2022/06/30/front/pe.png">
 <meta property="article:published_time" content="2022-06-30T06:41:16.000Z">
-<meta property="article:modified_time" content="2022-07-17T13:22:59.503Z">
+<meta property="article:modified_time" content="2022-08-03T15:03:00.198Z">
 <meta property="article:author" content="kawa_von">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://example.com/2022/06/30/front/p1.png">
@@ -202,7 +203,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      12k 字
+      21k 字
     </span>
   
 
@@ -211,7 +212,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      98 分钟
+      174 分钟
     </span>
   
 
@@ -390,7 +391,7 @@
 <h4 id="Emmet语法"><a href="#Emmet语法" class="headerlink" title="Emmet语法"></a>Emmet语法</h4><p>emmet语法使用缩写提高编写速度。<br>1.快速生成HTML结构语法</p>
 <figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs applescript"><span class="hljs-keyword">div</span>+<span class="hljs-literal">tab</span><br><span class="hljs-keyword">div</span>*<span class="hljs-number">10</span>+<span class="hljs-literal">tab</span><br>ul&gt;li*<span class="hljs-number">3</span><br><span class="hljs-keyword">div</span>+p<br>p.one(类名) == &lt;p <span class="hljs-built_in">class</span> = <span class="hljs-string">&quot;one&quot;</span>&gt;&lt;/p&gt;<br>p<span class="hljs-comment">#one(类名) == &lt;p id = &quot;one&quot;&gt;&lt;/p&gt;</span><br>即.就是生成类为此类名的元素，<span class="hljs-comment">#同理</span><br>.demo$*<span class="hljs-number">5</span>会生成以demo1~demo5为类的<span class="hljs-number">5</span>个<span class="hljs-keyword">div</span><br><span class="hljs-keyword">div</span>&#123;测试&#125; == &lt;<span class="hljs-keyword">div</span>&gt;测试&lt;/<span class="hljs-keyword">div</span>&gt;<br>$是自增符号<br><span class="hljs-keyword">div</span>&#123;$&#125;*<span class="hljs-number">5</span> == &lt;<span class="hljs-keyword">div</span>&gt;<span class="hljs-number">1</span>~<span class="hljs-number">5</span>&lt;/<span class="hljs-keyword">div</span>&gt;<br></code></pre></td></tr></table></figure>
 <p>2.emmet语法快速生成css样式</p>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-attr">tac</span> = text-align:denter<span class="hljs-comment">;</span><br><span class="hljs-attr">w100</span> = weight: <span class="hljs-number">100</span>px<span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-attr">tac</span> = text-align:center<span class="hljs-comment">;</span><br><span class="hljs-attr">w100</span> = weight: <span class="hljs-number">100</span>px<span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure>
 <p>3.快速格式化代码</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs">vscode直接右键，选格式化文档，会自动对齐所有代码<br></code></pre></td></tr></table></figure>
 
@@ -452,6 +453,221 @@
 <figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs scss"><span class="hljs-selector-tag">p</span><span class="hljs-selector-pseudo">:first</span>-line<br>&#123;<br>    <span class="hljs-attribute">color</span>: red;<br>    <span class="hljs-attribute">font-variant</span>: small-caps;<br>&#125;<br>first-line伪元素只用于块级元素<br></code></pre></td></tr></table></figure>
 <p>before/after伪元素</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs css">用于在元素后面或前面添加东西，如在每个&lt;<span class="hljs-selector-tag">h2</span>&gt;前面添加图片<br><span class="hljs-selector-tag">h2</span><span class="hljs-selector-pseudo">:before</span>&#123;<br>    <span class="hljs-attribute">content</span>: <span class="hljs-built_in">url</span>(<span class="hljs-string">&quot;a.jpg&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="CSS导航栏的制作"><a href="#CSS导航栏的制作" class="headerlink" title="CSS导航栏的制作"></a>CSS导航栏的制作</h3><p>第一步：使用无序列表，元素为a标签</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">ul</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>title1<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>title2<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>title3<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#&quot;</span>&gt;</span>title4<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span><br></code></pre></td></tr></table></figure>
+<p>再删除列表前的点，删除边距与填充</p>
+<figure class="highlight dsconfig"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs dsconfig"><span class="hljs-string">ul</span>&#123;<br>           <span class="hljs-built_in">list-style-type:</span> <span class="hljs-string">none</span>;<br>           <span class="hljs-string">padding</span>: <span class="hljs-string">none</span>;<br>           <span class="hljs-string">margin</span>: <span class="hljs-string">none</span>;<br>       &#125;<br></code></pre></td></tr></table></figure>
+<p>给链接元素转换为块元素<br>并设置宽度（默认为最大，需要设置）</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-selector-tag">a</span>&#123;<br>    <span class="hljs-attribute">display</span>: block;<br>    <span class="hljs-attribute">width</span>: <span class="hljs-number">60px</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>进一步设置，鼠标移动到导航栏上后，修改颜色。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-selector-tag">li</span> <span class="hljs-selector-tag">a</span><span class="hljs-selector-pseudo">:hover</span>&#123;<br>    <span class="hljs-attribute">background-color</span>: <span class="hljs-number">#555</span>;<br>    <span class="hljs-attribute">color</span>: white;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>添加active类，被选中</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-selector-tag">li</span> <span class="hljs-selector-tag">a</span><span class="hljs-selector-class">.active</span>&#123;<br>    <span class="hljs-attribute">background-color</span>: <span class="hljs-number">#4CAF50</span>;<br>    <span class="hljs-attribute">color</span>: white;<br>&#125;<br>注意，不是:而是.<br>因为这里，是标记出当前页面所在的选项，而不是正在选择<br></code></pre></td></tr></table></figure>
+<p>加上边框</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-selector-tag">ul</span> &#123;<br>    <span class="hljs-attribute">border</span>: <span class="hljs-number">1px</span> solid <span class="hljs-number">#555</span>;<br>&#125;<br> <br><span class="hljs-selector-tag">li</span> &#123;<br>    <span class="hljs-attribute">text-align</span>: center;<br>    <span class="hljs-attribute">border-bottom</span>: <span class="hljs-number">1px</span> solid <span class="hljs-number">#555</span>;<br>&#125;<br> <br><span class="hljs-selector-tag">li</span><span class="hljs-selector-pseudo">:last-child</span> &#123;<br>    <span class="hljs-attribute">border-bottom</span>: none;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>成为全屏高度的固定导航条</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-selector-tag">ul</span>&#123;<br>    <span class="hljs-attribute">position</span>: fixed;<br>    <span class="hljs-attribute">width</span>: <span class="hljs-number">25%</span>;<br>    <span class="hljs-attribute">height</span>: <span class="hljs-number">100%</span>;<br>    <span class="hljs-attribute">overflow</span>: auto;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="CSS导航栏2–水平导航栏"><a href="#CSS导航栏2–水平导航栏" class="headerlink" title="CSS导航栏2–水平导航栏"></a>CSS导航栏2–水平导航栏</h3><p>使用内联（inline）或浮动（float）的列表项。<br><strong>内联列表项</strong></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-selector-tag">li</span><br>&#123;<br>    <span class="hljs-attribute">display</span>: inline;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="CSS下拉菜单"><a href="#CSS下拉菜单" class="headerlink" title="CSS下拉菜单"></a>CSS下拉菜单</h3><p>当鼠标移动到指定元素上时，会出现下拉菜单</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css"></span><br><span class="language-css"><span class="hljs-selector-class">.dropdown</span> &#123;</span><br><span class="language-css">  <span class="hljs-attribute">position</span>: relative;</span><br><span class="language-css">  <span class="hljs-attribute">display</span>: inline-block;</span><br><span class="language-css">&#125;</span><br><span class="language-css"><span class="hljs-selector-class">.dropdown-content</span> &#123;</span><br><span class="language-css">  <span class="hljs-attribute">display</span>: none;</span><br><span class="language-css">  <span class="hljs-attribute">position</span>: absolute;</span><br><span class="language-css">  <span class="hljs-attribute">background-color</span>: <span class="hljs-number">#f9f9f9</span>;</span><br><span class="language-css">  <span class="hljs-attribute">min-width</span>: <span class="hljs-number">160px</span>;</span><br><span class="language-css">  <span class="hljs-attribute">box-shadow</span>: <span class="hljs-number">0px</span> <span class="hljs-number">8px</span> <span class="hljs-number">16px</span> <span class="hljs-number">0px</span> <span class="hljs-built_in">rgba</span>(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0.2</span>);</span><br><span class="language-css">  <span class="hljs-attribute">padding</span>: <span class="hljs-number">12px</span> <span class="hljs-number">16px</span>;</span><br><span class="language-css">&#125;</span><br><span class="language-css"><span class="hljs-selector-class">.dropdown</span><span class="hljs-selector-pseudo">:hover</span> <span class="hljs-selector-class">.dropdown-content</span> &#123;</span><br><span class="language-css">  <span class="hljs-attribute">display</span>: block;</span><br><span class="language-css">&#125;</span><br><span class="language-css"></span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span><br>[mycode3]<br>[mycode3 type=&quot;html&quot;]<br><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;dropdown&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>鼠标移动到我这！<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;dropdown-content&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>菜鸟教程<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>www.runoob.com<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="JavaScript"><a href="#JavaScript" class="headerlink" title="JavaScript"></a>JavaScript</h2><h3 id="JS的用法"><a href="#JS的用法" class="headerlink" title="JS的用法"></a>JS的用法</h3><p>js代码必须位于HTML中的</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs <script>```与```</script>```之间">通常，我们需要在某个事件发生时执行代码，比如当用户点击按钮时。<br>如果我们把 JavaScript 代码放入函数中，就可以在事件发生时调用该函数。<br>### JS的输出<br>JS没有任何打印或者输出的函数<br>**JS显示数据**<br>window.alert()<br><br>弹出警告窗口<br></code></pre></td></tr></table></figure>
+<script>
+window.alert(5+6);
+</script>
+<p>会弹出11的窗口</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs stylus"><br>操作HTML元素<br>document<span class="hljs-selector-class">.getElementById</span>(<span class="hljs-string">&quot;demo&quot;</span>)<span class="hljs-selector-class">.innerHTML</span> = <span class="hljs-string">&quot;段落已修改&quot;</span><br>这个是按id查找元素，并进行操作的方法<br></code></pre></td></tr></table></figure>
+<p id="demo">段落1</p>
+<script>
+document.getElementById("demo").innerHTML = "段落已修改"
+</script>
+会显示“段落已修改”
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs css">直接写入<span class="hljs-selector-tag">HTML</span>文档<br></code></pre></td></tr></table></figure>
+document.write(Date());
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs applescript">会额外输出<span class="hljs-built_in">write</span>内的内容<br>**写到控制台**<br></code></pre></td></tr></table></figure>
+console.log(message)
+会输出内容到控制台
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs clean">### JS字面量<br>**数字字面量**<br></code></pre></td></tr></table></figure>
+3.14
+1001
+123e5
+<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs asciidoc"><span class="hljs-strong">**字符串字面量**</span><br>单双引号皆可<br></code></pre></td></tr></table></figure>
+"jobe d"
+'lddd sd'
+<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs asciidoc"><span class="hljs-strong">**表达式字面量**</span><br></code></pre></td></tr></table></figure>
+7+10
+2 * 8
+<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs asciidoc"><span class="hljs-strong">**数组字面量**</span><br></code></pre></td></tr></table></figure>
+[40, 100, 200]
+<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs asciidoc"><span class="hljs-strong">**对象字面量**</span><br></code></pre></td></tr></table></figure>
+{firstname:"John", lastname:"Done"}
+<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs asciidoc"><span class="hljs-strong">**函数字面量**</span><br></code></pre></td></tr></table></figure>
+function myFunc(am,bm)
+{
+    return a+b;
+}
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs stata"><span class="hljs-comment">**JS变量**</span><br>用<span class="hljs-keyword">var</span>定义<br></code></pre></td></tr></table></figure>
+var x, length；
+
+<p>x = 5；<br>length = 6；</p>
+<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs autohotkey">**JS注释**<br>双斜杠```//```<br>**且JS大小写敏感**<br>### JS语句<br></code></pre></td></tr></table></figure>
+<p>可以用分号结尾一句代码<br>可以多写空格，提高可读性</p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs clean">### JS数据类型和对象<br>new关键字指定类型<br></code></pre></td></tr></table></figure>
+<p>var x=  new Number<br>var ca= new String<br>var fl= new boolean</p>
+<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs asciidoc"><span class="hljs-strong">**对象**</span><br>对象有<span class="hljs-strong">**属性**</span>和<span class="hljs-strong">**方法**</span><br></code></pre></td></tr></table></figure>
+<p>定义一个对象</p>
+<p>var car = { name: “Fiat”, model:500, color: “white” };<br>每个值用name: value表示，值之间用逗号分割</p>
+<p>访问对象属性</p>
+<p>car.name<br>car[“color”]<br>两种方式均可</p>
+<p>对象方法<br>创建对象：<br>var person{<br>    name:”DAvid”,<br>    lasy:”DAAA”,<br>    methodName:function(){<br>    return name + “ “ + lasy<br>    }<br>}<br>即在类内定义好了方法<br>调用：<br>person.methodName()<br>即可</p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs clean">### JS函数<br>定义函数<br></code></pre></td></tr></table></figure>
+<p>function funcname(var1,var2){<br>    //执行代码<br>}</p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs clean">不用声明参数的数据类型<br>### JS事件<br>#### HTML事件<br>如：HTML页面完成加载<br>HTML input字段发生改变<br>HTML按钮被点击<br>当发生事件时，可以用JS做些事情，语法如下<br></code></pre></td></tr></table></figure>
+<some-HTML-element some-event="JavaScript 代码">
+如：
+<button onclick="this.innerHTML=Date()">现在的时间是</button>
+代码将修改自身元素的内容  this.innerHTML可以达到效果
+
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs css">常见的<span class="hljs-selector-tag">HTML</span>事件<br></code></pre></td></tr></table></figure>
+<p>onchange HTML元素改变<br>onclick 点击HTML元素<br>onmouseover 鼠标移动到元素上</p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs clean">### JS字符串<br>可以用索引位置，从<span class="hljs-number">0</span>开始访问字符<br></code></pre></td></tr></table></figure>
+<p>var charn = str[9]</p>
+<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs asciidoc">字符串中的引号，不要跟字符串的引号相同，一双一单<br><span class="hljs-strong">**字符串长度**</span><br></code></pre></td></tr></table></figure>
+<p>var txt = “ABNCNJMMMM”<br>var num = txt.length;<br>length是内置属性</p>
+<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs asciidoc"><span class="hljs-strong">**字符串可以是对象**</span><br></code></pre></td></tr></table></figure>
+<p>var fristname=new String(“bob”)<br>typeof fristname // return String</p>
+<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs autohotkey">String可以用```+```链接起来<br>数字与字符串相加，将数字自动转换为字符串后，返回字符串<br></code></pre></td></tr></table></figure>
+<p>z = “hello” + 5<br>hello5</p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs clean">### JS条件语句<br>与C++一样<br>switch也一样<br><br>### JS for循环<br></code></pre></td></tr></table></figure>
+<p>for (var i=0;i&lt;cars.length;i++)<br>{<br>    document.write(cars[i] + “<br>“);<br>}</p>
+<figure class="highlight brainfuck"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs brainfuck"><span class="hljs-comment">也与C</span>++<span class="hljs-comment">一样，只是第一个参数是var定义的变量</span><br><span class="hljs-comment">for</span>--<span class="hljs-comment">in循环</span><br></code></pre></td></tr></table></figure>
+<p>var person = {fname:”boll”, lname:”vil”, age:56};<br>for(x in person)<br>{<br>    txt = txt + person[x];<br>}</p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs clean">### JS类型转换<br></code></pre></td></tr></table></figure>
+<p>var a<br>a=String(123)<br>var b<br>b = Number(“3.14”)</p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs clean">### JS正则表达式（RE）<br>如<br></code></pre></td></tr></table></figure>
+<p>var patt = /runoob/i</p>
+<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs autohotkey">```<br>/runoob/是正则表达式主题，用于检索<br>i是修饰符，表示不分大小写<br></code></pre></td></tr></table></figure>
+<p>正则表达式常用于检索和替换中</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs abnf">var str <span class="hljs-operator">=</span> document.getElementById(<span class="hljs-string">&quot;DEmo&quot;</span>).innerHTML<span class="hljs-comment">;</span><br>var n <span class="hljs-operator">=</span> str.search(<span class="hljs-string">&quot;Runoob&quot;</span>)<span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure>
+<p>replace:</p>
+<figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs arcade"><span class="hljs-keyword">var</span> str = document.getElementById(<span class="hljs-string">&quot;demo&quot;</span>).innerHTML;<br><span class="hljs-keyword">var</span> txt = str.<span class="hljs-built_in">replace</span>(<span class="hljs-regexp">/microsoft/i</span>,<span class="hljs-string">&quot;Runoob&quot;</span>);<br>修改了txt内容，str未变<br><br></code></pre></td></tr></table></figure>
+<h3 id="JS表单验证"><a href="#JS表单验证" class="headerlink" title="JS表单验证"></a>JS表单验证</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"></span><br><span class="language-javascript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">validateForm</span>(<span class="hljs-params"></span>)</span><br><span class="language-javascript">&#123;</span><br><span class="language-javascript">    <span class="hljs-keyword">var</span> x=<span class="hljs-variable language_">document</span>.<span class="hljs-property">forms</span>[<span class="hljs-string">&quot;myForm&quot;</span>][<span class="hljs-string">&quot;fname&quot;</span>].<span class="hljs-property">value</span>;</span><br><span class="language-javascript">    <span class="hljs-keyword">if</span>(x == <span class="hljs-literal">null</span>||x == <span class="hljs-string">&quot;&quot;</span>)</span><br><span class="language-javascript">    &#123;</span><br><span class="language-javascript">        <span class="hljs-title function_">alert</span>(<span class="hljs-string">&quot;姓必须填写&quot;</span>);</span><br><span class="language-javascript">        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;</span><br><span class="language-javascript">    &#125;</span><br><span class="language-javascript">&#125;</span><br><span class="language-javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;myForm&quot;</span> <span class="hljs-attr">action</span> = <span class="hljs-string">&quot;demo.php&quot;</span> <span class="hljs-attr">onsubmit</span>=<span class="hljs-string">&quot;return validateForm()&quot;</span> <span class="hljs-attr">method</span>=<span class="hljs-string">&quot;post&quot;</span>&gt;</span><br>姓:<span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span> = <span class="hljs-string">&quot;text&quot;</span> <span class="hljs-attr">name</span> = <span class="hljs-string">&quot;fname&quot;</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span> = <span class="hljs-string">&quot;submit&quot;</span> <span class="hljs-attr">value</span> = <span class="hljs-string">&quot;提交&quot;</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="JS的this"><a href="#JS的this" class="headerlink" title="JS的this"></a>JS的this</h3><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs kotlin">在方法中，<span class="hljs-keyword">this</span>表示该方法所属的对象<br>fullName : function()&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.firstname + <span class="hljs-string">&quot; &quot;</span> + <span class="hljs-keyword">this</span>.lastname;<br>&#125;<br>单独使用，<span class="hljs-keyword">this</span>是全局对象<br>事件中的<span class="hljs-keyword">this</span><br>在HTML事件句柄中，<span class="hljs-keyword">this</span>指向了接收事件的HTML元素<br>&lt;button onclick=<span class="hljs-string">&quot;this.style.display =&#x27;none&#x27;&quot;</span>&gt;<br>点我后就消失咯<br>&lt;/button&gt;<br></code></pre></td></tr></table></figure>
+<h2 id="DOM"><a href="#DOM" class="headerlink" title="DOM"></a>DOM</h2><p>DOM(Document Object Model)<strong>文档对象模型</strong></p>
+<h3 id="DOM节点"><a href="#DOM节点" class="headerlink" title="DOM节点"></a>DOM节点</h3><p>DOM节点树<br><img src="/2022/06/30/front/pe.png" srcset="/img/loading.gif" lazyload><br>节点之间拥有层级关系<br>常用<strong>父</strong>，<strong>子</strong>，<strong>同胞</strong>等术语描述这些关系</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">&quot;utf-8&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>DOM 教程<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>DOM 课程1<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Hello world!<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span><br></code></pre></td></tr></table></figure>
+<p>此代码中<br>文本结点”hello world!”的父节点是<code>&lt;p&gt;</code>节点</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs <h1>```与```<p>```节点是同胞结点">### DOM方法<br>HTML DOM方法是我们可以在节点（即HTML元素）上执行的动作<br>HTML DOM属性是我们可以在节点设置和修改的值<br>#### 编程接口<br>**getElementById()方法**<br></code></pre></td></tr></table></figure>
+<p>var elemnt = document.getElementById(“intro”);</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs">以及一些常用的方法<br></code></pre></td></tr></table></figure>
+<p>appendChild(node)插入新的子节点<br>removeChild(node)删除字节点</p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs clean">### DOM属性<br>**innerHTML属性**<br>获取元素内容的最简单的方法是使用innerHTML属性<br>innerHTML属性对于获取和替换HTML元素的内容很有用<br>注意**inner**<br>**nodeValue属性**<br>nodeValue属性规定节点的值<br>元素节点的nodeValue是undefined或null<br>文本节点的nodeValue是文本本身<br>属性节点的nodeValue是属性值<br>### DOM访问<br>访问HTML元素（节点）<br>**getElementById()方法**<br></code></pre></td></tr></table></figure>
+<p>document.getElementById(“id”);</p>
+<p id="intro">helloworld</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs scss">id相对于，以起到寻找的作用<br>**<span class="hljs-built_in">getElementsByTagName</span>()方法**<br>该方法会选取所有该标签的<span class="hljs-selector-tag">HTML</span>元素<br></code></pre></td></tr></table></figure>
+document.getElementByTagName("p")
+<p>hello</p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs clean">**getElementsByClassName()方法**<br>### DOM修改<br>**修改HTML内容**<br></code></pre></td></tr></table></figure>
+<script>
+document.getElementById("intro").innerHTML = "new words";
+</script>
+
+<p id="intro"></p>
+<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs asciidoc"><span class="hljs-strong">**修改HTML样式**</span><br></code></pre></td></tr></table></figure>
+<p id="p1">Hello</p>
+<p id="p2">hello</p>
+<script>
+document.getElementById("p2").style.color = "red";
+document.getElementById("p2").style.fontFamily = "Arial";
+document.getElementById("p2").style.fontSize = "700";
+</script>
+<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs asciidoc"><span class="hljs-strong">**添加新的HTML元素**</span><br></code></pre></td></tr></table></figure>
+<div id="div1">
+<p id="p1">p1</p>
+<p id="p2">p2</p>
+</div>
+<script>
+var para = document.createElement("p");
+var node = document.createTextNode("new para");
+para.appendChild(node);
+var element = document.getElementById("div1");
+element.appendChild(para);
+</script>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs scss">### DOM元素<br>**创建新的<span class="hljs-selector-tag">HTML</span>元素<span class="hljs-built_in">-createElement</span>()**<br>如上方代码一样<br>先创建，再添加到已有的元素上<br>**<span class="hljs-built_in">insertBefore</span>()方法**<br>可以在指定元素节点之前添加该元素<br></code></pre></td></tr></table></figure>
+insertBefore(src,des)
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs scss">注意记得为各个节点命名，方便操作<br>**<span class="hljs-built_in">replaceChild</span>()方法**<br>替换目标元素<br></code></pre></td></tr></table></figure>
+replaceBefore(src,des);
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs clean"><br>## React<br>### React部署<br>利用官方cdn链接<br></code></pre></td></tr></table></figure>
+<script src="cdnurl"></script>
+<script src="https://cdn.staticfile.org/react/16.4.0/umd/react.development.js"></script>
+<script src="https://cdn.staticfile.org/react-dom/16.4.0/umd/react-dom.development.js"></script>
+<script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+<figure class="highlight mel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs mel"><br>实例中我们引入了三个库： react.development.<span class="hljs-keyword">min</span>.js 、react-dom.development.<span class="hljs-keyword">min</span>.js 和 babel.<span class="hljs-keyword">min</span>.js：<br>**react.<span class="hljs-keyword">min</span>.js**是核心库<br>**react-dom.<span class="hljs-keyword">min</span>.js**提供与DOM相关的功能<br>**babel.<span class="hljs-keyword">min</span>.js**Babel可以将ES6代码转为ES5，提高兼容性<br>### React元素渲染<br>#### 将元素渲染到DOM中<br>传递给<span class="hljs-string">``</span><span class="hljs-string">`ReactDOM.render()`</span><span class="hljs-string">``</span><br></code></pre></td></tr></table></figure>
+const element = <h1>HEllo</h1>
+ReactDOM.render(
+    element,
+    document.getElementById('example')
+);
+即可将element内容传给example为id的元素
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs clean">#### 更新元素渲染<br>因为React元素是不可变的，修改时，需要用新元素进行替换<br></code></pre></td></tr></table></figure>
+function tick(){
+    const element = (
+        <div>
+            <h1>现在是{new Date().toLocateTimeString()}.</h1>
+        </div>
+     );
+     ReactDOM.render(
+         element,
+         document.getElementById('example')
+         );
+}
+
+<p>setInterval(tick,1000);</p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs clean">每<span class="hljs-number">1000</span>ms替换一次，达到计时效果<br>### React JSX<br>JSX是一种语法<br>在react中代替常规的JavaScript<br>如<br></code></pre></td></tr></table></figure>
+<p>const element = </p><h1>HEllo</h1>;<p></p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs angelscript">**注意**<br>由于JSX是Javascript语言，故一些标识符如<span class="hljs-keyword">class</span>最好用<span class="hljs-symbol">className</span>代替<br></code></pre></td></tr></table></figure>
+<p>var myDivElement = <div classname="foo">;</div></p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs clean">#### 在JSX中插入JS表达式<br></code></pre></td></tr></table></figure>
+<p>ReactDOM.render(<br>    <div><br>        <h1>{i == 1 ? ‘True!’ : “False!”}</h1><br>    </div><br>    ,<br>    document.getElementById(‘example’)<br>);<br>就是JS套HTML再套JS的感觉</p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs clean">### React组件<br></code></pre></td></tr></table></figure>
+<p>function HellowMessage(props){<br>    return </p><h1>HElloe world</h1>;<br>}<p></p>
+<p>const element = <HelloMessage>;</HelloMessage></p>
+<p>ReactDOM.render(<br>    element<br>    ,<br>    document.getElementById(‘example’)<br>    );</p>
+<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs asciidoc"><br><span class="hljs-strong">**第一步**</span><br>使用函数定义一个组件<br><br><span class="hljs-strong">**第二步**</span><br>用一个元素调用这个组件<br></code></pre></td></tr></table></figure>
+<p>const element = <HelloMessage></HelloMessage></p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs clean">最后调用这个元素即可<br>#### 复合组件<br></code></pre></td></tr></table></figure>
+<p>function Name(props) {<br>    return </p><h1>网站名称：{props.name}</h1>;<br>}<br>function Url(props) {<br>    return <h1>网站地址：{props.url}</h1>;<br>}<br>function Nickname(props) {<br>    return <h1>网站小名：{props.nickname}</h1>;<br>}<br>function App() {<br>    return (<br>    <div><br>        <Name name="菜鸟教程"><br>        <Url url="http://www.runoob.com"><br>        <Nickname nickname="Runoob"><br>    </Nickname></Url></Name></div><br>    );<br>}<p></p>
+<p>ReactDOM.render(<br>     <App>,<br>    document.getElementById(‘example’)<br>);</App></p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs clean">可以看出，用props.name时，传递参数要写，name =  <span class="hljs-string">&quot;...&quot;</span><br>### React State（状态）<br>#### 将生命周期方法添加到类中<br>如<br>每当Clock组件第一次加载到 DOM 中的时候，我们都想生成定时器，这在 React 中被称为挂载。<br><br>同样，每当 Clock 生成的这个 DOM 被移除的时候，我们也会想要清除定时器，这在 React 中被称为卸载。<br></code></pre></td></tr></table></figure>
+<p>class Clock extends React.Component {<br>  constructor(props) {<br>    super(props);<br>    this.state = {date: new Date()};<br>  }</p>
+<p>  componentDidMount() {<br>    this.timerID = setInterval(<br>      () =&gt; this.tick(),<br>      1000<br>    );<br>  }</p>
+<p>  componentWillUnmount() {<br>    clearInterval(this.timerID);<br>  }</p>
+<p>  tick() {<br>    this.setState({<br>      date: new Date()<br>    });<br>  }</p>
+<p>  render() {<br>    return (<br>      <div><br>        <h1>Hello, world!</h1><br>        <h2>现在是 {this.state.date.toLocaleTimeString()}.</h2><br>      </div><br>    );<br>  }<br>}</p>
+<p>ReactDOM.render(<br>  <Clock>,<br>  document.getElementById(‘example’)<br>);</Clock></p>
+<figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs pf">componentDidMount() 与 componentWillUnmount() 方法被称作生命周期钩子。<br><br>在组件输出到 DOM 后会执行 componentDidMount() 钩子，我们就可以在这个钩子上设置一个定时器。<br><br>this.timerID 为定时器的 ID，我们可以在 componentWillUnmount() 钩子中卸载定时器。代码执行顺序：<br><br>当 <span class="hljs-variable">&lt;Clock /&gt;</span> 被传递给 ReactDOM.render() 时，React 调用 Clock 组件的构造函数。 由于 Clock 需要显示当前时间，所以使用包含当前时间的对象来初始化 this.<span class="hljs-keyword">state</span> 。 我们稍后会更新此状态。<br><br>React 然后调用 Clock 组件的 render() 方法。这是 React 了解屏幕上应该显示什么内容，然后 React 更新 DOM 以匹配 Clock 的渲染输出。<br><br>当 Clock 的输出插入到 DOM 中时，React 调用 componentDidMount() 生命周期钩子。 在其中，Clock 组件要求浏览器设置一个定时器，每秒钟调用一次 tick()。<br><br>浏览器每秒钟调用 tick() 方法。 在其中，Clock 组件通过使用包含当前时间的对象调用 <span class="hljs-built_in">set</span>State() 来调度UI更新。 通过调用 <span class="hljs-built_in">set</span>State() ，React 知道状态已经改变，并再次调用 render() 方法来确定屏幕上应当显示什么。 这一次，render() 方法中的 this.<span class="hljs-keyword">state</span>.date 将不同，所以渲染输出将包含更新的时间，并相应地更新 DOM。<br><br>一旦 Clock 组件被从 DOM 中移除，React 会调用 componentWillUnmount() 这个钩子函数，定时器也就会被清除。<br><span class="hljs-comment">### React Props</span><br>props用于传递数据<br></code></pre></td></tr></table></figure>
+<p>function HelloMe(props){<br>    return </p><h1>Hello {props.name}!</h1><br>}<p></p>
+<p>const element= <HelloMe name="kasw">;</HelloMe></p>
+<p>ReactDOM.render(<br>    element,<br>    document.getElementById(‘example’)<br>);</p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs clean">### React 事件处理<br>HTML事件处理：<br></code></pre></td></tr></table></figure>
+<button onclick="activateLasers()">
+激活按钮
+</button>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs avrasm"><span class="hljs-symbol">React:</span><br></code></pre></td></tr></table></figure>
+<button onclick="{activateLasers}">
+激活按钮
+</button>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs clean">react中使用驼峰写法，且传入的是函数，而不是字符串<br>### React 条件渲染<br>登录界面判断<br>是输出**欢迎回来**<br>还是**请先注册**<br></code></pre></td></tr></table></figure>
+function UserGreeting(props) {
+  return <h1>欢迎回来!</h1>;
+}
+
+<p>function GuestGreeting(props) {<br>  return </p><h1>请先注册。</h1>;<br>}<br>function Greeting(props) {<br>  const isLoggedIn = props.isLoggedIn;<br>  if (isLoggedIn) {<br>    return <UserGreeting>;<br>  }<br>  return <GuestGreeting>;<br>}<p></p>
+<p>ReactDOM.render(<br>  // 尝试修改 isLoggedIn={true}:<br>  <Greeting isloggedin="{false}">,<br>  document.getElementById(‘example’)<br>);<br>```</Greeting></p>
+</GuestGreeting></UserGreeting></some-HTML-element>
             </div>
             <hr>
             <div>
@@ -470,6 +686,12 @@
                 <div class="post-prevnext">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2022/08/20/kawa-c4-compiler/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">kawa c4 compiler</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">
