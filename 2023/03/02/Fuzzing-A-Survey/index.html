@@ -16,20 +16,20 @@
   <meta name="author" content="kawa_von">
   <meta name="keywords" content="">
   
-    <meta name="description" content="测试一下">
+    <meta name="description" content="Fuzzing a survey1.Background 静态分析（Static analysis)：静态分析针对代码中的词汇、语义等漏洞，但缺乏正确率，即分析静态分析软件给出的信息，也需要话很多时间（高误报率）； 动态分析（Dynamic analysis)：动态分析针对运行中的程序，但效率低下，需要很大程度的人类参与，且对分析员要求很高； 符号执行（Symbolic execution)：符号">
 <meta property="og:type" content="article">
-<meta property="og:title" content="start">
-<meta property="og:url" content="http://example.com/2022/02/23/start/index.html">
+<meta property="og:title" content="Fuzzing A Survey">
+<meta property="og:url" content="http://example.com/2023/03/02/Fuzzing-A-Survey/index.html">
 <meta property="og:site_name" content="FCさん の Blog">
-<meta property="og:description" content="测试一下">
+<meta property="og:description" content="Fuzzing a survey1.Background 静态分析（Static analysis)：静态分析针对代码中的词汇、语义等漏洞，但缺乏正确率，即分析静态分析软件给出的信息，也需要话很多时间（高误报率）； 动态分析（Dynamic analysis)：动态分析针对运行中的程序，但效率低下，需要很大程度的人类参与，且对分析员要求很高； 符号执行（Symbolic execution)：符号">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-02-23T13:41:07.000Z">
-<meta property="article:modified_time" content="2022-02-23T13:47:11.907Z">
+<meta property="article:published_time" content="2023-03-02T03:01:03.000Z">
+<meta property="article:modified_time" content="2023-03-02T03:02:04.820Z">
 <meta property="article:author" content="kawa_von">
 <meta name="twitter:card" content="summary_large_image">
   
   
-  <title>start - FCさん の Blog</title>
+  <title>Fuzzing A Survey - FCさん の Blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -175,7 +175,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="start">
+            <span class="h2" id="subtitle" title="Fuzzing A Survey">
               
             </span>
 
@@ -185,8 +185,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2022-02-23 21:41" pubdate>
-        2022年2月23日 晚上
+      <time datetime="2023-03-02 11:01" pubdate>
+        2023年3月2日 上午
       </time>
     </span>
   
@@ -196,7 +196,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      4 字
+      2.6k 字
     </span>
   
 
@@ -205,7 +205,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      1 分钟
+      22 分钟
     </span>
   
 
@@ -234,10 +234,139 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">start</h1>
+            <h1 style="display: none">Fuzzing A Survey</h1>
             
             <div class="markdown-body">
-              <h2 id="测试一下"><a href="#测试一下" class="headerlink" title="测试一下"></a>测试一下</h2>
+              <h1 id="Fuzzing-a-survey"><a href="#Fuzzing-a-survey" class="headerlink" title="Fuzzing a survey"></a>Fuzzing a survey</h1><h2 id="1-Background"><a href="#1-Background" class="headerlink" title="1.Background"></a>1.Background</h2><ul>
+<li>静态分析（Static analysis)：静态分析针对代码中的词汇、语义等漏洞，但缺乏正确率，即分析静态分析软件给出的信息，也需要话很多时间（高误报率）；</li>
+<li>动态分析（Dynamic analysis)：动态分析针对运行中的程序，但效率低下，需要很大程度的人类参与，且对分析员要求很高；</li>
+<li>符号执行（Symbolic execution)：符号执行对于大规模项目十分效率低下；</li>
+<li>Fuzzing：可应对大规模程序，缺点是低效率与低代码覆盖率。</li>
+</ul>
+<h2 id="2-Fuzzing"><a href="#2-Fuzzing" class="headerlink" title="2.Fuzzing"></a>2.Fuzzing</h2><ul>
+<li>输入文件越破碎越好，这样运行的程序更可能被打败；</li>
+<li>输入可以是多种形式的：网络数据，各种格式的文件，可执行二进制数据等；</li>
+</ul>
+<p><strong>Fuzzing的执行</strong><br>Fuzzing过程中，会对发生的，感兴趣的exception，crashes，violations进行记录。随后可用各种二进制分析软件进行对crashes的分析，如<code> IDA Pro</code>,<code>GDB</code>等等。</p>
+<ul>
+<li>两种Fuzzer<ul>
+<li>基于生成的fuzzer：更熟悉文件格式，能精准生成代码，更容易突破文件验证，测试更深层次的代码，当文件不友好时，分析文件格式很困难。</li>
+<li>基于异变的fuzzer： 更简单地开始测试，需要一串有效的初始输入。</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>基于依赖源码等级分类</p>
+<ul>
+<li>white box:需要源码，文件内的信息进行fuzz；</li>
+<li>gray box:无需源码，通过运行分析程序获取部分内部信息；</li>
+<li>black box:无需源码，不需要任何程序内部信息。</li>
+</ul>
+</li>
+<li><p>dumb fuzzer 和 smart fuzzer：</p>
+<ul>
+<li>前者更注重速度，不回收信息；</li>
+<li>后者会回收信息，优化异变策略，优化输入 。</li>
+</ul>
+</li>
+</ul>
+<p>Fuzzing目前遇到的挑战：</p>
+<ul>
+<li><p>The challenge of  <strong>how to mutate</strong>  seed inputs. </p>
+<ul>
+<li>如何变异/生成样例使其能涵盖更多路径、更容易触发bug；</li>
+<li>何处变异，如何变异是重点；</li>
+<li>即盲目异变是浪费时间，精准的变异策略才是解决问题的关键。</li>
+</ul>
+</li>
+<li><p>The challenge of low <strong>code coverage</strong>.</p>
+<ul>
+<li>更高的覆盖率意味着更高的发现bug概率；</li>
+<li>利用程序分析，达到更高的覆盖率。</li>
+</ul>
+</li>
+<li><p>The challenge of <strong>passing the validation</strong>.</p>
+<ul>
+<li>许多程序都有输入检测，不符合规范则不予执行；</li>
+<li>灰盒与黑盒程序对内部认证方式不清楚，很难绕过检测，于是效率低下。</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-Coverage-based-Fuzzing"><a href="#3-Coverage-based-Fuzzing" class="headerlink" title="3.Coverage-based Fuzzing"></a>3.Coverage-based Fuzzing</h2><p><strong>Code coverage counting</strong></p>
+<ul>
+<li><p>最先进的方法把基本块（basic blocks）作为粒度</p>
+<ul>
+<li>基本块是程序执行时最小的相关单元；</li>
+<li>测量函数或者指令会导致信息缺失或冗余；</li>
+<li>BB可以用首地址辨认，且BB的信息可以轻松通过代码检测提取。</li>
+</ul>
+</li>
+<li><p>两种测量选择： </p>
+<ul>
+<li> 仅计算运行的 BB 数量；</li>
+<li> 以及计算 BB 间转换次数；</li>
+</ul>
+</li>
+<li><p>前者测量顶点（vertices），后者测量边（edge）；  </p>
+</li>
+</ul>
+<p><strong>以AFL为例，介绍边（edge）测量</strong></p>
+<ul>
+<li>有源码时：在编译生成二进制文件时，插入桩，为检测做准备；</li>
+<li>无源码时：将基本块转换为 TCG 块时插桩。</li>
+</ul>
+<p>列举一段插桩代码</p>
+<figure class="highlight c"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><pre><code class="hljs c">cur_location = &lt;COMPILE_TIME_RANDOM&gt;;<br>shared_mem [ cur_location ^ prec_location]++;<br>prev_location = cur_location &gt;&gt; <span class="hljs-number">1</span>;<br></code></pre></td></tr></table></figure>
+<p>cur_location 是随机生成的 ID ，而 shared_mem 是一块 64KB 的共享内存，每一个字节都标识着一个独特的边。<br>当一个 BB 间跳转发生时，会计算一个哈希值，然后当前哈希值对应的 bitmap 中的数据会被更新。如下图</p>
+<p><strong>Working process of coverage-based fuzzing</strong><br>主循环内，程序挑选 interesting 种子进行变异、程序生成。目标程序执行这些生成的 testcases，发生 crash 的目标程序会被收集下来，其他感兴趣的样例会被放入种子池。<br>在 <strong>覆盖率引导</strong> 的 fuzzing 内，触发了新路径的程序，会被认为是 <strong>interesting</strong></p>
+<p>Fuzzing 过程中，我们主要关注 覆盖率 和 程序违规 。<br>前者可由之前插桩代码来统计；<br>后者可在 sanitizer 的帮助下，进行分析。</p>
+<figure class="highlight mathematica"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs mathematica">什么是<span class="hljs-variable">Sanitizer</span>？<br><span class="hljs-variable">Sanitizer</span>是由 <span class="hljs-variable">Google</span> 研发团队提出的用于检测 <span class="hljs-built_in">C</span><span class="hljs-operator">/</span><span class="hljs-built_in">C</span><span class="hljs-operator">++</span> 程序常见内存错误的工具集<br>其中包含：<br><span class="hljs-variable">AddressSanitizer</span> <span class="hljs-punctuation">(</span><span class="hljs-variable">asan</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">:</span>检测内存访问错误，即发现程序访问了不该访问的内存，就会记录错误；<br><span class="hljs-variable">LeakageSanitizer</span> <span class="hljs-punctuation">(</span><span class="hljs-variable">lsan</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">:</span>内存泄露检测；<br><span class="hljs-variable">MemorySanitizer</span> <span class="hljs-punctuation">(</span><span class="hljs-variable">msan</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">:</span>检查读取未初始化的内存错误；<br><span class="hljs-variable">ThreadSanitizer</span> <span class="hljs-punctuation">(</span><span class="hljs-variable">tsan</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">:</span>检测数据竞争与死锁；<br><span class="hljs-variable">UndefinedBehaviorSanitizer</span> <span class="hljs-punctuation">(</span><span class="hljs-variable">ubsan</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">:</span>检测未定义的操作。<br></code></pre></td></tr></table></figure>
+
+
+<p><strong>Key questions</strong></p>
+<ul>
+<li>How to get initial inputs ?<ul>
+<li>提供格式良好的 inputs ；</li>
+<li>良好的 inputs 可以适应许多格式复杂的文件 ；</li>
+<li>能探入更深层次路径的 inputs ；</li>
+<li>可复用</li>
+</ul>
+</li>
+<li>How to generate testcases ?</li>
+<li>How to select seed from the pool ?<ul>
+<li>covering more code and be more likely to trigger vulnerabilities;</li>
+<li>reduce the waste of repeatedly execution of paths and save computing resource</li>
+</ul>
+</li>
+<li>How to efficiently test applications?<ul>
+<li>forkserver </li>
+</ul>
+</li>
+</ul>
+<h2 id="4-Techniques-integrated-in-fuzzing"><a href="#4-Techniques-integrated-in-fuzzing" class="headerlink" title="4.Techniques integrated in fuzzing"></a>4.Techniques integrated in fuzzing</h2><ul>
+<li>污点分析;</li>
+<li>利用AI生成、检测好的seed，使之符合格式;</li>
+<li>Intel PT;</li>
+</ul>
+<h2 id="5-Fuzzing-towards-different-applications"><a href="#5-Fuzzing-towards-different-applications" class="headerlink" title="5.Fuzzing towards different applications"></a>5.Fuzzing towards different applications</h2><ul>
+<li>File format fuzzing;<ul>
+<li>Peach;</li>
+<li>on web browsers;</li>
+</ul>
+</li>
+<li>Kernel fuzzing;</li>
+<li>Fuzzing of protocols;</li>
+</ul>
+<h2 id="6-New-trends-of-fuzzing"><a href="#6-New-trends-of-fuzzing" class="headerlink" title="6.New trends of fuzzing"></a>6.New trends of fuzzing</h2><ul>
+<li>Smart fuzzing;</li>
+<li>New techniques;<ul>
+<li>machine learning;</li>
+</ul>
+</li>
+<li>new system features and hardware features;</li>
+</ul>
+<h2 id="7-Conclusion"><a href="#7-Conclusion" class="headerlink" title="7.Conclusion"></a>7.Conclusion</h2><p>Fuzzing是目前最为有效且效率高的漏洞发掘方式，本文对比了Fuzzing与其他技术的差别，总结了Fuzzing中综合的技术，最后展望了能让Fuzzing更为高效的未来技术。</p>
+
             </div>
             <hr>
             <div>
@@ -257,9 +386,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/03/02/NX-ROP/">
+                      <a href="/2023/03/02/AddressSanitizer/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">NX-ROP</span>
+                        <span class="hidden-mobile">AddressSanitizer</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -267,8 +396,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/02/23/test-new-site/">
-                        <span class="hidden-mobile">test_new_site</span>
+                      <a href="/2023/02/19/Fuzzing/">
+                        <span class="hidden-mobile">Fuzzing</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

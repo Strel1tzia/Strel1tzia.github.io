@@ -1,0 +1,469 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/MyPic/bella.png">
+  <link rel="icon" href="/MyPic/bella.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="kawa_von">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="AddressSanitizer论文Abstract这个项目可以检测out-of-bounds及use-after-free导致的bug。 Shadow Memory何为Shadow Memory引用维基百科： 1In computing, shadow memory is a technique used to track and store information on computer me">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AddressSanitizer">
+<meta property="og:url" content="http://example.com/2023/03/02/AddressSanitizer/index.html">
+<meta property="og:site_name" content="FCさん の Blog">
+<meta property="og:description" content="AddressSanitizer论文Abstract这个项目可以检测out-of-bounds及use-after-free导致的bug。 Shadow Memory何为Shadow Memory引用维基百科： 1In computing, shadow memory is a technique used to track and store information on computer me">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-03-02T03:02:35.000Z">
+<meta property="article:modified_time" content="2023-03-02T03:03:04.281Z">
+<meta property="article:author" content="kawa_von">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  <title>AddressSanitizer - FCさん の Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.1"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>kawasuki</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/MyPic/asoul2.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="AddressSanitizer">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2023-03-02 11:02" pubdate>
+        2023年3月2日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.5k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      21 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">AddressSanitizer</h1>
+            
+            <div class="markdown-body">
+              <h1 id="AddressSanitizer论文"><a href="#AddressSanitizer论文" class="headerlink" title="AddressSanitizer论文"></a>AddressSanitizer论文</h1><h2 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h2><p>这个项目可以检测<code>out-of-bounds</code>及<code>use-after-free</code>导致的bug。</p>
+<h2 id="Shadow-Memory"><a href="#Shadow-Memory" class="headerlink" title="Shadow Memory"></a>Shadow Memory</h2><p><strong>何为Shadow Memory</strong><br>引用维基百科：</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><pre><code class="hljs mipsasm">In computing, <span class="hljs-keyword">shadow </span>memory is a technique used to track <span class="hljs-keyword">and </span>store information on computer memory used <span class="hljs-keyword">by </span>a program during its execution. <span class="hljs-keyword">Shadow </span>memory consists of <span class="hljs-keyword">shadow </span><span class="hljs-keyword">bytes </span>that map to individual <span class="hljs-keyword">bits </span><span class="hljs-keyword">or </span>one <span class="hljs-keyword">or </span>more <span class="hljs-keyword">bytes </span>in main memory. These <span class="hljs-keyword">shadow </span><span class="hljs-keyword">bytes </span>are typically invisible to the <span class="hljs-keyword">original </span>program <span class="hljs-keyword">and </span>are used to record information about the <span class="hljs-keyword">original </span>piece of data. --维基百科<br></code></pre></td></tr></table></figure>
+<p>简而言之，shadow memory 是用来记录当前进程内存的可访问状态的元数据。<br>本ASAN应用中，利用 shadow memory 的映射，知道当前内存的可访问状态。<br>例如有一块内存M1，其 shadow memory 是S1，当我们需要访问M1时，会先读取S1，若S1记录值允许访问，才可访问。不难发现，如果应用 shadow memory，则需要为其单独分配空间来储存状态量。<br><strong>更高效的映射方法</strong><br>ASAN使用了一种更高效的映射方法，可以将一块 8Byte 的内存块用 1Byte 的内存表示。<br>因为 malloc 函数返回地址（分配地址）是 8Byte 对齐的，故一块内存可以进行寻址访问的状态便有以下9种：</p>
+<ul>
+<li>整块内存（8Byte）均无法访问；</li>
+<li>整块内存（8Byte）均可访问；</li>
+<li>仅内存的前k字节可访问（k从1~7之间取值）。</li>
+</ul>
+<p>那么一块内存的访问状态，便可以用 1Byte 大小的空间进行表示，甚至完全不需要 1Byte。</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs gradle">什么是 <span class="hljs-number">8</span><span class="hljs-keyword">Byte</span> 对齐？<br><br>当使用 malloc 函数分配空间时，比如<br><span class="hljs-keyword">void</span> *p1 = malloc(<span class="hljs-number">1</span>);<br>我申请了<span class="hljs-number">1</span>个字节大小的内存，但 malloc 函数会分配给我<span class="hljs-number">8</span>个字节的连续的一块内存。<br>这就是 <span class="hljs-number">8</span><span class="hljs-keyword">byte</span> 对齐<br><br>为什么是<span class="hljs-number">9</span>个状态？<br><br>首先，如果该内存块未被分配，即全部无法访问，对应一种；<br>如果该内存块全部被分配，则全部可以访问，对应一种；<br>由于内存块是连续分配的，故不可能出现 连续的 <span class="hljs-number">8</span><span class="hljs-keyword">Byte</span> 内，第<span class="hljs-number">1</span>，<span class="hljs-number">2</span>，<span class="hljs-number">3</span> <span class="hljs-keyword">Byte</span> 可访问，第 <span class="hljs-number">4</span> <span class="hljs-keyword">Byte</span>不可访问，而第 <span class="hljs-number">5</span> <span class="hljs-keyword">Byte</span> 又可以访问的情况，故对应了<span class="hljs-number">7</span>种情况，即该块内，前k个 <span class="hljs-keyword">Byte</span> 可访问，而后 <span class="hljs-number">8</span> - k <span class="hljs-keyword">Byte</span>无法访问。共对应 <span class="hljs-number">7</span> 种情况。<br>故一共是 <span class="hljs-number">1</span> + <span class="hljs-number">1</span> + <span class="hljs-number">7</span> = <span class="hljs-number">9</span> 种状态。<br><br></code></pre></td></tr></table></figure>
+
+<p><strong>Shadow Memory 对应算法</strong><br>即如何将 Memory 的内容映射至 Shadow 呢<br>使用以下公式，其中 ADDR 表示当前内存块的地址：</p>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs armasm">(<span class="hljs-keyword">ADDR</span> &gt;&gt; <span class="hljs-number">3</span>) + OFFSET<span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure>
+<p>即右移三位后，统一加上一个偏移值 OFFSET 避免与正常允许的内存产生冲突。</p>
+<p><strong>Shadow Memory 中存放的值</strong><br>规则如下：</p>
+<ul>
+<li>当该 Shadow Memory 值为0时，表示该内存块所有地址均可寻址；</li>
+<li>值为1~7的整数时，表示前k个地址可寻址；</li>
+<li>值为任意负数时，表示不可寻址；<br>且<strong>不同的负数</strong>表示不同的不可寻址：heap redzones， stack redzones, global redzones, freed redzones)</li>
+</ul>
+<h2 id="判断是否访问了不能访问的内存"><a href="#判断是否访问了不能访问的内存" class="headerlink" title="判断是否访问了不能访问的内存"></a>判断是否访问了不能访问的内存</h2><p>首先，当 AccessSize 也就是访问的位数等于8时</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm"><span class="hljs-keyword">ShadowAddr </span>= (<span class="hljs-keyword">Addr </span>&gt;&gt; <span class="hljs-number">3</span>) + Offset;<br>if(*<span class="hljs-keyword">ShadowAddr </span>!= <span class="hljs-number">0</span>)<br>   ReportAndCrash(<span class="hljs-keyword">Addr);</span><br><span class="hljs-keyword"></span>   <br></code></pre></td></tr></table></figure>
+<p>当 AccessSize 为 1 、 2 、 4时，需要将Addr带入，与7做AND操作后，进行判断</p>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs lisp">ShadowAddr = (<span class="hljs-name">Addr</span> &gt;&gt; <span class="hljs-number">3</span>) + Offset<span class="hljs-comment">;</span><br>k = *ShadowAddr<span class="hljs-comment">;</span><br>if ( <span class="hljs-name">k</span> != <span class="hljs-number">0</span> <span class="hljs-symbol">&amp;&amp;</span> ((<span class="hljs-name">Addr</span> &amp; <span class="hljs-number">7</span> ) + AccessSize &gt; k))<br>     ReportAndCrash(<span class="hljs-name">Addr</span>)<span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure>
+
+<p>为何此处是 <code>Addr &amp; 7 + AccessSize</code>与 k（可访问字节数）做比较呢<br>因为 Addr &amp; 7 代表被访问的该内存（这一Byte），相对其之前一个“对齐点”的位移，加上妄图访问的字节数后，就是最终访问的总字节数，用其与 k 比大小，可判断是否越界。</p>
+<p><strong>关于代码插桩何时介入</strong><br>放到LLVM优化的靠后位置，这样只需要对被LLVM进行过优化的代码进行插桩，减少了不必要的插入。<br>该报错代码 <code>ReportAndCrash</code> 只会执行一次就中断程序。</p>
+<p><strong>运行时</strong>：<br>调用 malloc 函数会返回一段内存，和两端额外的内存，延申在原本申请的内存两端，这被称为<code> redzone</code>或称为 <code>poisoned</code>，分配的 <code> red zone</code> 越大，找到溢出漏洞的概率越大。<br>设置redzone将分配的内存段包住，有以下关系：<br>当分配的内存段数量为 n 时， redzones 的数量应该是 n+1 </p>
+<p>free 函数会将释放区域全部设置为 poisoned 且不会恢复，即该区域暂时不会再次被 malloc。这被叫做拖入隔离区，隔离区是一个大小固定的 FIFO 队列。默认情况下，malloc和free会记录当前的调用栈以为bug报告提供更多信息</p>
+<p><strong>栈及全局对象的检测</strong></p>
+<p>对于全局对象，redzones 是在编译时被放入的，随后在程序运行时，这些地址被传入<code> runtime library</code>。程序运行时，这些 redzones 会被 标记为 <code>poisoned</code></p>
+<p>对于栈来说，redzones 的创建与染毒，是都在 runtime 发生的。</p>
+<p><strong>错误及漏报</strong><br>比较具代表性的：<br>直接跨越了一个 redzone<br>即 a 分配了 500字节，a 右侧 redzone 大小为500 字节，b分配了 5000字节大小<br>若一个指针从 a 读取，偏移量达到1000，则很可能直接访问了b区的合法区域。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> *a = new <span class="hljs-type">char</span>[<span class="hljs-number">100</span>];<br><br><span class="hljs-type">char</span> *b = new <span class="hljs-type">char</span>[<span class="hljs-number">1000</span>];<br><br>a[<span class="hljs-number">500</span>] = <span class="hljs-number">0</span>; <span class="hljs-comment">// may end up somewhere in b</span><br></code></pre></td></tr></table></figure>
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/03/02/Fuzzing-A-Survey/">
+                        <span class="hidden-mobile">Fuzzing A Survey</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     fc love 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
