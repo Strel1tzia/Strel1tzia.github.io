@@ -16,25 +16,38 @@
   <meta name="author" content="kawa_von">
   <meta name="keywords" content="">
   
-    <meta name="description" content="计算机系统浮点数IEEE 浮点表示IEEE 浮点标准用 V &#x3D; (-1)^S X M X 2^E来表示一个数：  符号位：s 决定这个数为负数（ s &#x3D; 1）或正数（s &#x3D; 0）； 尾数： M 是一个二进制小数，其范围为 1 ~ 2 - 0，或  0 ~ 1 - 0； 阶码：E 的作用是对浮点数加权，为 2 的 E 次幂。  浮点数的位表示一个浮点数的位划分为三个字段，分别对这些值进行编码：  第">
+    <meta name="description" content="计算机系统实验二 Datalab 实验报告1.实验目的： 补充完整 bits.c 文件内容，完成实验； 了解机器中对整型、浮点数的存储方式； 熟悉位操作，完成一系列指令。  2.实验准备 学习 CSAPP 书上的相关信息表示部分； 配置好虚拟机环境。  3.实验任务 补充完整 bits.c 文件内容，并利用 btest 程序进行测试。  1.bitAnd  要求： 输出两个数按位与操作后的值。实现">
 <meta property="og:type" content="article">
-<meta property="og:title" content="计算机系统">
-<meta property="og:url" content="http://example.com/2023/03/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/index.html">
+<meta property="og:title" content="datalab">
+<meta property="og:url" content="http://example.com/2023/03/21/datalab/index.html">
 <meta property="og:site_name" content="FCさん の Blog">
-<meta property="og:description" content="计算机系统浮点数IEEE 浮点表示IEEE 浮点标准用 V &#x3D; (-1)^S X M X 2^E来表示一个数：  符号位：s 决定这个数为负数（ s &#x3D; 1）或正数（s &#x3D; 0）； 尾数： M 是一个二进制小数，其范围为 1 ~ 2 - 0，或  0 ~ 1 - 0； 阶码：E 的作用是对浮点数加权，为 2 的 E 次幂。  浮点数的位表示一个浮点数的位划分为三个字段，分别对这些值进行编码：  第">
+<meta property="og:description" content="计算机系统实验二 Datalab 实验报告1.实验目的： 补充完整 bits.c 文件内容，完成实验； 了解机器中对整型、浮点数的存储方式； 熟悉位操作，完成一系列指令。  2.实验准备 学习 CSAPP 书上的相关信息表示部分； 配置好虚拟机环境。  3.实验任务 补充完整 bits.c 文件内容，并利用 btest 程序进行测试。  1.bitAnd  要求： 输出两个数按位与操作后的值。实现">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2023/03/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/p1.png">
-<meta property="og:image" content="http://example.com/2023/03/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/p2.png">
-<meta property="og:image" content="http://example.com/2023/03/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/p3.png">
-<meta property="og:image" content="http://example.com/2023/03/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/p4.png">
-<meta property="article:published_time" content="2023-03-16T03:07:00.000Z">
-<meta property="article:modified_time" content="2023-03-16T03:07:18.179Z">
+<meta property="og:image" content="http://example.com/2023/03/21/datalab/p1.png">
+<meta property="og:image" content="http://example.com/2023/03/21/datalab/p2.png">
+<meta property="og:image" content="http://example.com/2023/03/21/datalab/p3.png">
+<meta property="og:image" content="http://example.com/2023/03/21/datalab/p4.png">
+<meta property="og:image" content="http://example.com/2023/03/21/datalab/p5.png">
+<meta property="og:image" content="http://example.com/2023/03/21/datalab/p6.png">
+<meta property="og:image" content="http://example.com/2023/03/21/datalab/p7.png">
+<meta property="og:image" content="http://example.com/2023/03/21/datalab/p8.png">
+<meta property="og:image" content="http://example.com/2023/03/21/datalab/p9.png">
+<meta property="og:image" content="http://example.com/2023/03/21/datalab/p10.png">
+<meta property="og:image" content="http://example.com/2023/03/21/datalab/p11.png">
+<meta property="og:image" content="http://example.com/2023/03/21/datalab/p12.png">
+<meta property="og:image" content="http://example.com/2023/03/21/datalab/p13.png">
+<meta property="og:image" content="http://example.com/2023/03/21/datalab/p14.png">
+<meta property="og:image" content="http://example.com/2023/03/21/datalab/p15.png">
+<meta property="og:image" content="http://example.com/2023/03/21/datalab/p16.png">
+<meta property="og:image" content="http://example.com/2023/03/21/datalab/p17.png">
+<meta property="article:published_time" content="2023-03-21T13:19:41.000Z">
+<meta property="article:modified_time" content="2023-03-21T13:21:24.374Z">
 <meta property="article:author" content="kawa_von">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/2023/03/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/p1.png">
+<meta name="twitter:image" content="http://example.com/2023/03/21/datalab/p1.png">
   
   
-  <title>计算机系统 - FCさん の Blog</title>
+  <title>datalab - FCさん の Blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -180,7 +193,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="计算机系统">
+            <span class="h2" id="subtitle" title="datalab">
               
             </span>
 
@@ -190,8 +203,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2023-03-16 11:07" pubdate>
-        2023年3月16日 上午
+      <time datetime="2023-03-21 21:19" pubdate>
+        2023年3月21日 晚上
       </time>
     </span>
   
@@ -201,7 +214,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      914 字
+      1.8k 字
     </span>
   
 
@@ -210,7 +223,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      8 分钟
+      15 分钟
     </span>
   
 
@@ -239,71 +252,76 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">计算机系统</h1>
+            <h1 style="display: none">datalab</h1>
             
             <div class="markdown-body">
-              <h1 id="计算机系统"><a href="#计算机系统" class="headerlink" title="计算机系统"></a>计算机系统</h1><h2 id="浮点数"><a href="#浮点数" class="headerlink" title="浮点数"></a>浮点数</h2><h3 id="IEEE-浮点表示"><a href="#IEEE-浮点表示" class="headerlink" title="IEEE 浮点表示"></a>IEEE 浮点表示</h3><p>IEEE 浮点标准用 <code>V = (-1)^S X M X 2^E</code>来表示一个数：</p>
-<ul>
-<li>符号位：s 决定这个数为负数（ s = 1）或正数（s = 0）；</li>
-<li>尾数： M 是一个二进制小数，其范围为 1 ~ 2 - 0，或  0 ~ 1 - 0；</li>
-<li>阶码：E 的作用是对浮点数加权，为 2 的 E 次幂。</li>
+              <h1 id="计算机系统实验二-Datalab-实验报告"><a href="#计算机系统实验二-Datalab-实验报告" class="headerlink" title="计算机系统实验二 Datalab 实验报告"></a>计算机系统实验二 Datalab 实验报告</h1><h1 id="1-实验目的："><a href="#1-实验目的：" class="headerlink" title="1.实验目的："></a>1.实验目的：</h1><ul>
+<li>补充完整 bits.c 文件内容，完成实验；</li>
+<li>了解机器中对整型、浮点数的存储方式；</li>
+<li>熟悉位操作，完成一系列指令。</li>
 </ul>
-<p><strong>浮点数的位表示</strong><br>一个浮点数的位划分为三个字段，分别对这些值进行编码：</p>
-<ul>
-<li>第一个单独的符号位s直接编码s；</li>
-<li>k 位的阶码字段 exp = … 编码 E；</li>
-<li>n 位小数字段编码尾数 M 。</li>
+<h1 id="2-实验准备"><a href="#2-实验准备" class="headerlink" title="2.实验准备"></a>2.实验准备</h1><ul>
+<li>学习 CSAPP 书上的相关信息表示部分；</li>
+<li>配置好虚拟机环境。</li>
 </ul>
-<p><strong>单精度字段分配</strong><br>s、exp、frac 字段分别为 1，8，23位；<br><strong>双精度字段分配</strong><br>s、exp、frac 字段分别为 1， 11， 52位。</p>
-<p><img src="/2023/03/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/p1.png" srcset="/img/loading.gif" lazyload></p>
-<p><strong>规格化的值</strong></p>
-<ul>
-<li>exp 的位模式不全为0 也不全为1时。</li>
-<li>阶码字段被解释为以偏置（biased）表示的有符号整数。即 E = e - Bias， e 是无符号数，Bias是 2^(k-1) - 1。（单精度 Bias 为127，双精度为 1023）</li>
-<li>frac是小数值，取值是 [0 , 1)。</li>
-<li>尾数定义为 <strong>M = 1 + f</strong>。</li>
+<h1 id="3-实验任务"><a href="#3-实验任务" class="headerlink" title="3.实验任务"></a>3.实验任务</h1><ul>
+<li>补充完整 bits.c 文件内容，并利用 btest 程序进行测试。</li>
 </ul>
-<p>举个例子：</p>
-<p><img src="/2023/03/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/p2.png" srcset="/img/loading.gif" lazyload></p>
-<p>其过程：</p>
-<ul>
-<li>先化为二进制；</li>
-<li>然后数最高位的阶E；</li>
-<li>阶码 exp = E + Bias（127或1023）；</li>
-<li>阶码 exp 化为二进制；</li>
-<li>将原二进制数中第一个1去除后，将剩下部分补入尾数，右侧补0补齐。</li>
+<p>1.bitAnd </p>
+<p>要求： 输出两个数按位与操作后的值。<br>实现：参数 x，y 分别按位取反后，进行或操作，最后再将结果取反即可（数学推导而成）</p>
+<p>代码截图：<br><img src="/2023/03/21/datalab/p1.png" srcset="/img/loading.gif" lazyload></p>
+<p>2.getByte</p>
+<p>要求：将整型数据 x 的第 n 个字节取出。<br>实现：直接将 x 右移 n*8 个位后，与 0xFF 进行与操作，取出最后一个字节即可。</p>
+<p>代码截图：<br><img src="/2023/03/21/datalab/p2.png" srcset="/img/loading.gif" lazyload></p>
+<p>3.logicalShift</p>
+<p>要求：实现逻辑右移，由于 &gt;&gt; 为算术右移，需要实现负数的逻辑右移。<br>实现：将 x 算术右移 n 位后，与 <code>~(1 &lt;&lt; 31) &gt;&gt; n) &lt;&lt; 1)</code>进行与操作，这样可以使负数算术右移后，前面的一串 1 改为 0 ，达到逻辑右移的目的。</p>
+<p>代码截图：<br><img src="/2023/03/21/datalab/p3.png" srcset="/img/loading.gif" lazyload></p>
+<p>4.bitCount</p>
+<p>要求：计算出x中有多少个1。<br>实现：计算出每两位中1的个数，用对应的两位进行存储，随后计算每四位中，再计算每8位，最后可得到结果。</p>
+<p>代码截图：<br><img src="/2023/03/21/datalab/p4.png" srcset="/img/loading.gif" lazyload></p>
+<p>5.bang</p>
+<p>要求：不使用逻辑取反的情况下实现逻辑取反。<br>实现：用x或其负数，再右移31位取符号位+1即可。利用了x取反后，符号位均为1，除x == 0外的特性。</p>
+<p>代码截图：<br><img src="/2023/03/21/datalab/p5.png" srcset="/img/loading.gif" lazyload></p>
+<p>6.tmin</p>
+<p>要求：输出最小的二进制补码。<br>实现：最小的二进制补码是0x80000000。</p>
+<p>代码截图：<br><img src="/2023/03/21/datalab/p6.png" srcset="/img/loading.gif" lazyload></p>
+<p>7.fitsBits</p>
+<p>要求：给出一个数，判断x 是否能最少被 n 位表示。<br>实现：对于正数，若 x 右移 n -1 位（这一个是符号位，不可缺少），剩余的都是0，即可，对于负数，剩余的应该都是1。</p>
+<p>代码截图：<br><img src="/2023/03/21/datalab/p7.png" srcset="/img/loading.gif" lazyload></p>
+<p>8.divpwr2</p>
+<p>要求：输出x除以2的n次幂后，向0取整的结果。<br>实现：正数直接右移n位即可，负数需进行调整。</p>
+<p>代码截图：<br><img src="/2023/03/21/datalab/p8.png" srcset="/img/loading.gif" lazyload></p>
+<p>9.negate</p>
+<p>要求：实现取反。<br>实现：直接按位取反+1（取补码）即可。</p>
+<p>代码截图：<br><img src="/2023/03/21/datalab/p9.png" srcset="/img/loading.gif" lazyload></p>
+<p>10.isPositive</p>
+<p>要求：判断 x 是否大于0；<br>实现：对 x == 0 单独讨论即可</p>
+<p>代码截图：<br><img src="/2023/03/21/datalab/p10.png" srcset="/img/loading.gif" lazyload></p>
+<p>11.isLessOrEqual</p>
+<p>要求：判断x是否小于等于y<br>实现：用y-x，判断符号位即可。</p>
+<p>代码截图:<br><img src="/2023/03/21/datalab/p11.png" srcset="/img/loading.gif" lazyload></p>
+<p>12.ilog2</p>
+<p>要求：求xlog2的值<br>实现：在这个实现中，我们首先将结果初始化为0。然后，我们使用位运算符逐步将结果设置为x的二进制表示中最高位1的位置。具体来说，我们首先检查x的高16位是否有1，如果有，则将结果的高4位设置为4。然后，我们将x右移结果的值，以便在下一步中检查剩余的位。我们重复这个过程，直到我们检查了x的所有位。最后，我们返回结果。</p>
+<p>代码截图：<br><img src="/2023/03/21/datalab/p12.png" srcset="/img/loading.gif" lazyload></p>
+<p>13.float_neg</p>
+<p>要求：浮点数取反<br>实现：先将NaN直接返回无需操作，其余数据修改符号位即可。</p>
+<p>代码截图：<br><img src="/2023/03/21/datalab/p13.png" srcset="/img/loading.gif" lazyload></p>
+<p>14.float_i2f</p>
+<p>要求：将int转换为float<br>实现：首先使用0x80000000获取x的符号位，如果x的符号位上是1，则求其补码。这一过程通过if判断实现。之后，通过while循环寻找除符号位外最高位1的位置，由于0x0和0x80000000去除符号位后对循环跳出条件有影响（会陷入死循环），故作为特殊边界值取出，单独做返回值。找到最高位1的位置后加上偏置量即可得到阶码的数值，再通过移位操作即可转移到指定的地方。对x进行左移操作，使32位中仅保留尾数相关的信息。取前23位作为尾数基础部分，后9位作为判断舍入的依据。若后9位不处于中间值则按照“大于进位，小于保留原状态”的方式处理。若处于中间值，则看23位的最后一位，如果它是1则选择“进位+1”，如果它是0则选择“保持原状态”。最后，整合各部分结果即可得到题目要求的结果。</p>
+<p>代码截图：<br><img src="/2023/03/21/datalab/p14.png" srcset="/img/loading.gif" lazyload></p>
+<p>15.float_twice</p>
+<p>要求：浮点数乘二<br>实现：对于非规格化值，需要将尾数左移一位，若进位，阶码需+1。对于规格化值，阶码+1。特殊值直接返回本身就行。</p>
+<p>代码截图：<br><img src="/2023/03/21/datalab/p15.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="检查是否违规："><a href="#检查是否违规：" class="headerlink" title="检查是否违规："></a>检查是否违规：</h2><p>dlc检查：<br><img src="/2023/03/21/datalab/p16.png" srcset="/img/loading.gif" lazyload></p>
+<p>btest检查：<br><img src="/2023/03/21/datalab/p17.png" srcset="/img/loading.gif" lazyload></p>
+<p>关于btest有一个项目没过关：是环境问题，0肯定可以用32位表示的。</p>
+<h1 id="4-实验总结："><a href="#4-实验总结：" class="headerlink" title="4.实验总结："></a>4.实验总结：</h1><h2 id="实验中出现的问题："><a href="#实验中出现的问题：" class="headerlink" title="实验中出现的问题："></a>实验中出现的问题：</h2><ul>
+<li>环境的差异性，导致有一个样例未能通过，但代码是没问题的。</li>
+<li>虚拟机的不稳定性，虚拟机总是死机。</li>
 </ul>
-<p><strong>非规格化值</strong></p>
-<ul>
-<li>exp全为0；</li>
-<li>阶码 E = 1 - Bias （ 为了非规格化与规格化值之间平滑过渡）</li>
-<li>尾数 <strong>M = 0.xxxxxxx</strong></li>
-</ul>
-<p>如：</p>
-<ul>
-<li>exp = 000000..0，frac = 000000..00，此时值为0，符号位决定 +，- 0；</li>
-<li>exp = 000000..0，frac != 000000..00，此时为非常接近0的数。</li>
-</ul>
-<p><strong>特殊值</strong><br>判断条件：exp = 全1；</p>
-<ul>
-<li>exp = 全1，frac = 全0：表示无穷大，符号位决定正无穷或负无穷。</li>
-<li>exp = 全1，frac 不是全0；表示这不是一个数。</li>
-</ul>
-<p>总结如下：<br><img src="/2023/03/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/p3.png" srcset="/img/loading.gif" lazyload></p>
-<p><strong>舍入</strong></p>
-<p>向偶数舍入，即1.4会舍入为1，1.6舍入为2，<strong>1.5舍入为2，-1.5舍入为-2</strong>，使最低有效位为偶数。<br>二进制小数舍入：<br>若需要舍入至小数点后2位，先看第三位及以后，是否为中间值，即仅仅第三位为1，后面位全为0。<br>若是中间值，将第二位舍入为0，不是中间值，去向更靠近的一方。</p>
-<p><strong>浮点数运算</strong><br><img src="/2023/03/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/p4.png" srcset="/img/loading.gif" lazyload></p>
-<p>即</p>
-<ul>
-<li>符号位亦或<code>^</code></li>
-<li>尾数相乘</li>
-<li>阶码E相加</li>
-</ul>
-<p>若</p>
-<ul>
-<li>M &gt;= 2 ， M 右移一位，E = E + 1</li>
-<li>若 E 超出范围，溢出</li>
-<li>将 M 舍入到 frac 的位数范围。</li>
+<h2 id="实验心得"><a href="#实验心得" class="headerlink" title="实验心得"></a>实验心得</h2><ul>
+<li>操作位是一个十分有意思的事情，利用有限的操作达成一个目的。</li>
+<li>体会到更底层方面，仅用加法、位移这类操作实现计算机的艰难与智慧。</li>
 </ul>
 
             </div>
@@ -325,9 +343,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/03/19/xfuzz/">
+                      <a href="/2023/03/21/TODO/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">xfuzz</span>
+                        <span class="hidden-mobile">TODO</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -335,8 +353,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/03/14/Persistent-Mode/">
-                        <span class="hidden-mobile">Persistent Mode</span>
+                      <a href="/2023/03/19/xfuzz/">
+                        <span class="hidden-mobile">xfuzz</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
