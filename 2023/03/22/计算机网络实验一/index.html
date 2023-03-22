@@ -1,0 +1,568 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/MyPic/bella.png">
+  <link rel="icon" href="/MyPic/bella.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="kawa_von">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="计网实验一Wireshark抓包、改包等实验内容一：实验要求：使用wireshark在教学楼，咖啡店（或其他提供顾客Wi-Fi的营业性公共场所），寝室三类地点静默观察能听到的数据包，观察wireshark对它的分层解析，尽可能多的描述你看到了什么，以及这三类地方数据包的不同。如果只给你一段wireshark的数据包记录，例如pcap文件，你能区分它是从哪里采集的吗？可行性如何，难点主要在哪里。 实">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机网络实验一">
+<meta property="og:url" content="http://example.com/2023/03/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AE%9E%E9%AA%8C%E4%B8%80/index.html">
+<meta property="og:site_name" content="FCさん の Blog">
+<meta property="og:description" content="计网实验一Wireshark抓包、改包等实验内容一：实验要求：使用wireshark在教学楼，咖啡店（或其他提供顾客Wi-Fi的营业性公共场所），寝室三类地点静默观察能听到的数据包，观察wireshark对它的分层解析，尽可能多的描述你看到了什么，以及这三类地方数据包的不同。如果只给你一段wireshark的数据包记录，例如pcap文件，你能区分它是从哪里采集的吗？可行性如何，难点主要在哪里。 实">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2023/03/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AE%9E%E9%AA%8C%E4%B8%80/p1.png">
+<meta property="og:image" content="http://example.com/2023/03/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AE%9E%E9%AA%8C%E4%B8%80/p2.png">
+<meta property="og:image" content="http://example.com/2023/03/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AE%9E%E9%AA%8C%E4%B8%80/p3.png">
+<meta property="og:image" content="http://example.com/2023/03/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AE%9E%E9%AA%8C%E4%B8%80/p4.png">
+<meta property="og:image" content="http://example.com/2023/03/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AE%9E%E9%AA%8C%E4%B8%80/p5.png">
+<meta property="og:image" content="http://example.com/2023/03/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AE%9E%E9%AA%8C%E4%B8%80/p6.png">
+<meta property="og:image" content="http://example.com/2023/03/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AE%9E%E9%AA%8C%E4%B8%80/p7.png">
+<meta property="og:image" content="http://example.com/2023/03/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AE%9E%E9%AA%8C%E4%B8%80/p8.png">
+<meta property="og:image" content="http://example.com/2023/03/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AE%9E%E9%AA%8C%E4%B8%80/p9.png">
+<meta property="og:image" content="http://example.com/2023/03/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AE%9E%E9%AA%8C%E4%B8%80/p10.png">
+<meta property="og:image" content="http://example.com/2023/03/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AE%9E%E9%AA%8C%E4%B8%80/p11.png">
+<meta property="og:image" content="http://example.com/2023/03/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AE%9E%E9%AA%8C%E4%B8%80/p12.jpg">
+<meta property="og:image" content="http://example.com/2023/03/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AE%9E%E9%AA%8C%E4%B8%80/p13.jpg">
+<meta property="og:image" content="http://example.com/2023/03/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AE%9E%E9%AA%8C%E4%B8%80/p14.png">
+<meta property="og:image" content="http://example.com/2023/03/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AE%9E%E9%AA%8C%E4%B8%80/p15.png">
+<meta property="og:image" content="http://example.com/2023/03/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AE%9E%E9%AA%8C%E4%B8%80/p16.png">
+<meta property="og:image" content="http://example.com/2023/03/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AE%9E%E9%AA%8C%E4%B8%80/p17.png">
+<meta property="article:published_time" content="2023-03-22T07:29:08.000Z">
+<meta property="article:modified_time" content="2023-03-22T12:28:32.039Z">
+<meta property="article:author" content="kawa_von">
+<meta property="article:tag" content="course">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2023/03/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AE%9E%E9%AA%8C%E4%B8%80/p1.png">
+  
+  
+  <title>计算机网络实验一 - FCさん の Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.1"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>kawasuki</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/MyPic/asoul2.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="计算机网络实验一">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2023-03-22 15:29" pubdate>
+        2023年3月22日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.8k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      24 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">计算机网络实验一</h1>
+            
+            <div class="markdown-body">
+              <h1 id="计网实验一Wireshark抓包、改包等"><a href="#计网实验一Wireshark抓包、改包等" class="headerlink" title="计网实验一Wireshark抓包、改包等"></a>计网实验一Wireshark抓包、改包等</h1><h2 id="实验内容一："><a href="#实验内容一：" class="headerlink" title="实验内容一："></a>实验内容一：</h2><h3 id="实验要求："><a href="#实验要求：" class="headerlink" title="实验要求："></a>实验要求：</h3><p>使用wireshark在教学楼，咖啡店（或其他提供顾客Wi-Fi的营业性公共场所），寝室三类地点静默观察能听到的数据包，观察wireshark对它的分层解析，尽可能多的描述你看到了什么，以及这三类地方数据包的不同。如果只给你一段wireshark的数据包记录，例如pcap文件，你能区分它是从哪里采集的吗？可行性如何，难点主要在哪里。</p>
+<h3 id="实验内容："><a href="#实验内容：" class="headerlink" title="实验内容："></a>实验内容：</h3><p>1.在教学楼、咖啡店、寝室静默观察数据包</p>
+<p>1.1 教学楼观察到的数据包</p>
+<p><img src="/2023/03/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AE%9E%E9%AA%8C%E4%B8%80/p1.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/2023/03/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AE%9E%E9%AA%8C%E4%B8%80/p2.png" srcset="/img/loading.gif" lazyload></p>
+<p>可以看到，绝大多数为 ARP 协议的数据包，其余少量的数据包分别是 NBNS , MDNS , DHCP 等数据包。<br>ARP数据包：ARP（Address Resolution Protocol）地址解析协议，根据IP地址获取物理地址的一个TCP/IP协议。</p>
+<p>由于OSI模型把网络分为七层，IP地址在OSI模型第三层，MAC地址在第二层，彼此不直接通信。在通过以太网发送IP数据包时，需要封装第三层（32位IP地址）和第二层（48位MAC地址）的报头，由于发送数据包时，只知道目标IP地址，不知道其MAC地址，而又不能跨越第二、三层，所有需要使用地址解析协议。</p>
+<p>ARP 的报文格式：</p>
+<p><img src="/2023/03/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AE%9E%E9%AA%8C%E4%B8%80/p3.png" srcset="/img/loading.gif" lazyload></p>
+<ul>
+<li><p>字段1：ARP请求的目的以太网地址，全1时，代表广播地址。</p>
+</li>
+<li><p>字段2：发送ARP请求的以太网地址。</p>
+</li>
+<li><p>字段3：以太网帧类型表示后面的数据类型，ARP请求和ARP应答此字段为：0x0806。</p>
+</li>
+<li><p>字段4：硬件地址类型，硬件地址不止以太网一种，是以太网类型时，值为1。</p>
+</li>
+<li><p>字段5：表示要映射的协议地址的类型，要对IPv4地址进行映射，此值为0x0800。</p>
+</li>
+<li><p>字段6和7：表示硬件地址长度和协议地址长度，MAC地址占6字节，IP地址占4字节。</p>
+</li>
+<li><p>字段8：是操作类型字段，值为1，表示进行ARP请求；值为2，表示进行ARP应答；值为3，表示进行RARP请求；值为4，表示进行RARP应答。</p>
+</li>
+<li><p>字段9：是发送端ARP请求或应答的硬件地址，这里是以太网地址，和字段2相同。</p>
+</li>
+<li><p>字段10：是发送ARP请求或应答的IP地址。</p>
+</li>
+<li><p>字段11和12：是目的端的硬件地址和IP地址。</p>
+</li>
+</ul>
+<p>对抓到的 ARP 数据包进行分析：</p>
+<p><img src="/2023/03/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AE%9E%E9%AA%8C%E4%B8%80/p4.png" srcset="/img/loading.gif" lazyload><br>Frame 9: 56 bytes on wire </p>
+<p>指的是这是第9帧数据包的详细信息，这个包大小为56字节。</p>
+<p>Ethernet II , Src : Tp-LinkT_a1:f4:64 , Dst : Broadcast</p>
+<p>以上内容表示以太网帧头部信息，源地址是Src后的内容，目的地址是全1，即为广播，因为主机PC2不知道PC1主机的MAC地址，这样，局域网内所有设备都会收到该数据包。</p>
+<p>Address Resolution Protocol(request)</p>
+<p>以上内容表示地址解析协议的内容，request 表示该包是一个请求包。在该包中，包含有ARP更详细的字段信息，如下所示：</p>
+<ul>
+<li><p>Address Resolution Protocol (request)   #ARP请求包 </p>
+</li>
+<li><p>Hardware type: Ethernet (1)   #硬件类型 </p>
+</li>
+<li><p>Protocol type: IP (0x0800)   #协议类型 </p>
+</li>
+<li><p>Hardware size: 6   #硬件地址 </p>
+</li>
+<li><p>Protocol size: 4  #协议长度 </p>
+</li>
+<li><p>Opcode: request (1)   #操作码。该值为1表示是个ARP请求包 </p>
+</li>
+<li><p>Sender MAC address: 02:00:04:78:01:7b (02:00:04:78:01:7b)   #发送端MAC地址 </p>
+</li>
+<li><p>Sender IP address: 10.1.1.142 (10.1.1.142)   #发送端IP地址 </p>
+</li>
+<li><p>Target MAC address: 00:00:00_00:00:00 (00:00:00:00:00:00)   #目标MAC地址 </p>
+</li>
+<li><p>Target IP address: 10.1.1.166(10.1.1.166)   #目标IP地址 </p>
+</li>
+</ul>
+<p>纵观所有抓到的包，其最大不同在于source的不同，有的是HuaweiTe_09:e8:48，有的是Tp-LinkT_13:68:28等等，这些不同的源应该是不同的同学的host。由于广播的原因，我可以捕获这些包。</p>
+<p>1.2寝室观察到的数据包</p>
+<p>由于教室、寝室，均连接校园网，预测结果基本一致</p>
+<p>抓包结果：</p>
+<p><img src="/2023/03/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AE%9E%E9%AA%8C%E4%B8%80/p5.png" srcset="/img/loading.gif" lazyload></p>
+<p>观察其内容可知，寝室内校园网抓包结果与教室内一致。</p>
+<p>1.3咖啡厅观察到的数据包</p>
+<p>首先，确认我的IP地址</p>
+<p><img src="/2023/03/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AE%9E%E9%AA%8C%E4%B8%80/p6.png" srcset="/img/loading.gif" lazyload></p>
+<p>收听一段时间后，如图：</p>
+<p><img src="/2023/03/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AE%9E%E9%AA%8C%E4%B8%80/p7.png" srcset="/img/loading.gif" lazyload></p>
+<p>其中有一段TCP握手过程：</p>
+<p><img src="/2023/03/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AE%9E%E9%AA%8C%E4%B8%80/p8.png" srcset="/img/loading.gif" lazyload></p>
+<p>查询该ip地址，35.244.128.0 发现是与谷歌云进行链接。</p>
+<p>找到其他握手过程，分别查询ip<br>分别为：网易云，某香港ip，亚马逊云，等等。</p>
+<p>再观察其HTTP协议包：</p>
+<p><img src="/2023/03/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AE%9E%E9%AA%8C%E4%B8%80/p9.png" srcset="/img/loading.gif" lazyload><br>追踪之：<br><img src="/2023/03/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AE%9E%E9%AA%8C%E4%B8%80/p10.png" srcset="/img/loading.gif" lazyload><br>可以发现这是一个图片的发送。</p>
+<p>2.这三种数据的不同：</p>
+<p>很显然，咖啡馆的数据包与另外两个相比，信息量更大，有很多TCP协议的握手等过程，以及一部分HTTP协议传输的数据。而链接校园网的寝室与教室，基本上只能接收到一些ARP包，没什么用处。</p>
+<p>3.分辨pcap文件来源</p>
+<p>目前，分辨有内网隔离的校园网来源的pcap与公开wifi的咖啡厅来源的pcap是比较容易的<br>但其他情况，就不能轻易下结论了。</p>
+<h2 id="实验内容二："><a href="#实验内容二：" class="headerlink" title="实验内容二："></a>实验内容二：</h2><h3 id="实验要求：-1"><a href="#实验要求：-1" class="headerlink" title="实验要求："></a>实验要求：</h3><p>打开你的手机热点，不设置密码，用wireshark观察舍友通过你的手机上HTTP网站，登录学校门户，打开淘宝购物等过程，描述你能看到什么，不能看到什么。讲讲你作为信息安全专业人士，想到了什么？如果这台手机可以被你操控，比如对舍友的信息流注入点什么，那么你又能想到些什么呢？</p>
+<h3 id="实验内容：-1"><a href="#实验内容：-1" class="headerlink" title="实验内容："></a>实验内容：</h3><p>开启热点进行抓包后，有一个HTTP包引起了注意：<br><img src="/2023/03/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AE%9E%E9%AA%8C%E4%B8%80/p11.png" srcset="/img/loading.gif" lazyload></p>
+<p>可以看到，从这个包内，我能轻松地找到登录时传入的用户名以及经过某种算法计算后的密码值。</p>
+<p>由于HTTP明文传输，我也可以从对校内个人门户的访问过程中读到相关个人信息如下：</p>
+<p><img src="/2023/03/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AE%9E%E9%AA%8C%E4%B8%80/p12.jpg" srcset="/img/loading.gif" lazyload alt="&quot;名字被暴露了&quot;"></p>
+<p>以及学院、学号等信息</p>
+<p><img src="/2023/03/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AE%9E%E9%AA%8C%E4%B8%80/p13.jpg" srcset="/img/loading.gif" lazyload></p>
+<p>还有我访问的页面–校园网流量使用情况中的数据：已使用 88.11G均可见</p>
+<p><img src="/2023/03/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AE%9E%E9%AA%8C%E4%B8%80/p14.png" srcset="/img/loading.gif" lazyload></p>
+<p>可以看出，如果HTTP使用者不做任何加密措施（非协议层次的），通过HTTP协议传输的所有信息，都将完全可见可读，毫无隐私可言，对于敏感信息，更是危及信息安全。</p>
+<p>如果我能操纵这个手机</p>
+<p>可以进行改包，用fiddler软件进行包拦截，再将其中的数据修改，最后发送出去。</p>
+<p>例如：</p>
+<p>我搜索马云：</p>
+<p><img src="/2023/03/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AE%9E%E9%AA%8C%E4%B8%80/p15.png" srcset="/img/loading.gif" lazyload></p>
+<p>利用fiddler 拦截、改包为马化腾后</p>
+<p><img src="/2023/03/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AE%9E%E9%AA%8C%E4%B8%80/p16.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/2023/03/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AE%9E%E9%AA%8C%E4%B8%80/p17.png" srcset="/img/loading.gif" lazyload></p>
+<p>发现我的搜索变成了马化腾。</p>
+<p>当我能控制这个手机时同理，可以操纵相当一部分的数据流。（需要配置好一些参数，例如主机、端口号8888等，故真实场景内，利用其窃听较为容易，控制很难！）</p>
+<p><strong>以上就是本次实验的全部内容</strong></p>
+<h2 id="总结与心得"><a href="#总结与心得" class="headerlink" title="总结与心得"></a>总结与心得</h2><ul>
+<li>通过这次实验，学会了用 wireshark 进行抓包分析，了解了 ARP HTTP TCP 等协议的执行流程，以及其包的结构。</li>
+<li>通过查阅资料，学会了通过 QQ 电话来查询好友的 IP （无需接通，具体实现请移步个人博客 kawatsuki.com ），以及抓包、拦截、改包等一系列操作，深刻感受到，计算机网络我是可以参与的，过程性参与的。</li>
+<li>最后，我认为信息安全事业任重道远，网络上很多数据都是透明的，通过 WIFI 抓包等手段，可以很容易地获取之，我们都是透明地无隐私地生活在这个网络社会上！</li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/course/">course</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/03/21/TODO/">
+                        <span class="hidden-mobile">TODO</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     fc love 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
