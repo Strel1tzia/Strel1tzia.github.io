@@ -1,0 +1,482 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/MyPic/bella.png">
+  <link rel="icon" href="/MyPic/bella.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="kawa_von">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Operating System第一章 关于本书的对话关于 Three Easy Pieces 指的是 **虚拟化(virtualization), 并发(concurrency), 持久性(persistence)**这是我们要学习的三个重要概念。 第二章 操作系统介绍有一类软件负责让程序运行变得更加容易，允许你同时运行多个程序，允许程序共享内存，让程序能与设备进行交互，以及其他类似有趣的工作。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Operating Systems">
+<meta property="og:url" content="http://example.com/2023/03/23/Operating-Systems/index.html">
+<meta property="og:site_name" content="FCさん の Blog">
+<meta property="og:description" content="Operating System第一章 关于本书的对话关于 Three Easy Pieces 指的是 **虚拟化(virtualization), 并发(concurrency), 持久性(persistence)**这是我们要学习的三个重要概念。 第二章 操作系统介绍有一类软件负责让程序运行变得更加容易，允许你同时运行多个程序，允许程序共享内存，让程序能与设备进行交互，以及其他类似有趣的工作。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2023/03/23/Operating-Systems/p1.png">
+<meta property="og:image" content="http://example.com/2023/03/23/Operating-Systems/p2.png">
+<meta property="og:image" content="http://example.com/2023/03/23/Operating-Systems/p3.png">
+<meta property="article:published_time" content="2023-03-23T09:30:41.000Z">
+<meta property="article:modified_time" content="2023-03-23T13:55:21.784Z">
+<meta property="article:author" content="kawa_von">
+<meta property="article:tag" content="course">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2023/03/23/Operating-Systems/p1.png">
+  
+  
+  <title>Operating Systems - FCさん の Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.1"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>kawasuki</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/MyPic/asoul2.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Operating Systems">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2023-03-23 17:30" pubdate>
+        2023年3月23日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.2k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      19 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Operating Systems</h1>
+            
+            <div class="markdown-body">
+              <h1 id="Operating-System"><a href="#Operating-System" class="headerlink" title="Operating System"></a>Operating System</h1><h1 id="第一章-关于本书的对话"><a href="#第一章-关于本书的对话" class="headerlink" title="第一章 关于本书的对话"></a>第一章 关于本书的对话</h1><p>关于 <strong>Three Easy Pieces</strong> 指的是 **虚拟化(virtualization), 并发(concurrency), 持久性(persistence)**这是我们要学习的三个重要概念。</p>
+<h1 id="第二章-操作系统介绍"><a href="#第二章-操作系统介绍" class="headerlink" title="第二章 操作系统介绍"></a>第二章 操作系统介绍</h1><p>有一类软件负责让程序运行变得更加容易，允许你同时运行多个程序，允许程序共享内存，让程序能与设备进行交互，以及其他类似有趣的工作。这些软件称为 <strong>操作系统(Operating System，OS)</strong> 。</p>
+<h1 id="第三章-关于虚拟化的对话"><a href="#第三章-关于虚拟化的对话" class="headerlink" title="第三章 关于虚拟化的对话"></a>第三章 关于虚拟化的对话</h1><p>虚拟化：给一群人一共一个桃子，但让每个人认为，他独占这个桃子。</p>
+<h1 id="第四章-抽象：进程"><a href="#第四章-抽象：进程" class="headerlink" title="第四章 抽象：进程"></a>第四章 抽象：进程</h1><p>进程：运行中的程序。<br>时分共享CPU（time sharing）：让一个进程只允许一个时间片，然后切换到其他进程。</p>
+<h2 id="进程-API"><a href="#进程-API" class="headerlink" title="进程 API"></a>进程 API</h2><p>所有现代操作系统都以某种形式提供这些 API</p>
+<ul>
+<li><strong>创建（create）</strong>：操作系统包含一些创建新进程的方法。</li>
+<li><strong>销毁（destroy）</strong>：销毁进程的接口。</li>
+<li><strong>等待（wait）</strong>：等待进程停止运行。</li>
+<li><strong>其他控制（miscellaneous control）</strong>：例如暂停、恢复等操作。</li>
+<li><strong>状态（statu）</strong>：获取进制的状态信息。</li>
+</ul>
+<h2 id="进程创建"><a href="#进程创建" class="headerlink" title="进程创建"></a>进程创建</h2><p>首先，将程序（代码、静态数据）加载（load）到内存中，加载到进程的地址空间中。<br><img src="/2023/03/23/Operating-Systems/p1.png" srcset="/img/loading.gif" lazyload></p>
+<p>现代操作系统是懒加载（lazily load），即尽在程序执行期间需要的代码或数据片段，才会加载。</p>
+<p>加载了代码与静态数据到内存后，操作系统需要为程序的运行时栈分配一些内存。<br>再为堆也分配一些内存。并执行一些与I/O相关的工作。</p>
+<p>当OS终于为程序执行搭好了舞台，他还有最后一项任务：启动程序。在入口处运行，即 main()。通过跳转到 main()例程，OS 将 CPU 的控制权转移到新创建的进程中。</p>
+<h2 id="进程状态"><a href="#进程状态" class="headerlink" title="进程状态"></a>进程状态</h2><p>进程可以处于以下三种状态之一：</p>
+<ul>
+<li><strong>运行（running）</strong>：运行状态下，进程在处理器上运行。</li>
+<li><strong>就绪（ready）</strong>：程序以及准备好运行。</li>
+<li><strong>阻塞（blocked）</strong>：阻塞状态下，一个进程执行了某种操作，直到其他事件发生才会准备运行。例如一个进程向磁盘发起 I/O 请求，它会被阻塞，其他进程可以使用处理器。</li>
+</ul>
+<p><img src="/2023/03/23/Operating-Systems/p2.png" srcset="/img/loading.gif" lazyload></p>
+<h1 id="第五章-插叙：进程-API"><a href="#第五章-插叙：进程-API" class="headerlink" title="第五章 插叙：进程 API"></a>第五章 插叙：进程 API</h1><h2 id="fork-系统调用"><a href="#fork-系统调用" class="headerlink" title="fork()系统调用"></a>fork()系统调用</h2><p>系统调用 fork()用于创建新进程。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></div></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><br>    <span class="hljs-type">int</span>  <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> *argv[])</span><br> &#123;<br>     <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;hello world (pid:%d)\n&quot;</span>, (<span class="hljs-type">int</span>) getpid());<br>     <span class="hljs-type">int</span> rc = fork();<br>     <span class="hljs-keyword">if</span> (rc &lt; <span class="hljs-number">0</span>) &#123; <span class="hljs-comment">// fork failed; exit</span><br>     <span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">&quot;fork failed\n&quot;</span>);<br>     <span class="hljs-built_in">exit</span>(<span class="hljs-number">1</span>);<br> &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (rc == <span class="hljs-number">0</span>) &#123; <span class="hljs-comment">// child (new process)</span><br>     <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;hello, I am child (pid:%d)\n&quot;</span>, (<span class="hljs-type">int</span>) getpid());<br> &#125; <span class="hljs-keyword">else</span> &#123; <span class="hljs-comment">// parent goes down this path (main)</span><br>     <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;hello, I am parent of %d (pid:%d)\n&quot;</span>,<br>     rc, (<span class="hljs-type">int</span>) getpid()); <br> &#125;<br>     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br> &#125; <br></code></pre></td></tr></table></figure>
+
+<p>输出如下：</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs less"><span class="hljs-selector-tag">prompt</span>&gt; ./<span class="hljs-selector-tag">p1</span><br><span class="hljs-selector-tag">hello</span> <span class="hljs-selector-tag">world</span> (<span class="hljs-attribute">pid</span>:<span class="hljs-number">29146</span>)<br><span class="hljs-selector-tag">hello</span>, <span class="hljs-selector-tag">I</span> <span class="hljs-selector-tag">am</span> <span class="hljs-selector-tag">parent</span> <span class="hljs-selector-tag">of</span> <span class="hljs-number">29147</span> (<span class="hljs-attribute">pid</span>:<span class="hljs-number">29146</span>)<br><span class="hljs-selector-tag">hello</span>, <span class="hljs-selector-tag">I</span> <span class="hljs-selector-tag">am</span> <span class="hljs-selector-tag">child</span> (<span class="hljs-attribute">pid</span>:<span class="hljs-number">29147</span>)<br><span class="hljs-selector-tag">prompt</span>&gt; <br></code></pre></td></tr></table></figure>
+
+<p>fork()出的子进程不会从 main()函数开始执行（因此hello world 信息只输出了一次），而是直接从 fork()系统调用返回。就好像它自己调用了 fork()。<br>子进程并不是完全拷贝了父进程。具体来说，虽然它拥有自己的地址空间、寄存器、程序计数器等，但它从 fork() 返回的值是不同的。父进程获得的 fork() 返回值是子进程的 pid ， 而子进程获得的返回值是 0 。这个差别很重要。<br>且父、子进程输出是不确定的，即有可能父进程先运行，也有可能子进程先运行。<br>CPU 调度程序（scheduler） 决定了某个时刻哪个进程被执行。</p>
+<h2 id="wait-系统调用"><a href="#wait-系统调用" class="headerlink" title="wait() 系统调用"></a>wait() 系统调用</h2><p>当父进程调用 wait() 于某处时，若父进程碰巧被先执行，也会延迟执行，等到子进程执行完毕，wait() 才返回父进程。</p>
+<h2 id="exec-系统调用"><a href="#exec-系统调用" class="headerlink" title="exec() 系统调用"></a>exec() 系统调用</h2><p>exec() 给定可执行程序的名称及需要的参数后，exec() 会从可执行程序中加载代码和静态数据，并用它覆写自己的代码段，堆、栈及其他内存空间也会被重新初始化。子进程执行exec()之后，几乎就像 p3.c 未曾运行过一样，即对 exec() 的成功调用<strong>永远不会返回</strong></p>
+<p>如下例中，子进程调用 exec() 后，exec调用的程序执行完以后，子进程内未进行的代码段不会进行，而是直接去进行排队等待的父进程去了。</p>
+<p><img src="/2023/03/23/Operating-Systems/p3.png" srcset="/img/loading.gif" lazyload></p>
+<p>关于管道：pipe() 系统调用。这种情况下，一个进程的输出被链接到了一个内核管道(pipe)上(队列), 另一个进程的输入也被链接到同一个管道上。因此，前一个进程的输出可以无缝地作为后一个进程的输入，许多命令可以用这种方式串联起来，完成某项任务。（23.03.23更）</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/course/">course</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/03/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AE%9E%E9%AA%8C%E4%B8%80/">
+                        <span class="hidden-mobile">计算机网络实验一</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     fc love 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
