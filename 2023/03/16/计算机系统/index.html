@@ -28,7 +28,7 @@
 <meta property="og:image" content="http://example.com/2023/03/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/p3.png">
 <meta property="og:image" content="http://example.com/2023/03/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/p4.png">
 <meta property="article:published_time" content="2023-03-16T03:07:00.000Z">
-<meta property="article:modified_time" content="2023-03-24T12:59:34.514Z">
+<meta property="article:modified_time" content="2023-03-29T13:27:20.081Z">
 <meta property="article:author" content="kawa_von">
 <meta property="article:tag" content="course">
 <meta name="twitter:card" content="summary_large_image">
@@ -202,7 +202,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      914 字
+      1.3k 字
     </span>
   
 
@@ -211,7 +211,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      8 分钟
+      12 分钟
     </span>
   
 
@@ -306,6 +306,21 @@
 <li>若 E 超出范围，溢出</li>
 <li>将 M 舍入到 frac 的位数范围。</li>
 </ul>
+<h1 id="第三章-程序的机器级执行"><a href="#第三章-程序的机器级执行" class="headerlink" title="第三章 程序的机器级执行"></a>第三章 程序的机器级执行</h1><ul>
+<li>mov系列指令：</li>
+<li>movb/w/l：移动字节、字、双字</li>
+<li>movsbw：符号拓展后，字节移动到字。</li>
+<li>movzbw：零拓展后，字节移动到字。</li>
+</ul>
+<p>imull/mull<br>要求其中一个操作数在eax中，调用如下：</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">imull</span> <span class="hljs-number">8</span>(%ebp)<br></code></pre></td></tr></table></figure>
+<p>即最后一个参数与eax中的值相乘，乘积存放在寄存器 edx （高32位）和 eax（低32位）中。</p>
+<p>cltd指令：将被除数拓展到 edx，eax 中</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs awk">movl <span class="hljs-number">8</span>(%ebp),%eax <span class="hljs-regexp">//</span> load x<br>cltd <span class="hljs-regexp">//</span> extend into edx<br>idivl <span class="hljs-number">12</span>(%ebp) <span class="hljs-regexp">//</span> divide by y<br></code></pre></td></tr></table></figure>
+
+<p>条件码寄存器：<br>CF : 进位标志。最高位产生进位，无符号数溢出；<br>ZF : 零标志。最近操作结果为0；<br>SF : 符号标志。最近操作结果为负；<br>OF : 溢出标志。最近操作补码溢出。</p>
+<p>lea 指令不会改变任何条件码。</p>
+<p>cmp 指令： 只改变条件码，除此之外，其与 SUB 指令完全一样。<br>test 指令：只改变条件码，其他操作与 AND 一样。</p>
 
             </div>
             <hr>
