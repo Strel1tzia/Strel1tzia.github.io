@@ -1,0 +1,633 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/MyPic/bella.png">
+  <link rel="icon" href="/MyPic/bella.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="kawa_von">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="计算机系统第三次实验 Bomb lab本实验用到的环境、命令如下：  Ubuntu 20.04 objdump GDB（~peda插件版）  Phase 1 将 bomb 这个 elf 文件使用 file bomb查看其基本信息，得知它是一个 64 bit 程序，放入 Ubuntu 20.04 中进行后续操作；  chmod 777 bomb为其赋予权限；  使用  objdump -d bomb">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Bomblab">
+<meta property="og:url" content="http://example.com/2023/04/20/Bomblab/index.html">
+<meta property="og:site_name" content="FCさん の Blog">
+<meta property="og:description" content="计算机系统第三次实验 Bomb lab本实验用到的环境、命令如下：  Ubuntu 20.04 objdump GDB（~peda插件版）  Phase 1 将 bomb 这个 elf 文件使用 file bomb查看其基本信息，得知它是一个 64 bit 程序，放入 Ubuntu 20.04 中进行后续操作；  chmod 777 bomb为其赋予权限；  使用  objdump -d bomb">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-04-20T14:21:52.000Z">
+<meta property="article:modified_time" content="2023-04-20T14:22:48.681Z">
+<meta property="article:author" content="kawa_von">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  <title>Bomblab - FCさん の Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.1"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>kawasuki</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/MyPic/asoul2.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Bomblab">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2023-04-20 22:21" pubdate>
+        2023年4月20日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      18k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      154 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Bomblab</h1>
+            
+            <div class="markdown-body">
+              <h1 id="计算机系统第三次实验-Bomb-lab"><a href="#计算机系统第三次实验-Bomb-lab" class="headerlink" title="计算机系统第三次实验 Bomb lab"></a>计算机系统第三次实验 Bomb lab</h1><p>本实验用到的环境、命令如下：</p>
+<ul>
+<li>Ubuntu 20.04</li>
+<li><code>objdump</code></li>
+<li>GDB（~peda插件版）</li>
+</ul>
+<h2 id="Phase-1"><a href="#Phase-1" class="headerlink" title="Phase 1"></a>Phase 1</h2><ul>
+<li><p>将 bomb 这个 elf 文件使用 <code>file bomb</code>查看其基本信息，得知它是一个 64 bit 程序，放入 Ubuntu 20.04 中进行后续操作；</p>
+</li>
+<li><p><code>chmod 777 bomb</code>为其赋予权限；</p>
+</li>
+<li><p>使用 <code> objdump -d bomb</code>获取其反汇编代码如下（节选 <phase_1> 部分）</phase_1></p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></div></td><td class="code"><pre><code class="hljs assembly">00000000000015e7 &lt;phase_1&gt;:<br>    15e7:	f3 0f 1e fa          	endbr64 <br>    15eb:	48 83 ec 08          	sub    $0x8,%rsp<br>    15ef:	48 8d 35 5a 1b 00 00 	lea    0x1b5a(%rip),%rsi        # 3150 &lt;_IO_stdin_used+0x150&gt;<br>    15f6:	e8 f4 04 00 00       	callq  1aef &lt;strings_not_equal&gt;<br>    15fb:	85 c0                	test   %eax,%eax<br>    15fd:	75 05                	jne    1604 &lt;phase_1+0x1d&gt;<br>    15ff:	48 83 c4 08          	add    $0x8,%rsp<br>    1603:	c3                   	retq   <br>    1604:	e8 fa 05 00 00       	callq  1c03 &lt;explode_bomb&gt;<br>    1609:	eb f4                	jmp    15ff &lt;phase_1+0x18&gt;<br><br></code></pre></td></tr></table></figure>
+
+<p>分析如下：</p>
+<ul>
+<li><p>注意不要运行炸弹函数<code>&lt;explode_bomb&gt;</code>！</p>
+</li>
+<li><p>那么需要执行 1603 处的代码；</p>
+</li>
+<li><p>注意到，15fd 处的跳转若触发，则程序跳转至 1604 处，会失败；</p>
+</li>
+<li><p>那么 eax 需要为 0，这样 15fb 行跳转不会触发；</p>
+</li>
+<li><p>需要<code>strings_not_equal</code>函数返回值为 0 ； </p>
+</li>
+<li><p>上述函数：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs assembly">1aef:	f3 0f 1e fa          	endbr64 <br>1af3:	41 54                	push   %r12<br>1af5:	55                   	push   %rbp<br>1af6:	53                   	push   %rbx<br>1af7:	48 89 fb             	mov    %rdi,%rbx<br>1afa:	48 89 f5             	mov    %rsi,%rbp<br>1afd:	e8 cc ff ff ff       	callq  1ace &lt;string_length&gt;<br>1b02:	41 89 c4             	mov    %eax,%r12d<br>1b05:	48 89 ef             	mov    %rbp,%rdi<br>1b08:	e8 c1 ff ff ff       	callq  1ace &lt;string_length&gt;<br>1b0d:	89 c2                	mov    %eax,%edx<br>1b0f:	b8 01 00 00 00       	mov    $0x1,%eax<br>1b14:	41 39 d4             	cmp    %edx,%r12d<br>1b17:	75 31                	jne    1b4a &lt;strings_not_equal+0x5b&gt;<br>1b19:	0f b6 13             	movzbl (%rbx),%edx<br>1b1c:	84 d2                	test   %dl,%dl<br>1b1e:	74 1e                	je     1b3e &lt;strings_not_equal+0x4f&gt;<br>1b20:	b8 00 00 00 00       	mov    $0x0,%eax<br>1b25:	38 54 05 00          	cmp    %dl,0x0(%rbp,%rax,1)<br>1b29:	75 1a                	jne    1b45 &lt;strings_not_equal+0x56&gt;<br>1b2b:	48 83 c0 01          	add    $0x1,%rax<br>1b2f:	0f b6 14 03          	movzbl (%rbx,%rax,1),%edx<br>1b33:	84 d2                	test   %dl,%dl<br>1b35:	75 ee                	jne    1b25 &lt;strings_not_equal+0x36&gt;<br>1b37:	b8 00 00 00 00       	mov    $0x0,%eax<br>1b3c:	eb 0c                	jmp    1b4a &lt;strings_not_equal+0x5b&gt;<br>1b3e:	b8 00 00 00 00       	mov    $0x0,%eax<br>1b43:	eb 05                	jmp    1b4a &lt;strings_not_equal+0x5b&gt;<br>1b45:	b8 01 00 00 00       	mov    $0x1,%eax<br>1b4a:	5b                   	pop    %rbx<br>1b4b:	5d                   	pop    %rbp<br>1b4c:	41 5c                	pop    %r12<br>1b4e:	c3                   	retq   <br></code></pre></td></tr></table></figure></li>
+<li><p>GDB 动态调试中，找到字符串<code>I am not part of the problem. I am a Republican.</code></p>
+</li>
+<li><p>传入上述字符串即可通关 phase_1。</p>
+</li>
+</ul>
+<h2 id="Phase-2"><a href="#Phase-2" class="headerlink" title="Phase 2"></a>Phase 2</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs assembly">000000000000160b &lt;phase_2&gt;:<br>    160b:	f3 0f 1e fa          	endbr64 <br>    160f:	55                   	push   %rbp<br>    1610:	53                   	push   %rbx<br>    1611:	48 83 ec 28          	sub    $0x28,%rsp<br>    1615:	64 48 8b 04 25 28 00 	mov    %fs:0x28,%rax<br>    161c:	00 00 <br>    161e:	48 89 44 24 18       	mov    %rax,0x18(%rsp)<br>    1623:	31 c0                	xor    %eax,%eax<br>    1625:	48 89 e6             	mov    %rsp,%rsi<br>    1628:	e8 02 06 00 00       	callq  1c2f &lt;read_six_numbers&gt;<br>    162d:	83 3c 24 01          	cmpl   $0x1,(%rsp)<br>    1631:	75 0a                	jne    163d &lt;phase_2+0x32&gt;<br>    1633:	48 89 e3             	mov    %rsp,%rbx<br>    1636:	48 8d 6c 24 14       	lea    0x14(%rsp),%rbp<br>    163b:	eb 10                	jmp    164d &lt;phase_2+0x42&gt;<br>    163d:	e8 c1 05 00 00       	callq  1c03 &lt;explode_bomb&gt;<br>    1642:	eb ef                	jmp    1633 &lt;phase_2+0x28&gt;<br>    1644:	48 83 c3 04          	add    $0x4,%rbx<br>    1648:	48 39 eb             	cmp    %rbp,%rbx<br>    164b:	74 10                	je     165d &lt;phase_2+0x52&gt;<br>    164d:	8b 03                	mov    (%rbx),%eax<br>    164f:	01 c0                	add    %eax,%eax<br>    1651:	39 43 04             	cmp    %eax,0x4(%rbx)<br>    1654:	74 ee                	je     1644 &lt;phase_2+0x39&gt;<br>    1656:	e8 a8 05 00 00       	callq  1c03 &lt;explode_bomb&gt;<br>    165b:	eb e7                	jmp    1644 &lt;phase_2+0x39&gt;<br>    165d:	48 8b 44 24 18       	mov    0x18(%rsp),%rax<br>    1662:	64 48 2b 04 25 28 00 	sub    %fs:0x28,%rax<br>    1669:	00 00 <br>    166b:	75 07                	jne    1674 &lt;phase_2+0x69&gt;<br>    166d:	48 83 c4 28          	add    $0x28,%rsp<br>    1671:	5b                   	pop    %rbx<br>    1672:	5d                   	pop    %rbp<br>    1673:	c3                   	retq   <br>    1674:	e8 d7 fb ff ff       	callq  1250 &lt;__stack_chk_fail@plt&gt;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><p>关键行 165b ，其无条件跳转回 1644 ，且需注意 1654，eax 必须与 0x4(%rbx)相等，否则触发引爆函数；</p>
+</li>
+<li><p>由 162d ，1631 得知，第一个传入的数必须是 1；</p>
+</li>
+<li><p>注意 164f ，eax 值乘2，然后与内存中的一个值比较，这个值是上一次循环中的 eax；</p>
+</li>
+<li><p>至此，可以看出是一个 2 的幂次的循环。</p>
+</li>
+<li><p>payload = 1 2 4 8 16 32；</p>
+</li>
+<li><p>成功解决 phase2；</p>
+</li>
+</ul>
+<h2 id="Phase-3"><a href="#Phase-3" class="headerlink" title="Phase 3"></a>Phase 3</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><code class="hljs assembly">0000000000001679 &lt;phase_3&gt;:<br>    1679:	f3 0f 1e fa          	endbr64 <br>    167d:	48 83 ec 18          	sub    $0x18,%rsp<br>    1681:	64 48 8b 04 25 28 00 	mov    %fs:0x28,%rax<br>    1688:	00 00 <br>    168a:	48 89 44 24 08       	mov    %rax,0x8(%rsp)<br>    168f:	31 c0                	xor    %eax,%eax<br>    1691:	48 8d 4c 24 04       	lea    0x4(%rsp),%rcx<br>    1696:	48 89 e2             	mov    %rsp,%rdx<br>    1699:	48 8d 35 8f 1c 00 00 	lea    0x1c8f(%rip),%rsi        # 332f &lt;array.0+0x14f&gt;<br>    16a0:	e8 5b fc ff ff       	callq  1300 &lt;__isoc99_sscanf@plt&gt;<br>    16a5:	83 f8 01             	cmp    $0x1,%eax<br>    16a8:	7e 1a                	jle    16c4 &lt;phase_3+0x4b&gt;<br>    16aa:	83 3c 24 07          	cmpl   $0x7,(%rsp)<br>    16ae:	77 65                	ja     1715 &lt;phase_3+0x9c&gt;<br>    16b0:	8b 04 24             	mov    (%rsp),%eax<br>    16b3:	48 8d 15 06 1b 00 00 	lea    0x1b06(%rip),%rdx        # 31c0 &lt;_IO_stdin_used+0x1c0&gt;<br>    16ba:	48 63 04 82          	movslq (%rdx,%rax,4),%rax<br>    16be:	48 01 d0             	add    %rdx,%rax<br>    16c1:	3e ff e0             	notrack jmpq *%rax<br>    16c4:	e8 3a 05 00 00       	callq  1c03 &lt;explode_bomb&gt;<br>    16c9:	eb df                	jmp    16aa &lt;phase_3+0x31&gt;<br>    16cb:	b8 4c 01 00 00       	mov    $0x14c,%eax<br>    16d0:	39 44 24 04          	cmp    %eax,0x4(%rsp)<br>    16d4:	75 52                	jne    1728 &lt;phase_3+0xaf&gt;<br>    16d6:	48 8b 44 24 08       	mov    0x8(%rsp),%rax<br>    16db:	64 48 2b 04 25 28 00 	sub    %fs:0x28,%rax<br>    16e2:	00 00 <br>    16e4:	75 49                	jne    172f &lt;phase_3+0xb6&gt;<br>    16e6:	48 83 c4 18          	add    $0x18,%rsp<br>    16ea:	c3                   	retq   <br>    16eb:	b8 89 02 00 00       	mov    $0x289,%eax<br>    16f0:	eb de                	jmp    16d0 &lt;phase_3+0x57&gt;<br>    16f2:	b8 f6 00 00 00       	mov    $0xf6,%eax<br>    16f7:	eb d7                	jmp    16d0 &lt;phase_3+0x57&gt;<br>    16f9:	b8 ae 01 00 00       	mov    $0x1ae,%eax<br>    16fe:	eb d0                	jmp    16d0 &lt;phase_3+0x57&gt;<br>    1700:	b8 f1 02 00 00       	mov    $0x2f1,%eax<br>    1705:	eb c9                	jmp    16d0 &lt;phase_3+0x57&gt;<br>    1707:	b8 17 01 00 00       	mov    $0x117,%eax<br>    170c:	eb c2                	jmp    16d0 &lt;phase_3+0x57&gt;<br>    170e:	b8 2a 02 00 00       	mov    $0x22a,%eax<br>    1713:	eb bb                	jmp    16d0 &lt;phase_3+0x57&gt;<br>    1715:	e8 e9 04 00 00       	callq  1c03 &lt;explode_bomb&gt;<br>    171a:	b8 00 00 00 00       	mov    $0x0,%eax<br>    171f:	eb af                	jmp    16d0 &lt;phase_3+0x57&gt;<br>    1721:	b8 24 01 00 00       	mov    $0x124,%eax<br>    1726:	eb a8                	jmp    16d0 &lt;phase_3+0x57&gt;<br>    1728:	e8 d6 04 00 00       	callq  1c03 &lt;explode_bomb&gt;<br>    172d:	eb a7                	jmp    16d6 &lt;phase_3+0x5d&gt;<br>    172f:	e8 1c fb ff ff       	callq  1250 &lt;__stack_chk_fail@plt&gt;<br><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><p>注意前面几行，sscanf 调用之前，设置了四个参数，可以看出是传入两个数；</p>
+</li>
+<li><p>且第一个数要小于 7 ，否则触发引爆函数；</p>
+</li>
+<li><p>随后跳转到 rax 指向的位置执行；</p>
+</li>
+<li><p>进入 gdb 进行动态调试，跟踪一下进入 rax 指向空间后的堆栈情况；</p>
+</li>
+</ul>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs x86asm">[-------------------------------------code-------------------------------------]<br>   <span class="hljs-number">0x5555555556c1</span> &lt;phase_3+<span class="hljs-number">72</span>&gt;:	notrack <span class="hljs-keyword">jmp</span> <span class="hljs-built_in">rax</span><br>   <span class="hljs-number">0x5555555556c4</span> &lt;phase_3+<span class="hljs-number">75</span>&gt;:	<span class="hljs-keyword">call</span>   <span class="hljs-number">0x555555555c03</span> &lt;explode_bomb&gt;<br>   <span class="hljs-number">0x5555555556c9</span> &lt;phase_3+<span class="hljs-number">80</span>&gt;:	<span class="hljs-keyword">jmp</span>    <span class="hljs-number">0x5555555556aa</span> &lt;phase_3+<span class="hljs-number">49</span>&gt;<br>=&gt; <span class="hljs-number">0x5555555556cb</span> &lt;phase_3+<span class="hljs-number">82</span>&gt;:	<span class="hljs-keyword">mov</span>    <span class="hljs-built_in">eax</span>,<span class="hljs-number">0x14c</span><br>   <span class="hljs-number">0x5555555556d0</span> &lt;phase_3+<span class="hljs-number">87</span>&gt;:	<span class="hljs-keyword">cmp</span>    <span class="hljs-built_in">DWORD</span> <span class="hljs-built_in">PTR</span> [<span class="hljs-built_in">rsp</span>+<span class="hljs-number">0x4</span>],<span class="hljs-built_in">eax</span><br>   <span class="hljs-number">0x5555555556d4</span> &lt;phase_3+<span class="hljs-number">91</span>&gt;:	<span class="hljs-keyword">jne</span>    <span class="hljs-number">0x555555555728</span> &lt;phase_3+<span class="hljs-number">175</span>&gt;<br>   <span class="hljs-number">0x5555555556d6</span> &lt;phase_3+<span class="hljs-number">93</span>&gt;:	<span class="hljs-keyword">mov</span>    <span class="hljs-built_in">rax</span>,<span class="hljs-built_in">QWORD</span> <span class="hljs-built_in">PTR</span> [<span class="hljs-built_in">rsp</span>+<span class="hljs-number">0x8</span>]<br>   <span class="hljs-number">0x5555555556db</span> &lt;phase_3+<span class="hljs-number">98</span>&gt;:	<span class="hljs-keyword">sub</span>    <span class="hljs-built_in">rax</span>,<span class="hljs-built_in">QWORD</span> <span class="hljs-built_in">PTR</span> <span class="hljs-built_in">fs</span>:<span class="hljs-number">0x28</span><br>//这是执行代码情况<br><br><br>随后将 <span class="hljs-built_in">eax</span>（值为<span class="hljs-number">0x14c</span>）与传入的第二个参数对比，可见第二个参数需要为 <span class="hljs-number">0x14c</span>！<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><p>payload = 1 334；</p>
+</li>
+<li><p>成功解决phase_3；</p>
+</li>
+</ul>
+<h2 id="Phase-4"><a href="#Phase-4" class="headerlink" title="Phase 4"></a>Phase 4</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><code class="hljs assembly">0000000000001734 &lt;func4&gt;:<br>    1734:	f3 0f 1e fa          	endbr64 <br>    1738:	53                   	push   %rbx<br>    1739:	89 d0                	mov    %edx,%eax<br>    173b:	29 f0                	sub    %esi,%eax<br>    173d:	89 c3                	mov    %eax,%ebx<br>    173f:	c1 eb 1f             	shr    $0x1f,%ebx<br>    1742:	01 c3                	add    %eax,%ebx<br>    1744:	d1 fb                	sar    %ebx<br>    1746:	01 f3                	add    %esi,%ebx<br>    1748:	39 fb                	cmp    %edi,%ebx<br>    174a:	7f 06                	jg     1752 &lt;func4+0x1e&gt;<br>    174c:	7c 10                	jl     175e &lt;func4+0x2a&gt;<br>    174e:	89 d8                	mov    %ebx,%eax<br>    1750:	5b                   	pop    %rbx<br>    1751:	c3                   	retq   <br>    1752:	8d 53 ff             	lea    -0x1(%rbx),%edx<br>    1755:	e8 da ff ff ff       	callq  1734 &lt;func4&gt;<br>    175a:	01 c3                	add    %eax,%ebx<br>    175c:	eb f0                	jmp    174e &lt;func4+0x1a&gt;<br>    175e:	8d 73 01             	lea    0x1(%rbx),%esi<br>    1761:	e8 ce ff ff ff       	callq  1734 &lt;func4&gt;<br>    1766:	01 c3                	add    %eax,%ebx<br>    1768:	eb e4                	jmp    174e &lt;func4+0x1a&gt;<br><br>000000000000176a &lt;phase_4&gt;:<br>    176a:	f3 0f 1e fa          	endbr64 <br>    176e:	48 83 ec 18          	sub    $0x18,%rsp<br>    1772:	64 48 8b 04 25 28 00 	mov    %fs:0x28,%rax<br>    1779:	00 00 <br>    177b:	48 89 44 24 08       	mov    %rax,0x8(%rsp)<br>    1780:	31 c0                	xor    %eax,%eax<br>    1782:	48 8d 4c 24 04       	lea    0x4(%rsp),%rcx<br>    1787:	48 89 e2             	mov    %rsp,%rdx<br>    178a:	48 8d 35 9e 1b 00 00 	lea    0x1b9e(%rip),%rsi        # 332f &lt;array.0+0x14f&gt;<br>    1791:	e8 6a fb ff ff       	callq  1300 &lt;__isoc99_sscanf@plt&gt;<br>    1796:	83 f8 02             	cmp    $0x2,%eax<br>    1799:	75 06                	jne    17a1 &lt;phase_4+0x37&gt;<br>    179b:	83 3c 24 0e          	cmpl   $0xe,(%rsp)<br>    179f:	76 05                	jbe    17a6 &lt;phase_4+0x3c&gt;<br>    17a1:	e8 5d 04 00 00       	callq  1c03 &lt;explode_bomb&gt;<br>    17a6:	ba 0e 00 00 00       	mov    $0xe,%edx<br>    17ab:	be 00 00 00 00       	mov    $0x0,%esi<br>    17b0:	8b 3c 24             	mov    (%rsp),%edi<br>    17b3:	e8 7c ff ff ff       	callq  1734 &lt;func4&gt;<br>    17b8:	83 f8 2d             	cmp    $0x2d,%eax<br>    17bb:	75 07                	jne    17c4 &lt;phase_4+0x5a&gt;<br>    17bd:	83 7c 24 04 2d       	cmpl   $0x2d,0x4(%rsp)<br>    17c2:	74 05                	je     17c9 &lt;phase_4+0x5f&gt;<br>    17c4:	e8 3a 04 00 00       	callq  1c03 &lt;explode_bomb&gt;<br>    17c9:	48 8b 44 24 08       	mov    0x8(%rsp),%rax<br>    17ce:	64 48 2b 04 25 28 00 	sub    %fs:0x28,%rax<br>    17d5:	00 00 <br>    17d7:	75 05                	jne    17de &lt;phase_4+0x74&gt;<br>    17d9:	48 83 c4 18          	add    $0x18,%rsp<br>    17dd:	c3                   	retq   <br>    17de:	e8 6d fa ff ff       	callq  1250 &lt;__stack_chk_fail@plt&gt;<br><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>读入两个数，其中第一个数要小于等于14；</li>
+<li>17b8和17bd可看出，func4 返回值和 第二个数均应为 45；</li>
+<li>于是一共就有14种可能（1 45、2 45、…… 、 14 45）；</li>
+<li>分析 func4 可发现其是一个递归函数，当传入参数为 14 时，返回值为 45；</li>
+<li>payload = 14 45；</li>
+<li>第四题解决。</li>
+</ul>
+<h2 id="Phase-5"><a href="#Phase-5" class="headerlink" title="Phase 5"></a>Phase 5</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><code class="hljs assembly">00000000000017e3 &lt;phase_5&gt;:<br>    17e3:	f3 0f 1e fa          	endbr64 <br>    17e7:	48 83 ec 18          	sub    $0x18,%rsp<br>    17eb:	64 48 8b 04 25 28 00 	mov    %fs:0x28,%rax<br>    17f2:	00 00 <br>    17f4:	48 89 44 24 08       	mov    %rax,0x8(%rsp)<br>    17f9:	31 c0                	xor    %eax,%eax<br>    17fb:	48 8d 4c 24 04       	lea    0x4(%rsp),%rcx<br>    1800:	48 89 e2             	mov    %rsp,%rdx<br>    1803:	48 8d 35 25 1b 00 00 	lea    0x1b25(%rip),%rsi        # 332f &lt;array.0+0x14f&gt;<br>    180a:	e8 f1 fa ff ff       	callq  1300 &lt;__isoc99_sscanf@plt&gt;<br>    180f:	83 f8 01             	cmp    $0x1,%eax<br>    1812:	7e 5a                	jle    186e &lt;phase_5+0x8b&gt;<br>    1814:	8b 04 24             	mov    (%rsp),%eax<br>    1817:	83 e0 0f             	and    $0xf,%eax<br>    181a:	89 04 24             	mov    %eax,(%rsp)<br>    181d:	83 f8 0f             	cmp    $0xf,%eax<br>    1820:	74 32                	je     1854 &lt;phase_5+0x71&gt;<br>    1822:	b9 00 00 00 00       	mov    $0x0,%ecx<br>    1827:	ba 00 00 00 00       	mov    $0x0,%edx<br>    182c:	48 8d 35 ad 19 00 00 	lea    0x19ad(%rip),%rsi        # 31e0 &lt;array.0&gt;<br>    1833:	83 c2 01             	add    $0x1,%edx<br>    1836:	48 98                	cltq   <br>    1838:	8b 04 86             	mov    (%rsi,%rax,4),%eax<br>    183b:	01 c1                	add    %eax,%ecx<br>    183d:	83 f8 0f             	cmp    $0xf,%eax<br>    1840:	75 f1                	jne    1833 &lt;phase_5+0x50&gt;<br>    1842:	c7 04 24 0f 00 00 00 	movl   $0xf,(%rsp)<br>    1849:	83 fa 0f             	cmp    $0xf,%edx<br>    184c:	75 06                	jne    1854 &lt;phase_5+0x71&gt;<br>    184e:	39 4c 24 04          	cmp    %ecx,0x4(%rsp)<br>    1852:	74 05                	je     1859 &lt;phase_5+0x76&gt;<br>    1854:	e8 aa 03 00 00       	callq  1c03 &lt;explode_bomb&gt;<br>    1859:	48 8b 44 24 08       	mov    0x8(%rsp),%rax<br>    185e:	64 48 2b 04 25 28 00 	sub    %fs:0x28,%rax<br>    1865:	00 00 <br>    1867:	75 0c                	jne    1875 &lt;phase_5+0x92&gt;<br>    1869:	48 83 c4 18          	add    $0x18,%rsp<br>    186d:	c3                   	retq   <br>    186e:	e8 90 03 00 00       	callq  1c03 &lt;explode_bomb&gt;<br>    1873:	eb 9f                	jmp    1814 &lt;phase_5+0x31&gt;<br>    1875:	e8 d6 f9 ff ff       	callq  1250 &lt;__stack_chk_fail@plt&gt;<br><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>第五题仍然读入两个数，称之为第一个数、第二个数；</li>
+<li>由181a~1820可看出，第一个数不能为15；</li>
+<li>1833~1840这块代码可以看成：ecx不断地加上array中的不同的数，这个数，是上一个取出的数对应的数组中相应偏移量*4的数。当去取出的数为0xf时，结束，且此时取的次数应该为15，否则触发引爆函数；</li>
+</ul>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">gdb</span>-peda$ x/<span class="hljs-number">60</span> <span class="hljs-number">0</span>x5555555571e0<br><span class="hljs-attribute">0x5555555571e0</span> &lt;array.<span class="hljs-number">0</span>&gt;:	<span class="hljs-number">0</span>x000000020000000a	<span class="hljs-number">0</span>x000000070000000e<br><span class="hljs-attribute">0x5555555571f0</span> &lt;array.<span class="hljs-number">0</span>+<span class="hljs-number">16</span>&gt;:	<span class="hljs-number">0</span>x0000000c00000008	<span class="hljs-number">0</span>x0000000b0000000f<br><span class="hljs-attribute">0x555555557200</span> &lt;array.<span class="hljs-number">0</span>+<span class="hljs-number">32</span>&gt;:	<span class="hljs-number">0</span>x0000000400000000	<span class="hljs-number">0</span>x0000000d00000001<br><span class="hljs-attribute">0x555555557210</span> &lt;array.<span class="hljs-number">0</span>+<span class="hljs-number">48</span>&gt;:	<span class="hljs-number">0</span>x0000000900000003	<span class="hljs-number">0</span>x0000000500000006<br><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>以上是数组中的数，4字节为一个数（int）</li>
+<li>经过计算，payload = 5 115；即从5号元素开始取，最后取15次，取出数的和正好是115。</li>
+</ul>
+<p>第五题解决完毕。</p>
+<h2 id="Phase-6"><a href="#Phase-6" class="headerlink" title="Phase_6"></a>Phase_6</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br></pre></td><td class="code"><pre><code class="hljs assembly">000000000000187a &lt;phase_6&gt;:<br>    187a:	f3 0f 1e fa          	endbr64 <br>    187e:	41 56                	push   %r14<br>    1880:	41 55                	push   %r13<br>    1882:	41 54                	push   %r12<br>    1884:	55                   	push   %rbp<br>    1885:	53                   	push   %rbx<br>    1886:	48 83 ec 60          	sub    $0x60,%rsp<br>    188a:	64 48 8b 04 25 28 00 	mov    %fs:0x28,%rax<br>    1891:	00 00 <br>    1893:	48 89 44 24 58       	mov    %rax,0x58(%rsp)<br>    1898:	31 c0                	xor    %eax,%eax<br>    189a:	49 89 e5             	mov    %rsp,%r13<br>    189d:	4c 89 ee             	mov    %r13,%rsi<br>    18a0:	e8 8a 03 00 00       	callq  1c2f &lt;read_six_numbers&gt;<br>    18a5:	41 be 01 00 00 00    	mov    $0x1,%r14d<br>    18ab:	49 89 e4             	mov    %rsp,%r12<br>    18ae:	eb 28                	jmp    18d8 &lt;phase_6+0x5e&gt;<br>    18b0:	e8 4e 03 00 00       	callq  1c03 &lt;explode_bomb&gt;<br>    18b5:	eb 30                	jmp    18e7 &lt;phase_6+0x6d&gt;<br>    18b7:	48 83 c3 01          	add    $0x1,%rbx<br>    18bb:	83 fb 05             	cmp    $0x5,%ebx<br>    18be:	7f 10                	jg     18d0 &lt;phase_6+0x56&gt;<br>    18c0:	41 8b 04 9c          	mov    (%r12,%rbx,4),%eax<br>    18c4:	39 45 00             	cmp    %eax,0x0(%rbp)<br>    18c7:	75 ee                	jne    18b7 &lt;phase_6+0x3d&gt;<br>    18c9:	e8 35 03 00 00       	callq  1c03 &lt;explode_bomb&gt;<br>    18ce:	eb e7                	jmp    18b7 &lt;phase_6+0x3d&gt;<br>    18d0:	49 83 c6 01          	add    $0x1,%r14<br>    18d4:	49 83 c5 04          	add    $0x4,%r13<br>    18d8:	4c 89 ed             	mov    %r13,%rbp<br>    18db:	41 8b 45 00          	mov    0x0(%r13),%eax<br>    18df:	83 e8 01             	sub    $0x1,%eax<br>    18e2:	83 f8 05             	cmp    $0x5,%eax<br>    18e5:	77 c9                	ja     18b0 &lt;phase_6+0x36&gt;<br>    18e7:	41 83 fe 05          	cmp    $0x5,%r14d<br>    18eb:	7f 05                	jg     18f2 &lt;phase_6+0x78&gt;<br>    18ed:	4c 89 f3             	mov    %r14,%rbx<br>    18f0:	eb ce                	jmp    18c0 &lt;phase_6+0x46&gt;       #分界线一<br>    18f2:	be 00 00 00 00       	mov    $0x0,%esi<br>    18f7:	8b 0c b4             	mov    (%rsp,%rsi,4),%ecx<br>    18fa:	b8 01 00 00 00       	mov    $0x1,%eax<br>    18ff:	48 8d 15 0a 39 00 00 	lea    0x390a(%rip),%rdx        # 5210 &lt;node1&gt;<br>    1906:	83 f9 01             	cmp    $0x1,%ecx<br>    1909:	7e 0b                	jle    1916 &lt;phase_6+0x9c&gt;<br>    190b:	48 8b 52 08          	mov    0x8(%rdx),%rdx<br>    190f:	83 c0 01             	add    $0x1,%eax<br>    1912:	39 c8                	cmp    %ecx,%eax<br>    1914:	75 f5                	jne    190b &lt;phase_6+0x91&gt;<br>    1916:	48 89 54 f4 20       	mov    %rdx,0x20(%rsp,%rsi,8)<br>    191b:	48 83 c6 01          	add    $0x1,%rsi<br>    191f:	48 83 fe 06          	cmp    $0x6,%rsi<br>    1923:	75 d2                	jne    18f7 &lt;phase_6+0x7d&gt;<br>    1925:	48 8b 5c 24 20       	mov    0x20(%rsp),%rbx<br>    192a:	48 8b 44 24 28       	mov    0x28(%rsp),%rax<br>    192f:	48 89 43 08          	mov    %rax,0x8(%rbx)<br>    1933:	48 8b 54 24 30       	mov    0x30(%rsp),%rdx<br>    1938:	48 89 50 08          	mov    %rdx,0x8(%rax)<br>    193c:	48 8b 44 24 38       	mov    0x38(%rsp),%rax<br>    1941:	48 89 42 08          	mov    %rax,0x8(%rdx)<br>    1945:	48 8b 54 24 40       	mov    0x40(%rsp),%rdx<br>    194a:	48 89 50 08          	mov    %rdx,0x8(%rax)<br>    194e:	48 8b 44 24 48       	mov    0x48(%rsp),%rax<br>    1953:	48 89 42 08          	mov    %rax,0x8(%rdx)<br>    1957:	48 c7 40 08 00 00 00 	movq   $0x0,0x8(%rax)<br>    195e:	00 <br>    195f:	bd 05 00 00 00       	mov    $0x5,%ebp<br>    1964:	eb 09                	jmp    196f &lt;phase_6+0xf5&gt;<br>    1966:	48 8b 5b 08          	mov    0x8(%rbx),%rbx<br>    196a:	83 ed 01             	sub    $0x1,%ebp<br>    196d:	74 11                	je     1980 &lt;phase_6+0x106&gt;<br>    196f:	48 8b 43 08          	mov    0x8(%rbx),%rax<br>    1973:	8b 00                	mov    (%rax),%eax<br>    1975:	39 03                	cmp    %eax,(%rbx)<br>    1977:	7e ed                	jle    1966 &lt;phase_6+0xec&gt;<br>    1979:	e8 85 02 00 00       	callq  1c03 &lt;explode_bomb&gt;<br>    197e:	eb e6                	jmp    1966 &lt;phase_6+0xec&gt;<br>    1980:	48 8b 44 24 58       	mov    0x58(%rsp),%rax<br>    1985:	64 48 2b 04 25 28 00 	sub    %fs:0x28,%rax<br>    198c:	00 00 <br>    198e:	75 0d                	jne    199d &lt;phase_6+0x123&gt;<br>    1990:	48 83 c4 60          	add    $0x60,%rsp<br>    1994:	5b                   	pop    %rbx<br>    1995:	5d                   	pop    %rbp<br>    1996:	41 5c                	pop    %r12<br>    1998:	41 5d                	pop    %r13<br>    199a:	41 5e                	pop    %r14<br>    199c:	c3                   	retq   <br>    199d:	e8 ae f8 ff ff       	callq  1250 &lt;__stack_chk_fail@plt&gt;<br><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><p>这个题比较复杂</p>
+</li>
+<li><p>首先，18a0可看出，其读入6个数；</p>
+</li>
+<li><p>18f0以上，使用一系列的判断，最终效果是，输入的六个数均小于等于6大于等于1，且各不相同。</p>
+</li>
+<li><p>18f0之下的部分，就是按顺序将 node1 这个链表对应的数及地址逐个读入，读入的具体位次，是由输入的6个数决定的，如 1 就读入一次，也就是读入 node1 内存放的数据</p>
+</li>
+<li><p>知道了node1~node6中存放数据大小关系后，由小到大排序，输入即可通关</p>
+</li>
+<li><p>payload = 2 4 1 5 6 3</p>
+</li>
+<li><p>本题结束</p>
+</li>
+</ul>
+<h2 id="Secret-Phase"><a href="#Secret-Phase" class="headerlink" title="Secret Phase"></a>Secret Phase</h2><ul>
+<li><p>首先，发现有 secret phase 函数，其在 bomb_defused()内被调用；</p>
+</li>
+<li><p>进入这个函数后，先判断 num_input_strings == 6 是否成立，再在offset 57F0处读入3个数据；</p>
+</li>
+</ul>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs x86asm">[----------------------------------registers-----------------------------------]<br><span class="hljs-symbol">RAX:</span> <span class="hljs-number">0x0</span> <br><span class="hljs-symbol">RBX:</span> <span class="hljs-number">0x0</span> <br><span class="hljs-symbol">RCX:</span> <span class="hljs-number">0x7fffffffde7c</span> --&gt; <span class="hljs-number">0x5555922000007fff</span> <br><span class="hljs-symbol">RDX:</span> <span class="hljs-number">0x7fffffffde78</span> --&gt; <span class="hljs-number">0x7ffff7e05490</span> (&lt;_IO_fgets+<span class="hljs-number">144</span>&gt;:	<span class="hljs-keyword">mov</span>    <span class="hljs-built_in">edx</span>,<span class="hljs-built_in">DWORD</span> <span class="hljs-built_in">PTR</span> [<span class="hljs-built_in">rbp</span>+<span class="hljs-number">0x0</span>])<br><span class="hljs-symbol">RSI:</span> <span class="hljs-number">0x555555557379</span> (<span class="hljs-string">&quot;%d %d %s&quot;</span>)<br><span class="hljs-symbol">RDI:</span> <span class="hljs-number">0x5555555597f0</span> (<span class="hljs-string">&quot;14 45 DrEvil&quot;</span>)<br><span class="hljs-symbol">RBP:</span> <span class="hljs-number">0x1</span> <br><span class="hljs-symbol">RSP:</span> <span class="hljs-number">0x7fffffffde70</span> --&gt; <span class="hljs-number">0x300000006</span> <br><span class="hljs-symbol">RIP:</span> <span class="hljs-number">0x555555555dff</span> (&lt;phase_defused+<span class="hljs-number">83</span>&gt;:	<span class="hljs-keyword">call</span>   <span class="hljs-number">0x555555555300</span> &lt;__isoc99_sscanf@plt&gt;)<br><span class="hljs-built_in">R8</span> : <span class="hljs-number">0x7fffffffde80</span> --&gt; <span class="hljs-number">0x555555559220</span> --&gt; <span class="hljs-number">0x2000000ca</span> <br><span class="hljs-built_in">R9</span> : <span class="hljs-number">0x0</span> <br><span class="hljs-symbol">R10:</span> <span class="hljs-number">0x7ffff7f44ac0</span> --&gt; <span class="hljs-number">0x100000000</span> <br><span class="hljs-symbol">R11:</span> <span class="hljs-number">0x7ffff7f453c0</span> --&gt; <span class="hljs-number">0x2000200020002</span> <br><span class="hljs-symbol">R12:</span> <span class="hljs-number">0x7fffffffe008</span> --&gt; <span class="hljs-number">0x7fffffffe369</span> (<span class="hljs-string">&quot;/home/kawa/Desktop/bomb&quot;</span>)<br><span class="hljs-symbol">R13:</span> <span class="hljs-number">0x555555555489</span> (&lt;main&gt;:	endbr64)<br><span class="hljs-symbol">R14:</span> <span class="hljs-number">0x555555558cf0</span> --&gt; <span class="hljs-number">0x555555555440</span> (&lt;__do_global_dtors_aux&gt;:	endbr64)<br><span class="hljs-symbol">R15:</span> <span class="hljs-number">0x7ffff7ffd040</span> --&gt; <span class="hljs-number">0x7ffff7ffe2e0</span> --&gt; <span class="hljs-number">0x555555554000</span> --&gt; <span class="hljs-number">0x10102464c457f</span><br><span class="hljs-symbol">EFLAGS:</span> <span class="hljs-number">0x246</span> (carry PARITY adjust <span class="hljs-meta">ZERO</span> sign trap INTERRUPT direction overflow)<br>[-------------------------------------code-------------------------------------]<br>   <span class="hljs-number">0x555555555dec</span> &lt;phase_defused+<span class="hljs-number">64</span>&gt;:	<span class="hljs-keyword">lea</span>    <span class="hljs-built_in">r8</span>,[<span class="hljs-built_in">rsp</span>+<span class="hljs-number">0x10</span>]<br>   <span class="hljs-number">0x555555555df1</span> &lt;phase_defused+<span class="hljs-number">69</span>&gt;:	<span class="hljs-keyword">lea</span>    <span class="hljs-built_in">rsi</span>,[<span class="hljs-built_in">rip</span>+<span class="hljs-number">0x1581</span>]        # <span class="hljs-number">0x555555557379</span><br>   <span class="hljs-number">0x555555555df8</span> &lt;phase_defused+<span class="hljs-number">76</span>&gt;:	<br>    <span class="hljs-keyword">lea</span>    <span class="hljs-built_in">rdi</span>,[<span class="hljs-built_in">rip</span>+<span class="hljs-number">0x39f1</span>]        # <span class="hljs-number">0x5555555597f0</span> &lt;input_strings+<span class="hljs-number">240</span>&gt;<br>=&gt; <span class="hljs-number">0x555555555dff</span> &lt;phase_defused+<span class="hljs-number">83</span>&gt;:	<span class="hljs-keyword">call</span>   <span class="hljs-number">0x555555555300</span> &lt;__isoc99_sscanf@plt&gt;<br>   <span class="hljs-number">0x555555555e04</span> &lt;phase_defused+<span class="hljs-number">88</span>&gt;:	<span class="hljs-keyword">cmp</span>    <span class="hljs-built_in">eax</span>,<span class="hljs-number">0x3</span><br>   <span class="hljs-number">0x555555555e07</span> &lt;phase_defused+<span class="hljs-number">91</span>&gt;:	<span class="hljs-keyword">je</span>     <span class="hljs-number">0x555555555e17</span> &lt;phase_defused+<span class="hljs-number">107</span>&gt;<br>   <span class="hljs-number">0x555555555e09</span> &lt;phase_defused+<span class="hljs-number">93</span>&gt;:	<span class="hljs-keyword">lea</span>    <span class="hljs-built_in">rdi</span>,[<span class="hljs-built_in">rip</span>+<span class="hljs-number">0x14a8</span>]        # <span class="hljs-number">0x5555555572b8</span><br>   <span class="hljs-number">0x555555555e10</span> &lt;phase_defused+<span class="hljs-number">100</span>&gt;:	<span class="hljs-keyword">call</span>   <span class="hljs-number">0x555555555220</span> &lt;puts@plt&gt;<br>Guessed arguments:<br>arg[<span class="hljs-number">0</span>]: <span class="hljs-number">0x5555555597f0</span> (<span class="hljs-string">&quot;14 45 DrEvil&quot;</span>)<br>arg[<span class="hljs-number">1</span>]: <span class="hljs-number">0x555555557379</span> (<span class="hljs-string">&quot;%d %d %s&quot;</span>)<br>arg[<span class="hljs-number">2</span>]: <span class="hljs-number">0x7fffffffde78</span> --&gt; <span class="hljs-number">0x7ffff7e05490</span> (&lt;_IO_fgets+<span class="hljs-number">144</span>&gt;:	<span class="hljs-keyword">mov</span>    <span class="hljs-built_in">edx</span>,<span class="hljs-built_in">DWORD</span> <span class="hljs-built_in">PTR</span> [<span class="hljs-built_in">rbp</span>+<span class="hljs-number">0x0</span>])<br>arg[<span class="hljs-number">3</span>]: <span class="hljs-number">0x7fffffffde7c</span> --&gt; <span class="hljs-number">0x5555922000007fff</span> <br>arg[<span class="hljs-number">4</span>]: <span class="hljs-number">0x7fffffffde80</span> --&gt; <span class="hljs-number">0x555555559220</span> --&gt; <span class="hljs-number">0x2000000ca</span> <br><br><br></code></pre></td></tr></table></figure>
+
+
+
+<p>注意RDI，也就是第一个参数的值，可以看出这个是 phase 4 的payload，故在修改 phase 4 payload = 14 45 DrEvil；</p>
+<p>即可触发隐藏 phase</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">00000000000019e3</span> &lt;secret_phase&gt;:<br>    <span class="hljs-attribute">19e3</span>:	f3 <span class="hljs-number">0</span>f <span class="hljs-number">1</span>e fa          	endbr64 <br>    <span class="hljs-attribute">19e7</span>:	<span class="hljs-number">53</span>                   	push   %rbx<br>    <span class="hljs-attribute">19e8</span>:	e8 <span class="hljs-number">87</span> <span class="hljs-number">02</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span>       	callq  <span class="hljs-number">1</span>c74 &lt;read_line&gt;<br>    <span class="hljs-attribute">19ed</span>:	<span class="hljs-number">48</span> <span class="hljs-number">89</span> c7             	mov    %rax,%rdi<br>    <span class="hljs-attribute">19f0</span>:	ba <span class="hljs-number">0</span>a <span class="hljs-number">00</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span>       	mov    $<span class="hljs-number">0</span>xa,%edx<br>    <span class="hljs-attribute">19f5</span>:	be <span class="hljs-number">00</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span>       	mov    $<span class="hljs-number">0</span>x0,%esi<br>    <span class="hljs-attribute">19fa</span>:	e8 e1 f8 ff ff       	callq  <span class="hljs-number">12</span>e0 &lt;strtol@plt&gt;<br>    <span class="hljs-attribute">19ff</span>:	<span class="hljs-number">89</span> c3                	mov    %eax,%ebx<br>    <span class="hljs-attribute">1a01</span>:	<span class="hljs-number">83</span> e8 <span class="hljs-number">01</span>             	sub    $<span class="hljs-number">0</span>x1,%eax<br>    <span class="hljs-attribute">1a04</span>:	<span class="hljs-number">3</span>d e8 <span class="hljs-number">03</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span>       	cmp    $<span class="hljs-number">0</span>x3e8,%eax<br>    <span class="hljs-attribute">1a09</span>:	<span class="hljs-number">77</span> <span class="hljs-number">26</span>                	ja     <span class="hljs-number">1</span>a31 &lt;secret_phase+<span class="hljs-number">0</span>x4e&gt;<br>    <span class="hljs-attribute">1a0b</span>:	<span class="hljs-number">89</span> de                	mov    %ebx,%esi<br>    <span class="hljs-attribute">1a0d</span>:	<span class="hljs-number">48</span> <span class="hljs-number">8</span>d <span class="hljs-number">3</span>d <span class="hljs-number">1</span>c <span class="hljs-number">37</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span> 	lea    <span class="hljs-number">0</span>x371c(%rip),%rdi        # <span class="hljs-number">5130</span> &lt;n1&gt;<br>    <span class="hljs-attribute">1a14</span>:	e8 <span class="hljs-number">89</span> ff ff ff       	callq  <span class="hljs-number">19</span>a2 &lt;fun7&gt;<br>    <span class="hljs-attribute">1a19</span>:	<span class="hljs-number">83</span> f8 <span class="hljs-number">02</span>             	cmp    $<span class="hljs-number">0</span>x2,%eax<br>    <span class="hljs-attribute">1a1c</span>:	<span class="hljs-number">75</span> <span class="hljs-number">1</span>a                	jne    <span class="hljs-number">1</span>a38 &lt;secret_phase+<span class="hljs-number">0</span>x55&gt;<br>    <span class="hljs-attribute">1a1e</span>:	<span class="hljs-number">48</span> <span class="hljs-number">8</span>d <span class="hljs-number">3</span>d <span class="hljs-number">63</span> <span class="hljs-number">17</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span> 	lea    <span class="hljs-number">0</span>x1763(%rip),%rdi        # <span class="hljs-number">3188</span> &lt;_IO_stdin_used+<span class="hljs-number">0</span>x188&gt;<br>    <span class="hljs-attribute">1a25</span>:	e8 f6 f7 ff ff       	callq  <span class="hljs-number">1220</span> &lt;puts@plt&gt;<br>    <span class="hljs-attribute">1a2a</span>:	e8 <span class="hljs-number">7</span>d <span class="hljs-number">03</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span>       	callq  <span class="hljs-number">1</span>dac &lt;phase_defused&gt;<br>    <span class="hljs-attribute">1a2f</span>:	<span class="hljs-number">5</span>b                   	pop    %rbx<br>    <span class="hljs-attribute">1a30</span>:	c3                   	retq   <br>    <span class="hljs-attribute">1a31</span>:	e8 cd <span class="hljs-number">01</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span>       	callq  <span class="hljs-number">1</span>c03 &lt;explode_bomb&gt;<br>    <span class="hljs-attribute">1a36</span>:	eb d3                	jmp    <span class="hljs-number">1</span>a0b &lt;secret_phase+<span class="hljs-number">0</span>x28&gt;<br>    <span class="hljs-attribute">1a38</span>:	e8 c6 <span class="hljs-number">01</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span>       	callq  <span class="hljs-number">1</span>c03 &lt;explode_bomb&gt;<br>    <span class="hljs-attribute">1a3d</span>:	eb df                	jmp    <span class="hljs-number">1</span>a1e &lt;secret_phase+<span class="hljs-number">0</span>x3b&gt;<br><span class="hljs-attribute">00000000000019a2</span> &lt;fun7&gt;:<br>    <span class="hljs-attribute">19a2</span>:	f3 <span class="hljs-number">0</span>f <span class="hljs-number">1</span>e fa          	endbr64 <br>    <span class="hljs-attribute">19a6</span>:	<span class="hljs-number">48</span> <span class="hljs-number">85</span> ff             	test   %rdi,%rdi<br>    <span class="hljs-attribute">19a9</span>:	<span class="hljs-number">74</span> <span class="hljs-number">32</span>                	je     <span class="hljs-number">19</span>dd &lt;fun7+<span class="hljs-number">0</span>x3b&gt;<br>    <span class="hljs-attribute">19ab</span>:	<span class="hljs-number">48</span> <span class="hljs-number">83</span> ec <span class="hljs-number">08</span>          	sub    $<span class="hljs-number">0</span>x8,%rsp<br>    <span class="hljs-attribute">19af</span>:	<span class="hljs-number">8</span>b <span class="hljs-number">17</span>                	mov    (%rdi),%edx<br>    <span class="hljs-attribute">19b1</span>:	<span class="hljs-number">39</span> f2                	cmp    %esi,%edx<br>    <span class="hljs-attribute">19b3</span>:	<span class="hljs-number">7</span>f <span class="hljs-number">0</span>c                	jg     <span class="hljs-number">19</span>c1 &lt;fun7+<span class="hljs-number">0</span>x1f&gt;<br>    <span class="hljs-attribute">19b5</span>:	b8 <span class="hljs-number">00</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span>       	mov    $<span class="hljs-number">0</span>x0,%eax<br>    <span class="hljs-attribute">19ba</span>:	<span class="hljs-number">75</span> <span class="hljs-number">12</span>                	jne    <span class="hljs-number">19</span>ce &lt;fun7+<span class="hljs-number">0</span>x2c&gt;<br>    <span class="hljs-attribute">19bc</span>:	<span class="hljs-number">48</span> <span class="hljs-number">83</span> c4 <span class="hljs-number">08</span>          	add    $<span class="hljs-number">0</span>x8,%rsp<br>    <span class="hljs-attribute">19c0</span>:	c3                   	retq   <br>    <span class="hljs-attribute">19c1</span>:	<span class="hljs-number">48</span> <span class="hljs-number">8</span>b <span class="hljs-number">7</span>f <span class="hljs-number">08</span>          	mov    <span class="hljs-number">0</span>x8(%rdi),%rdi<br>    <span class="hljs-attribute">19c5</span>:	e8 d8 ff ff ff       	callq  <span class="hljs-number">19</span>a2 &lt;fun7&gt;<br>    <span class="hljs-attribute">19ca</span>:	<span class="hljs-number">01</span> c0                	add    %eax,%eax<br>    <span class="hljs-attribute">19cc</span>:	eb ee                	jmp    <span class="hljs-number">19</span>bc &lt;fun7+<span class="hljs-number">0</span>x1a&gt;<br>    <span class="hljs-attribute">19ce</span>:	<span class="hljs-number">48</span> <span class="hljs-number">8</span>b <span class="hljs-number">7</span>f <span class="hljs-number">10</span>          	mov    <span class="hljs-number">0</span>x10(%rdi),%rdi<br>    <span class="hljs-attribute">19d2</span>:	e8 cb ff ff ff       	callq  <span class="hljs-number">19</span>a2 &lt;fun7&gt;<br>    <span class="hljs-attribute">19d7</span>:	<span class="hljs-number">8</span>d <span class="hljs-number">44</span> <span class="hljs-number">00</span> <span class="hljs-number">01</span>          	lea    <span class="hljs-number">0</span>x1(%rax,%rax,<span class="hljs-number">1</span>),%eax<br>    <span class="hljs-attribute">19db</span>:	eb df                	jmp    <span class="hljs-number">19</span>bc &lt;fun7+<span class="hljs-number">0</span>x1a&gt;<br>    <span class="hljs-attribute">19dd</span>:	b8 ff ff ff ff       	mov    $<span class="hljs-number">0</span>xffffffff,%eax<br>    <span class="hljs-attribute">19e2</span>:	c3                   	retq   <br><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>先读入一行字符串，然后转换为整型；</li>
+<li>注意 1a04 和 1a09，输入转换的整型，要小于等于1001，由此可发现，输入的数据应该是一个数，而不是几个。</li>
+<li>随后调用 fun7，且最后返回值必须是2，否则爆炸。</li>
+<li>来到fun7 内；</li>
+<li>fun7 是一个递归函数，需要明确的是，rdi 是 fun7 的第一个参数，大概率是个指针（因为后面引用它时用了括号），esi是第二个参数，这个是我们最开始输入进去的一个数。</li>
+<li>在 fun 7 内，esi的值是不改变的，也就是我们输入的值，一直都是参数之一，而另一个参数；</li>
+<li>如果当前节点的值大于输入值，当前节点变为当前节点+8；</li>
+<li>返回两倍的下一个节点调用fun7的返回值；</li>
+<li>不满足大于的话，result 化为0；</li>
+<li>若相等，直接返回0；</li>
+<li>若当前节点值小于输入值，将result值赋为2倍的下一节点的值+1，且注意，下一节点是当前节点+16；</li>
+<li>返回result值</li>
+</ul>
+<p>来看看这些节点，以及它们的值</p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs dns"><br><span class="hljs-number">0</span>x<span class="hljs-number">555555559130</span> &lt;n1&gt;:	<span class="hljs-number">0</span>x00000<span class="hljs-number">00000000024</span>	<span class="hljs-number">0</span>x0000<span class="hljs-number">555555559150</span><br><span class="hljs-number">0</span>x<span class="hljs-number">555555559140</span> &lt;n1+<span class="hljs-number">16</span>&gt;:	<span class="hljs-number">0</span>x0000<span class="hljs-number">555555559170</span>	<span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span><br><span class="hljs-number">0</span>x<span class="hljs-number">555555559150</span> &lt;n21&gt;:	<span class="hljs-number">0</span>x00000<span class="hljs-number">00000000008</span>	<span class="hljs-number">0</span>x000055<span class="hljs-number">55555591d0</span><br><span class="hljs-number">0</span>x<span class="hljs-number">555555559160</span> &lt;n21+<span class="hljs-number">16</span>&gt;:	<span class="hljs-number">0</span>x0000<span class="hljs-number">555555559190</span>	<span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span><br><span class="hljs-number">0</span>x<span class="hljs-number">555555559170</span> &lt;n22&gt;:	<span class="hljs-number">0</span>x00000<span class="hljs-number">00000000032</span>	<span class="hljs-number">0</span>x000055<span class="hljs-number">55555591b0</span><br><span class="hljs-number">0</span>x<span class="hljs-number">555555559180</span> &lt;n22+<span class="hljs-number">16</span>&gt;:	<span class="hljs-number">0</span>x000055<span class="hljs-number">55555591f0</span>	<span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span><br><span class="hljs-number">0</span>x<span class="hljs-number">555555559190</span> &lt;n32&gt;:	<span class="hljs-number">0</span>x00000<span class="hljs-number">00000000016</span>	<span class="hljs-number">0</span>x000055<span class="hljs-number">55555590b0</span><br><span class="hljs-number">0</span>x55<span class="hljs-number">55555591a0</span> &lt;n32+<span class="hljs-number">16</span>&gt;:	<span class="hljs-number">0</span>x00005<span class="hljs-number">55555559070</span>	<span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span><br><span class="hljs-number">0</span>x55<span class="hljs-number">55555591b0</span> &lt;n33&gt;:	<span class="hljs-number">0</span>x000000000000002d	<span class="hljs-number">0</span>x00005<span class="hljs-number">55555559010</span><br><span class="hljs-number">0</span>x55<span class="hljs-number">55555591c0</span> &lt;n33+<span class="hljs-number">16</span>&gt;:	<span class="hljs-number">0</span>x000055<span class="hljs-number">55555590d0</span>	<span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span><br><span class="hljs-number">0</span>x55<span class="hljs-number">55555591d0</span> &lt;n31&gt;:	<span class="hljs-number">0</span>x00000<span class="hljs-number">00000000006</span>	<span class="hljs-number">0</span>x00005<span class="hljs-number">55555559030</span><br><span class="hljs-number">0</span>x55<span class="hljs-number">55555591e0</span> &lt;n31+<span class="hljs-number">16</span>&gt;:	<span class="hljs-number">0</span>x00005<span class="hljs-number">55555559090</span>	<span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span><br><span class="hljs-number">0</span>x55<span class="hljs-number">55555591f0</span> &lt;n34&gt;:	<span class="hljs-number">0</span>x000000000000006b	<span class="hljs-number">0</span>x00005<span class="hljs-number">55555559050</span><br><span class="hljs-number">0</span>x<span class="hljs-number">555555559200</span> &lt;n34+<span class="hljs-number">16</span>&gt;:	<span class="hljs-number">0</span>x000055<span class="hljs-number">55555590f0</span>	<span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span><br><br><br></code></pre></td></tr></table></figure>
+
+<p>再想想题目，我们最后需要构造这样的结构：</p>
+<ul>
+<li><p>返回值为2，有一种可能：</p>
+<ul>
+<li>通过最外层调用中，输入值小于节点值实现，要求最外层-1次调用返回值为1；</li>
+</ul>
+</li>
+<li><p>故：倒数第二层调用必须返回值为1；</p>
+</li>
+<li><p>若某层返回值为1，这说明了什么捏？</p>
+</li>
+<li><p>说明该层调用的内一层调用，必须走a1 != a2 路线，且要求内层调用返回值为0；</p>
+</li>
+<li><p>若某层返回值为0，这又说明了什么捏？</p>
+</li>
+<li><p>一定是第一种调用，也就是a1 &gt; =a2，且内层一直是第一种调用，输入值小于节点值。</p>
+</li>
+<li><p>综上，输入值应满足：一直小于某些节点值，以及最外一层的节点值，但最内一层，输入值必须等于某一节点值，否则循环不完了。</p>
+</li>
+<li><p>有以下节点值：0x24, 0, 0x8, 0x32,0x16,0x2d,0x6,0x6b,0x0;</p>
+</li>
+<li><p>选择0x24尝试：</p>
+<ul>
+<li>先是等于，然后直接返回，不行；</li>
+</ul>
+</li>
+<li><p>选择0x0尝试：</p>
+<ul>
+<li>0一直是最小的数，也不可能实现；</li>
+</ul>
+</li>
+<li><p>选择0x8尝试：</p>
+<ul>
+<li>8 &lt; 24 , goto 1, node -&gt; node + 8, 8 &gt; 6, goto 2, node += 16,  16 &gt; 8 , 2d&gt;8，</li>
+</ul>
+</li>
+<li><p>太多数据，不再尝试。</p>
+</li>
+<li><p><strong>再次分析</strong>，由于最初的节点是0x24，且最初节点必须走第一种跳转，也就是说第一层节点值大于输入值。</p>
+</li>
+<li><p><strong>然后</strong>，节点+8，来到50号的 0x8，这里要求，返回值为1，也就是传入值 &gt;=8，然后最后一层需要相等。这样一来，答案就明朗了，<strong>答案就是0x16</strong>。</p>
+</li>
+<li><p>测试一下：</p>
+</li>
+</ul>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-number">22</span><br>Wow! Yo<span class="hljs-string">u&#x27;ve defused the secret stage!</span><br><span class="hljs-string">Congratulations! You&#x27;</span>ve defused the bomb!<br><br></code></pre></td></tr></table></figure>
+
+<p>ok</p>
+<p>全部通过</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">kawa</span>@kawa-virtual-machine:~/Desktop$ ./bomb<br><span class="hljs-attribute">Welcome</span> to my fiendish little bomb. You have <span class="hljs-number">6</span> phases with<br><span class="hljs-attribute">which</span> to blow yourself up. Have a nice day!<br><span class="hljs-attribute">I</span> am not part of the problem. I am a Republican.<br><span class="hljs-attribute">Phase</span> <span class="hljs-number">1</span> defused. How about the next one?<br><span class="hljs-attribute">1</span> <span class="hljs-number">2</span> <span class="hljs-number">4</span> <span class="hljs-number">8</span> <span class="hljs-number">16</span> <span class="hljs-number">32</span><br><span class="hljs-attribute">That</span>&#x27;s number <span class="hljs-number">2</span>.  Keep going!<br><span class="hljs-attribute">1</span> <span class="hljs-number">332</span><br><span class="hljs-attribute">Halfway</span> there!<br><span class="hljs-attribute">14</span> <span class="hljs-number">45</span> DrEvil<br><span class="hljs-attribute">So</span> you got that one.  Try this one.<br><span class="hljs-attribute">5</span> <span class="hljs-number">115</span><br><span class="hljs-attribute">Good</span> work!  <span class="hljs-literal">On</span> to the next...<br><span class="hljs-attribute">2</span> <span class="hljs-number">4</span> <span class="hljs-number">1</span> <span class="hljs-number">5</span> <span class="hljs-number">6</span> <span class="hljs-number">3</span><br><span class="hljs-attribute">Curses</span>, you&#x27;ve found the secret phase!<br><span class="hljs-attribute">But</span> finding it and solving it are quite different...<br><br><span class="hljs-attribute">22</span><br><span class="hljs-attribute">Wow</span>! You&#x27;ve defused the secret stage!<br><span class="hljs-attribute">Congratulations</span>! You&#x27;ve defused the bomb!<br><br></code></pre></td></tr></table></figure>
+
+
+
+<p><strong>实验至此结束</strong></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/04/08/rCore/">
+                        <span class="hidden-mobile">rCore</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     fc love 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
