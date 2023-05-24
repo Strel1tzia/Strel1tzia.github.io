@@ -27,8 +27,13 @@
 <meta property="og:image" content="http://example.com/2023/03/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/p2.png">
 <meta property="og:image" content="http://example.com/2023/03/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/p3.png">
 <meta property="og:image" content="http://example.com/2023/03/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/p4.png">
+<meta property="og:image" content="http://example.com/2023/03/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/p5.png">
+<meta property="og:image" content="http://example.com/2023/03/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/p6.png">
+<meta property="og:image" content="http://example.com/2023/03/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/p7.png">
+<meta property="og:image" content="http://example.com/2023/03/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/p8.png">
+<meta property="og:image" content="http://example.com/2023/03/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/p9.png">
 <meta property="article:published_time" content="2023-03-16T03:07:00.000Z">
-<meta property="article:modified_time" content="2023-03-29T13:27:20.081Z">
+<meta property="article:modified_time" content="2023-05-23T09:37:43.196Z">
 <meta property="article:author" content="kawa_von">
 <meta property="article:tag" content="course">
 <meta name="twitter:card" content="summary_large_image">
@@ -202,7 +207,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.3k 字
+      7.7k 字
     </span>
   
 
@@ -211,7 +216,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      12 分钟
+      64 分钟
     </span>
   
 
@@ -321,6 +326,287 @@
 <p>条件码寄存器：<br>CF : 进位标志。最高位产生进位，无符号数溢出；<br>ZF : 零标志。最近操作结果为0；<br>SF : 符号标志。最近操作结果为负；<br>OF : 溢出标志。最近操作补码溢出。</p>
 <p>lea 指令不会改变任何条件码。</p>
 <p>cmp 指令： 只改变条件码，除此之外，其与 SUB 指令完全一样。<br>test 指令：只改变条件码，其他操作与 AND 一样。</p>
+<h1 id="第五章-程序性能优化"><a href="#第五章-程序性能优化" class="headerlink" title="第五章 程序性能优化"></a>第五章 程序性能优化</h1><h2 id="性能的度量"><a href="#性能的度量" class="headerlink" title="性能的度量"></a>性能的度量</h2><p><strong>CPE（Cycles Per Element）</strong>每元素的周期数，执行一个元素需要多少个时钟周期。</p>
+<p><strong>时钟周期</strong>：CPU完成一个最基本动作的时间（对应一个电平信号宽度）</p>
+<h2 id="高级语言层面的优化"><a href="#高级语言层面的优化" class="headerlink" title="高级语言层面的优化"></a>高级语言层面的优化</h2><h3 id="将函数移出循环外"><a href="#将函数移出循环外" class="headerlink" title="将函数移出循环外"></a>将函数移出循环外</h3><p>例如：</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs abnf">for ( i <span class="hljs-operator">=</span> <span class="hljs-number">0</span> <span class="hljs-comment">; i &lt; vec_length(v); i++ )</span><br>&#123;<br>    ....<span class="hljs-comment">;</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>可以将</p>
+<figure class="highlight isbl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs isbl"><span class="hljs-variable">i</span> &lt; <span class="hljs-function"><span class="hljs-title">vec_length</span>(<span class="hljs-variable">v</span>)</span><br></code></pre></td></tr></table></figure>
+
+<p>单独列出，以 len 表示</p>
+<h3 id="消除不必要的内存引用"><a href="#消除不必要的内存引用" class="headerlink" title="消除不必要的内存引用"></a>消除不必要的内存引用</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">for</span>(....)<br>&#123;<br>    *dest = *dest OP data[i]<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>上述代码一直在访问 <code>dest</code>指向的内存，可以考虑将这个改为一个循环内使用的局部变量（寄存器中）</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs abnf"><span class="hljs-attribute">acc</span> <span class="hljs-operator">=</span> acc OP data[i]<br></code></pre></td></tr></table></figure>
+
+<h2 id="机器层面的代码优化"><a href="#机器层面的代码优化" class="headerlink" title="机器层面的代码优化"></a>机器层面的代码优化</h2><p><strong>指令的执行过程</strong>：</p>
+<ul>
+<li>取指令（Instruction Fetch，IF）阶段：将一条指令从主存中取到指令寄存器的过程。程序计数器PC中的数值，用来指示下一条指令在主存中的位置。当一条指令被取出后，PC中的数值将根据指令字长度而自动递增；</li>
+<li>指令译码（Decode）阶段：取出指令后，计算机立即进入指令译码阶段，指 令译码器按照预定的指令格式，对取回的指令进行拆分和解释，识别区分出 不同的指令类别以及各种获取操作数的方法；</li>
+<li>取操作数；</li>
+<li>指令执行：此阶段的任务是完成指令所规定的各种操作，具体实现指令 的功能（分支、乘除、加法、加载和写存储器等）。为此，CPU的不同部分 被连接起来，以执行所需的操作；</li>
+<li>写回：将操作结果写入存储器或寄存器。</li>
+</ul>
+<h3 id="循环展开"><a href="#循环展开" class="headerlink" title="循环展开"></a>循环展开</h3><p>将原本逐个递增的循环，改为每次加2，循环内语句也增加一倍。</p>
+<h3 id="两路并行"><a href="#两路并行" class="headerlink" title="两路并行"></a>两路并行</h3><figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs haskell"><span class="hljs-title">acc</span> = (acc <span class="hljs-type">OP</span> <span class="hljs-class"><span class="hljs-keyword">data</span>[i]) <span class="hljs-type">OP</span> <span class="hljs-keyword">data</span>[i+1]</span><br></code></pre></td></tr></table></figure>
+
+<p>改为：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-attr">acc0</span> = acc0 + data[i]<span class="hljs-comment">;</span><br><span class="hljs-attr">acc1</span> = acc1 + data[i+<span class="hljs-number">1</span>]<span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure>
+
+<p>最后res = acc0 + acc1；</p>
+<h3 id="重新结合变换"><a href="#重新结合变换" class="headerlink" title="重新结合变换"></a>重新结合变换</h3><figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs haskell"><span class="hljs-title">acc</span> = (acc <span class="hljs-type">OP</span> <span class="hljs-class"><span class="hljs-keyword">data</span>[i]) <span class="hljs-type">OP</span> <span class="hljs-keyword">data</span>[i+1]</span><br><br><span class="hljs-title">acc</span> = acc <span class="hljs-type">OP</span>（<span class="hljs-class"><span class="hljs-keyword">data</span>[i] <span class="hljs-type">OP</span> <span class="hljs-keyword">data</span>[i+1]）</span><br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h1 id="第六章-存储器层次结构"><a href="#第六章-存储器层次结构" class="headerlink" title="第六章 存储器层次结构"></a>第六章 存储器层次结构</h1><h2 id="随机访问寄存器（RAM）"><a href="#随机访问寄存器（RAM）" class="headerlink" title="随机访问寄存器（RAM）"></a>随机访问寄存器（RAM）</h2><p><strong>随机访问存储器（Random-Access Memory，RAM）</strong></p>
+<p>分为以下两类：</p>
+<ul>
+<li>SRAM 即静态随机访问存储器；</li>
+<li>DRAM 即动态随机访问存储器。</li>
+</ul>
+<p>静态比动态<strong>更快</strong>，但也<strong>更贵</strong>。</p>
+<h3 id="SRAM"><a href="#SRAM" class="headerlink" title="SRAM"></a>SRAM</h3><p>SRAM 是将每个位存储在一个<strong>双稳态的（bistable）</strong>存储器中。每一个时刻，其状态只有可能是二者之一。</p>
+<h3 id="DRAM"><a href="#DRAM" class="headerlink" title="DRAM"></a>DRAM</h3><p>DRAM 将每个位存储为对一个电容充电。每个单元由一个电容和一个访问晶体管组成。</p>
+<h1 id="第七章-链接"><a href="#第七章-链接" class="headerlink" title="第七章 链接"></a>第七章 链接</h1><h2 id="全局变量"><a href="#全局变量" class="headerlink" title="全局变量"></a>全局变量</h2><h3 id="extern-关键字"><a href="#extern-关键字" class="headerlink" title="extern 关键字"></a>extern 关键字</h3><p><strong>对于变量</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">extern</span> <span class="hljs-type">int</span> a; <span class="hljs-comment">// 声明一个全局变量 a</span><br><span class="hljs-type">int</span> a; <span class="hljs-comment">// 定义一个全局变量 a</span><br><span class="hljs-keyword">extern</span> <span class="hljs-type">int</span> a =<span class="hljs-number">0</span> ; <span class="hljs-comment">// 定义一个全局变量 a 并给初值，可以被外部引用。</span><br><span class="hljs-type">int</span> a =<span class="hljs-number">0</span>;    <span class="hljs-comment">// 定义一个全局变量 a, 并给初值，可以被外部引用。</span><br></code></pre></td></tr></table></figure>
+
+<p>也就是说，<code>extern int a</code>是一个声明，其它的均为定义</p>
+<ul>
+<li><p>声明：不需要为变量分配内存空间；</p>
+</li>
+<li><p>定义：要为变量分配内存空间；</p>
+</li>
+</ul>
+<p>那么，如果要引用一个全局变量的时候，就必须要声明<code>extern int a</code> or <code>extern a</code>，否则会认为是定义。</p>
+<p><strong>对于函数</strong></p>
+<p>函数，对于函数也一样，也是定义和声明，定义的时候用extern，说明这个函数是可以被外部引用的，声明的时候用extern说明这是一个声明。 但由于函数的定义和声明是有区别的，定义函数要有函数体，声明函数没有函数体(还有以分号结尾)，所以函数定义和声明时都可以将extern省略掉，反正其他文件也是知道这个函数是在其他地方定义的，所以不加extern也行。两者如此不同，所以省略了extern也不会有问题。</p>
+<p><strong>总结</strong></p>
+<ul>
+<li>对于一个文件中调用另一个文件的全局变量，因为全局变量一般定义在原文件.c中，我们不能用#include包含源文件而只能包含头文件，所以常用的方法是用<code>extern int a</code>来声明外部变量。 另外一种方法是可以是在<code>a.c</code>文件中定义了全局变量<code>int global_num</code> ，可以在对应的<code>a.h</code>头文件中写<code>extern int global_num </code>，这样其他源文件可以通过<code>include a.h</code>来声明它是外部变量就可以了。</li>
+<li>还有变量和函数的不同举例<code>int fun();</code>和 <code>extern int fun();</code> 都是声明(定义要有实现体)。 用 <code>extern int fun() </code>只是更明确指明是声明而已。而 <code>int a</code>; 是定义 <code>extern int a;</code> 是声明。</li>
+</ul>
+<h3 id="static-关键字"><a href="#static-关键字" class="headerlink" title="static 关键字"></a>static 关键字</h3><p>当我们同时编译多个文件时，所有未加 <code>static</code> 前缀的全局变量和函数都具有<strong>全局可见性</strong>。</p>
+<p><strong>隐藏</strong></p>
+<p>当变量、函数的定义加上 static 关键字后，其余的文件便看不见他们了；利用这一特性可以在不同的文件中定义同名函数和同名变量，而不必担心命名冲突。</p>
+<p><strong>对于函数来讲，static 的作用仅限于隐藏</strong></p>
+<p><strong>保持变量内容持久</strong></p>
+<p>存储在静态数据区的变量会在程序刚开始运行时就完成初始化，也是唯一的一次初始化。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">fun</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span>&#123;<br>    <span class="hljs-type">static</span> <span class="hljs-type">int</span> count = <span class="hljs-number">10</span>;    <span class="hljs-comment">// 事实上此赋值语句从来没有执行过</span><br>    <span class="hljs-keyword">return</span> count--;<br>&#125;<br><br><span class="hljs-type">int</span> count = <span class="hljs-number">1</span>;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;    <br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;global\t\tlocal static\n&quot;</span>);<br>    <span class="hljs-keyword">for</span>(; count &lt;= <span class="hljs-number">10</span>; ++count)<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\t\t%d\n&quot;</span>, count, fun());    <br>   <br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>程序的运行结果是：</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">global</span>          local static<br><br><span class="hljs-attribute">1</span>               <span class="hljs-number">10</span><br><br><span class="hljs-attribute">2</span>               <span class="hljs-number">9</span><br><br><span class="hljs-attribute">3</span>               <span class="hljs-number">8</span><br><br><span class="hljs-attribute">4</span>               <span class="hljs-number">7</span><br><br><span class="hljs-attribute">5</span>               <span class="hljs-number">6</span><br><br><span class="hljs-attribute">6</span>               <span class="hljs-number">5</span><br><br><span class="hljs-attribute">7</span>               <span class="hljs-number">4</span><br><br><span class="hljs-attribute">8</span>               <span class="hljs-number">3</span><br><br><span class="hljs-attribute">9</span>               <span class="hljs-number">2</span><br><br><span class="hljs-attribute">10</span>              <span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
+
+<p>可以看到，加了 static 那一行的语句仅执行了一次，也就是第一次。</p>
+<p><strong>默认初始化为0</strong></p>
+<h2 id="链接器"><a href="#链接器" class="headerlink" title="链接器"></a>链接器</h2><h3 id="符号"><a href="#符号" class="headerlink" title="符号"></a>符号</h3><p>程序中有<strong>定义</strong>和<strong>引用</strong>的符号</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span> <span class="hljs-title function_">swap</span><span class="hljs-params">()</span> &#123;…&#125; <span class="hljs-comment">/* 定义符号swap */</span><br>swap(); <span class="hljs-comment">/* 引用符号swap */</span><br><span class="hljs-type">int</span> *xp = &amp;x; <span class="hljs-comment">/* 定义符号 xp, 引用符号 x */</span><br></code></pre></td></tr></table></figure>
+
+<p>编译器将符号的定义储存在一个符号表（symbol table）中</p>
+<ul>
+<li>符号表是一个条目数组；</li>
+<li>每个条目包含符号的名称、长度和保存位置。</li>
+</ul>
+<h2 id="重定位"><a href="#重定位" class="headerlink" title="重定位"></a>重定位</h2><ul>
+<li><strong>合并</strong>：将多个代码节和数据节分别合并成一个代码节和数据节；</li>
+<li><strong>定义位置修改</strong>：将多个.o文件中的符号定义，从相对位置重定位到单个可执行文件中最终的绝对存储器位置；</li>
+<li><strong>引用指向修改</strong>：更新对这些符号的所有引用指向它们的新位置。</li>
+</ul>
+<h3 id="三种目标文件"><a href="#三种目标文件" class="headerlink" title="三种目标文件"></a>三种目标文件</h3><ul>
+<li><strong>可重定位目标文件（xxx.o file）</strong>：包含的代码和数据可以在链接时与其他可重定位目标文件合并起来。每个.o 文件由对应的.c文件生成，<strong>代码和数据地址都从0开始</strong>；</li>
+<li>**共享的目标文件 (.so file)**：特殊的可重定位目标文件，可以在加载或运行时被动态加载到存储器并链接，Windows 中叫做动态链接库(Dynamic Link Libraries, DLLs)；</li>
+<li><strong>可执行目标文件 (a.out file)<strong>：代码和数据地址为</strong>虚拟地址空间</strong>中的地址</li>
+</ul>
+<p><img src="/2023/03/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/p5.png" srcset="/img/loading.gif" lazyload></p>
+<p>上图是可重定位目标文件与可执行目标文件的对比。</p>
+<h2 id="可重定位目标文件格式"><a href="#可重定位目标文件格式" class="headerlink" title="可重定位目标文件格式"></a>可重定位目标文件格式</h2><p><img src="/2023/03/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/p6.png" srcset="/img/loading.gif" lazyload></p>
+<ul>
+<li><p>ELF header：字长、字节序（大端/小端）、文件类型 (.o, exec, .so)、 机器类型（如 IA-32）等（readelf -h）；</p>
+</li>
+<li><p>.text section：已编译的机器代码；</p>
+</li>
+<li><p>.rodata section：只读数据，比如 printf 字符串， switch 跳转表等；</p>
+</li>
+<li><p>.data section：已初始化的全局变量。注意局部变量运行时保存在<strong>栈</strong>中；</p>
+</li>
+<li><p>.bss section：未初始化全局变量，仅是占位符；不占用实际磁盘空间；区分初始化和非初始化是为了空间效率；</p>
+</li>
+<li><p>symtab section：符号表（readelf -s）；函数和全局/静态变量名，不含局部变量条目；</p>
+</li>
+<li><p>.rel.text section：.text 节的重定位信息（readelf -r）；用于重新修改代码段的指令中的地址信息；</p>
+</li>
+<li><p>.rel.data section：.data 节的重定位信息；用于对被模块引用或定义的全局变量进行重定位的信息；</p>
+</li>
+<li><p>.debug section (.line section)：调试符号表；</p>
+</li>
+<li><p>.strtab section：包含.symtab节中符号及section节名；</p>
+</li>
+<li><p>Section header table（节头表）：每个section的名称、偏移和大小（readelf -S）；</p>
+</li>
+</ul>
+<h2 id="可执行目标文件的格式"><a href="#可执行目标文件的格式" class="headerlink" title="可执行目标文件的格式"></a>可执行目标文件的格式</h2><p><img src="/2023/03/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/p7.png" srcset="/img/loading.gif" lazyload></p>
+<p>与.o文件的不同：</p>
+<ul>
+<li>ELF头中字段e_entry给出执行程序时第一条指 令的地址，而在可重定位文件中，此字段为0；</li>
+<li>多一个程序头表（Program Headers table） 是一个结构体数组：偏移量，虚存地址，物理 地址，段大小，地址对齐等信息（readelf -l）；</li>
+<li>多一个.init节，用于定义_init函数，该函数用来 进行可执行目标文件开始执行时的初始化工作；</li>
+<li>少两.rel节（无需重定位）。</li>
+</ul>
+<h2 id="符号和符号表"><a href="#符号和符号表" class="headerlink" title="符号和符号表"></a>符号和符号表</h2><ul>
+<li><p>**Global symbols ** 模块内部定义的全局符号，不带static</p>
+<ul>
+<li>由模块m定义并能被其他模块引用的符号。 </li>
+<li>例如，non-static C函数和non-static全局变量 ，main.c 中的全局变量名buf</li>
+</ul>
+</li>
+<li><p><strong>External symbols</strong>  外部定义的全局符号</p>
+<ul>
+<li>由其他模块定义并被模块m引用的全局符号；</li>
+</ul>
+</li>
+<li><p><strong>Local symbols</strong>（本模块的本地符号，带static）</p>
+<ul>
+<li>仅由模块m定义和引用的本地符号。</li>
+<li>例如，在模块m中定义的static C函数和static全局变量。</li>
+</ul>
+</li>
+</ul>
+<p><strong>注意，要是符号！！</strong>局部变量不是符号。（函数名都是）</p>
+<h3 id="其他本地（Local）符号"><a href="#其他本地（Local）符号" class="headerlink" title="其他本地（Local）符号"></a>其他本地（Local）符号</h3><ul>
+<li>non-static C局部变量与static C局部变量<ul>
+<li>non-static C局部变量：存储在堆栈中；</li>
+<li>static C局部变量：存储在.bss或.data中；</li>
+</ul>
+</li>
+</ul>
+<h2 id="深入理解-static-修饰符"><a href="#深入理解-static-修饰符" class="headerlink" title="深入理解 static 修饰符"></a>深入理解 static 修饰符</h2><ul>
+<li>隐藏：把函数和变量隐藏在模块内部（C++/JAVA private）；</li>
+<li>存储区：把变量存放在静态存储区，具备持久性，默认值0；</li>
+<li>static函数<ul>
+<li>函数的定义和声明默认是extern。当定义成静态函数后只在当前文件(模块)中可见，不能被其他文件所用；</li>
+<li>其他文件中可以定义同名函数，不会发生冲突；</li>
+</ul>
+</li>
+<li>static全局变量<ul>
+<li>存储区：.data或.bss，只初始化一次；</li>
+<li>作用域：定义该变量的源文件内有效， 在同一源程序的其它源文件中不可见（不能使用它）；</li>
+<li>其他文件中可以使用同名变量，不会发生冲突。</li>
+</ul>
+</li>
+<li>static局部变量<ul>
+<li>存储区：.data或.bss，只初始化一次，具备持久性（下一次依据上一次结果值 ）；</li>
+<li>作用域：<strong>当前函数</strong>。</li>
+</ul>
+</li>
+</ul>
+<h2 id="符号解析"><a href="#符号解析" class="headerlink" title="符号解析"></a>符号解析</h2><ul>
+<li>编译时，编译器向汇编器输出的每个全局符号（强符号 或 弱符号）<ul>
+<li>Strong：函数名和已初始化的全局变量名是强符号定义；</li>
+<li>Weak：未初始化的全局变量名是弱符号定义。</li>
+</ul>
+</li>
+</ul>
+<h3 id="符号解析规则"><a href="#符号解析规则" class="headerlink" title="符号解析规则"></a>符号解析规则</h3><ul>
+<li>Rule 1: 强符号不能多次定义；</li>
+<li>Rule 2: 强符号覆盖同名的弱符号（若一个符号被定义为一次强符号和多 次弱符号，则按强符号定义为准）；</li>
+<li>Rule 3: 若有多个弱符号定义，则选择其中任意一个；</li>
+</ul>
+<h2 id="重定位条目"><a href="#重定位条目" class="headerlink" title="重定位条目"></a>重定位条目</h2><h3 id="生成条目"><a href="#生成条目" class="headerlink" title="生成条目"></a>生成条目</h3><ul>
+<li><p>汇编器遇到对位置未知的目标引用时，生成一个<strong>重定位条目</strong></p>
+<ul>
+<li>数据引用的重定位条目在<code>.rel_data</code>节中；</li>
+<li>指令中引用的重定位条目在<code>.rel_text</code>节中；</li>
+<li>ELF中重定位条目的格式：</li>
+</ul>
+<p><img src="/2023/03/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/p8.png" srcset="/img/loading.gif" lazyload></p>
+</li>
+</ul>
+<h3 id="两种基本重定位类型"><a href="#两种基本重定位类型" class="headerlink" title="两种基本重定位类型"></a>两种基本重定位类型</h3><ul>
+<li>R_386_PC32: 使用32位PC相对地址的引用（PC为下条指令地址）；</li>
+<li>R_386_32: 使用32位绝对地址。</li>
+</ul>
+<h2 id="PC相对寻址"><a href="#PC相对寻址" class="headerlink" title="PC相对寻址"></a>PC相对寻址</h2><ul>
+<li><p>跳转指令的机器码采用<strong>PC相关编码方式(PC-relative, Program Counter）</strong>；</p>
+</li>
+<li><p><strong>目标指令的地址</strong>与紧跟在<strong>跳转指令后面那条指令的地址</strong>之间的<strong>差</strong>作为编码；</p>
+<p><img src="/2023/03/16/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/p9.png" srcset="/img/loading.gif" lazyload></p>
+</li>
+</ul>
+<p>也就是<code>dst_addr = next_addr + value</code></p>
+<h1 id="第八章-异常控制流"><a href="#第八章-异常控制流" class="headerlink" title="第八章 异常控制流"></a>第八章 异常控制流</h1><h2 id="回收子进程"><a href="#回收子进程" class="headerlink" title="回收子进程"></a>回收子进程</h2><p>当一个进程由于某种原因终止时，内核并不是立即把它从系统中清除。相反，进程被保持在一种已终止的状态中，直到被它的父进程<strong>回收（reap）</strong>。当父进程回收己终止的子进程时，内核将子进程的退出状态传递给父进程，然后抛弃巳终止的进程，从此时开始，该进程就不存在了。</p>
+<p>一个终止了但还未被回收的进程称为<strong>僵死进程 (zombie)</strong></p>
+<h3 id="waitpid"><a href="#waitpid" class="headerlink" title="waitpid()"></a>waitpid()</h3><p><code>pid_t waitpid(pid_t pid, int *Status, int options); </code></p>
+<ol>
+<li>判断等待集合的成员：<ul>
+<li>如果pid&gt;0，则等待的是一个单独的子进程。</li>
+<li>如果pid = -1 ，那么等待的是由父进程所有的子进程组成。</li>
+</ul>
+</li>
+<li>修改默认行为<ul>
+<li>可以通过将 options 设置为常量 WNOHANG 和 WUNTRACED 的各种组合，修改默认行为。</li>
+<li>WNOHANG：若等待集合中任何子进程都未终止，则立即返回。返回值为0。</li>
+<li>WUNTRACED：挂起调用进程的执行，直到等待集合中一个进程为已终止或被停止。返回的pid是导致这个结果的子进程pid。原本默认的行为是只返回已终止的子进程，当想检查被停止及已终止进程时，这个选项会有用。</li>
+<li>WNOHANG|WUNTRACED：立即返回，如果等待集合中，没有任何子进程被停止或已终止，则返回值为0。</li>
+</ul>
+</li>
+<li>检查已回收子进程的退出状态<ul>
+<li>WIFEXITED（status）：如果子进程通过调用exit返回或return正常返回，返回值为true；</li>
+<li>WEXITSTATUS（status）：返回一个正常终止的子进程的退出状态。</li>
+<li>WIFSIGNALED（status）：如果一个子进程是因为一个未捕获的信号终止的，返回真。</li>
+<li>等等</li>
+</ul>
+</li>
+<li>错误条件<ul>
+<li>调用程序无子进程：waitpid 返回值为-阿，error设置为ECHILD；</li>
+<li>waitpid 被信号中断，返回-1，error为EINTR。</li>
+</ul>
+</li>
+</ol>
+<h2 id="信号"><a href="#信号" class="headerlink" title="信号"></a>信号</h2><p>一个信号就是一条小消息，它通知进程系统中发生了一个某种类型的事件。</p>
+<h3 id="信号术语"><a href="#信号术语" class="headerlink" title="信号术语"></a>信号术语</h3><ul>
+<li>发送信号<ul>
+<li>内核检查到一个系统事件，如除以0或者子进程终止；</li>
+<li>一个进程调用了 kill 函数，显示地要求内核发送一个信号给目的进程。</li>
+</ul>
+</li>
+<li>接收信号<ul>
+<li>当目的进程被内核强迫以某种方式对信号的发送做出反应，目的进程就<strong>接收</strong>了信号。进程可以忽略这个信号，终止，或者通过执行一个称为<strong>信号处理程序（signal handler）</strong>的用户层函数<strong>捕获</strong>这个信号。</li>
+</ul>
+</li>
+</ul>
+<p>一个只发出而没有被接收的信号称为<strong>待处理信号（pending signal）</strong>。任何时刻，一个类型至多只会有一个待处理信号。先到的信号保留，后到的信号直接丢弃。</p>
+<h3 id="进程组"><a href="#进程组" class="headerlink" title="进程组"></a>进程组</h3><p>每个进程都只属于一个<strong>进程组</strong>，进程组是由一个正整数进程组ID来标识的。</p>
+<p><code>pid_t getpgrp(void)</code></p>
+<p>默认的，子进程和父进程属于同一个进程组。可以通过<code>setpgid(pid_t pid, pid_t pgid)</code>来设置进程的进程组。如果 pid 设置为0，就是当前进程的 pid。如果 pgid 是0，就用 pid 指定的进程 pid 作为进程组 pid。（新进程组）</p>
+<p><strong>/bin/kill</strong>发送信号：<code>/bin/kill -9 15213</code></p>
+<p>将信号9（SIGKILL）发送到进程15213。如果pid为负，则将信号发送到进程组pid中每个进程</p>
+<figure class="highlight plaintext"><figcaption><span>-9 -15213```就将信号发送到进程组15213中每个进程。</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs /bin/kill"><br>### 接收信号<br><br>进程可以使用```signal```函数修改和信号相关联的默认行为。除了 SIGSTOP &amp; SIGKILL 这两个的默认行为是不能被修改的。<br><br>```c<br>typedef void (*sighandler_t)(int);<br><br>sighandler_t signal(int signum, sighandler_t handler);<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>若handler 是 SIG_IGN ，那么忽略前面的信号；</li>
+<li>若handler 是 SGI_DFL ，那么类型为 signum 的信号回到默认行为；</li>
+<li>否则，handler就是用户定义的函数的地址，这个函数称为信号处理程序（signal handler）。只要程序接收到对应的信号，就会调用这个程序。</li>
+</ul>
 
             </div>
             <hr>

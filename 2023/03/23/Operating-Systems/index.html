@@ -30,8 +30,18 @@
 <meta property="og:image" content="http://example.com/2023/03/23/Operating-Systems/p5.png">
 <meta property="og:image" content="http://example.com/2023/03/23/Operating-Systems/p6.png">
 <meta property="og:image" content="http://example.com/2023/03/23/Operating-Systems/p7.png">
+<meta property="og:image" content="http://example.com/2023/03/23/Operating-Systems/p8.png">
+<meta property="og:image" content="http://example.com/2023/03/23/Operating-Systems/p9.png">
+<meta property="og:image" content="http://example.com/2023/03/23/Operating-Systems/p10.png">
+<meta property="og:image" content="http://example.com/2023/03/23/Operating-Systems/p11.png">
+<meta property="og:image" content="http://example.com/2023/03/23/Operating-Systems/p12.png">
+<meta property="og:image" content="http://example.com/2023/03/23/Operating-Systems/p13.png">
+<meta property="og:image" content="http://example.com/2023/03/23/Operating-Systems/p14.png">
+<meta property="og:image" content="http://example.com/2023/03/23/Operating-Systems/p15.png">
+<meta property="og:image" content="http://example.com/2023/03/23/Operating-Systems/p16.png">
+<meta property="og:image" content="http://example.com/2023/03/23/Operating-Systems/p17.png">
 <meta property="article:published_time" content="2023-03-23T09:30:41.000Z">
-<meta property="article:modified_time" content="2023-04-16T09:05:17.061Z">
+<meta property="article:modified_time" content="2023-05-04T10:51:58.394Z">
 <meta property="article:author" content="kawa_von">
 <meta property="article:tag" content="course">
 <meta name="twitter:card" content="summary_large_image">
@@ -205,7 +215,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      9.5k 字
+      20k 字
     </span>
   
 
@@ -214,7 +224,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      80 分钟
+      170 分钟
     </span>
   
 
@@ -326,7 +336,12 @@
 <p>无。</p>
 <p>没有输出。</p>
 <p>习题到此为止。</p>
-<h1 id="第六章-机制：受限直接执行"><a href="#第六章-机制：受限直接执行" class="headerlink" title="第六章 机制：受限直接执行"></a>第六章 机制：受限直接执行</h1><p>以下是直接运行协议：</p>
+<h1 id="第六章-机制：受限直接执行"><a href="#第六章-机制：受限直接执行" class="headerlink" title="第六章 机制：受限直接执行"></a>第六章 机制：受限直接执行</h1><h2 id="三种切换内核态"><a href="#三种切换内核态" class="headerlink" title="三种切换内核态"></a>三种切换内核态</h2><ul>
+<li>系统调用</li>
+<li>异常</li>
+<li>中断</li>
+</ul>
+<p>以下是直接运行协议：</p>
 <p><img src="/2023/03/23/Operating-Systems/p4.png" srcset="/img/loading.gif" lazyload></p>
 <p>其过程大致是：在操作系统上进行一系列准备操作（进程列表上创建条目、分配内存、加载、设置栈等等），如何程序执行交还程序本身，进行执行，最后由操作系统收尾（清除内存等）。</p>
 <h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>引入一种新的处理器模式：用户模式（user mode）；</p>
@@ -380,7 +395,176 @@
 <h1 id="第九章-调度：比例份额"><a href="#第九章-调度：比例份额" class="headerlink" title="第九章 调度：比例份额"></a>第九章 调度：比例份额</h1><p>在本章中，我们来看一个不同类型的调度程序——比例份额（proportional-share）调度 程序，有时也称为公平份额（fair-share）调度程序。比例份额算法基于一个简单的想法：调 度程序的最终目标，是确保每个工作获得一定比例的 CPU 时间，而不是优化周转时间和响 应时间。</p>
 <h2 id="基本概念：彩票数表示份额"><a href="#基本概念：彩票数表示份额" class="headerlink" title="基本概念：彩票数表示份额"></a>基本概念：彩票数表示份额</h2><p>下面来看一个例子。假设有两个进程 A 和 B，A 拥有 75 张彩票，B 拥有 25 张。因此 我们希望 A 占用 75%的 CPU 时间，而 B 占用 25%。</p>
 <p>通过不断定时地（比如，每个时间片）抽取彩票，彩票调度从概率上（但不是确定的） 获得这种份额比例。抽取彩票的过程很简单：调度程序知道总共的彩票数（在我们的例子 中，有 100 张）。调度程序抽取中奖彩票，这是从 0 和 99①之间的一个数，拥有这个数对应 的彩票的进程中奖。假设进程 A 拥有 0 到 74 共 75 张彩票，进程 B 拥有 75 到 99 的 25 张， 中奖的彩票就决定了运行 A 或 B。调度程序然后加载中奖进程的状态，并运行它。</p>
-<h1 id="第11章-关于-CPU-虚拟化的总结"><a href="#第11章-关于-CPU-虚拟化的总结" class="headerlink" title="第11章 关于 CPU 虚拟化的总结"></a>第11章 关于 CPU 虚拟化的总结</h1><h1 id="第12章-关于内存虚拟化的对话"><a href="#第12章-关于内存虚拟化的对话" class="headerlink" title="第12章 关于内存虚拟化的对话"></a>第12章 关于内存虚拟化的对话</h1><h1 id="第14章-插叙：内存操作-API"><a href="#第14章-插叙：内存操作-API" class="headerlink" title="第14章 插叙：内存操作 API"></a>第14章 插叙：内存操作 API</h1><h1 id="第-15-章-机制：地址转换"><a href="#第-15-章-机制：地址转换" class="headerlink" title="第 15 章 机制：地址转换"></a>第 15 章 机制：地址转换</h1>
+<h1 id="第11章-关于-CPU-虚拟化的总结"><a href="#第11章-关于-CPU-虚拟化的总结" class="headerlink" title="第11章 关于 CPU 虚拟化的总结"></a>第11章 关于 CPU 虚拟化的总结</h1><h1 id="第12章-关于内存虚拟化的对话"><a href="#第12章-关于内存虚拟化的对话" class="headerlink" title="第12章 关于内存虚拟化的对话"></a>第12章 关于内存虚拟化的对话</h1><h1 id="第14章-插叙：内存操作-API"><a href="#第14章-插叙：内存操作-API" class="headerlink" title="第14章 插叙：内存操作 API"></a>第14章 插叙：内存操作 API</h1><h1 id="第-15-章-机制：地址转换"><a href="#第-15-章-机制：地址转换" class="headerlink" title="第 15 章 机制：地址转换"></a>第 15 章 机制：地址转换</h1><p><strong>受限直接访问</strong>（Limited Direct Execution，LDE）：：让程序运行的大部分指令直接访问硬件，只在 一些关键点（如进程发起系统调用或发生时钟中断）由操作系统介入来确保“在正确时间， 正确的地点，做正确的事”。</p>
+<h2 id="静态重定位"><a href="#静态重定位" class="headerlink" title="静态重定位"></a>静态重定位</h2><p>基本技术被称为静态重定位（static relocation），其中一个名为加载程序（loader）的软件接手将要运行的可执行程序，将它的地址重写到物理内存中期望的偏移位置。 </p>
+<p>例如，程序中有一条指令是从地址 1000 加载到寄存器（即 movl 1000，%eax），当整个程序的地址 空间被加载到从 3000（不是程序认为的 0）开始的物理地址中，加载程序会重写指令中的地址（即 movl 4000, %eax），从而完成简单的静态重定位</p>
+<p><strong>也就是直接改写代码中的地址，完成重定位</strong></p>
+<h2 id="动态重定位"><a href="#动态重定位" class="headerlink" title="动态重定位"></a>动态重定位</h2><p><strong>基址（base）寄存器</strong>和<strong>界限（bound）寄存器</strong>，程序执行时，操作系统会决定其在物理内存中的实际加载地址，并将起始地址记录在基址寄存器中。</p>
+<p>现在，该进程产生的所有内存引用，都会被处理器通过以下方式转换为物理地址：</p>
+<figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs excel">physical <span class="hljs-built_in">address</span> = virtual <span class="hljs-built_in">address</span> + <span class="hljs-built_in">base</span><br></code></pre></td></tr></table></figure>
+
+<p>进程中使用的内存引用都是<strong>虚拟地址（virtual address）</strong>，硬件接下来将虚拟地址加上基址寄存器中的内容，得到<strong>物理地址（physical address）</strong>，再发给内存系统。</p>
+<p>将虚拟地址转换为物理地址，这正是所谓的<strong>地址转换（address translation）技术</strong>。也就是说，硬件取得进程认为它要访问的地址，将它<strong>转换</strong>成数据实际位于的物理地址。</p>
+<p><strong>界限寄存器</strong>：硬件在将虚拟地址与基址寄存器内容求和前，就检查这个界限。如果超出界限，就产生错误。</p>
+<h1 id="第十六章-分段"><a href="#第十六章-分段" class="headerlink" title="第十六章 分段"></a>第十六章 分段</h1><h2 id="显示引用段"><a href="#显示引用段" class="headerlink" title="显示引用段"></a>显示引用段</h2><p>例如使用14位虚拟地址的前两位来标识。</p>
+<p>第13、12位（第0位开始）作为段标识，若这两位是00，则硬件知道，这是属于代码段的地址，便使用代码段的基址和界限来重定位到正确的物理地址。若前两位是 01，则是堆地址，使用堆的基址和界限。</p>
+<p>如某一个虚拟地址：</p>
+<p>01 0000 0110 1000</p>
+<p>其前2位表示这是引用的堆段，后12位是段内偏移。偏移量与基址寄存器相加，硬件就得到了最终的物理地址。</p>
+<p>请注意，偏移量也简化了对段边界的判断。我们只要检查偏移量是否小于界限，大于界限的为非法地址。</p>
+<h2 id="隐式引用段"><a href="#隐式引用段" class="headerlink" title="隐式引用段"></a>隐式引用段</h2><p>利用地址是如何产生的，来区分不同的段</p>
+<p>在隐式（implicit）方式中，硬件通过地址产生的方式来确定段。例如，如果地址由程序计数器产生（即它是指令获取），那么地址在代码段。如果基于栈或基址指针，它一定在栈段。其他地址则在堆段。</p>
+<h2 id="栈是反向生长的"><a href="#栈是反向生长的" class="headerlink" title="栈是反向生长的"></a>栈是反向生长的</h2><p>首先，我们需要一点硬件支持。除了基址和界限外，硬件还需要知道段的增长方向，使用一位区分，比如 1 代表自小而大增长，0 反之。</p>
+<h2 id="支持共享"><a href="#支持共享" class="headerlink" title="支持共享"></a>支持共享</h2><p>为了支持共享，需要一些额外的硬件支持，这就是<strong>保护位（protection bit）</strong>。</p>
+<p>为每个段增加了几个位，标识程序是否能够读写该段，或执行其中的代码。</p>
+<h2 id="粗粒度与细粒度"><a href="#粗粒度与细粒度" class="headerlink" title="粗粒度与细粒度"></a>粗粒度与细粒度</h2><p>到目前为止，我们的例子大多针对只有很少的几个段的系统（即代码、栈、堆）。</p>
+<p>我们可以认为这种分段是<strong>粗粒度的（coarse-grained）</strong>;</p>
+<p>但是，一些早期系统（如 Multics[CV65, DD68]）更灵活，允许将地址空间划分为大量较小的段，这被称为<strong>细粒度（fine-grained）分段。</strong></p>
+<h1 id="第-17-章-空闲空间管理"><a href="#第-17-章-空闲空间管理" class="headerlink" title="第 17 章 空闲空间管理"></a>第 17 章 空闲空间管理</h1><h2 id="外部碎片问题"><a href="#外部碎片问题" class="headerlink" title="外部碎片问题"></a>外部碎片问题</h2><p><strong>外部碎片（external fragmentation）</strong>的问题：空闲空间被分割成不同大小的小块，成为碎片，后续的请求可能失败，因为没有一块足够大的连续空闲空间，即使这时总的空闲空间超出了请求的大小。</p>
+<p><strong>空闲列表（free list）</strong>：在堆上管理空闲空间的数据结构通常称为空闲列表（free list）；</p>
+<h2 id="内部碎片"><a href="#内部碎片" class="headerlink" title="内部碎片"></a>内部碎片</h2><p>如果分配程序给出的内存块超出请求的大小，在这种块中超出请求的空间（因此而未使用）就被认为是内部碎片（因为浪费发生在已分配单元的内部），这是另一种形式的空间浪费。</p>
+<h2 id="底层机制"><a href="#底层机制" class="headerlink" title="底层机制"></a>底层机制</h2><h3 id="分割与合并"><a href="#分割与合并" class="headerlink" title="分割与合并"></a>分割与合并</h3><p>比如某 30 字节的堆，其 10 ~ 20 字节被占用，则空闲列表会有两个元素，一个描述第一个 10 字节的空闲区域（0 ~ 9），另一个描述另一个空闲区域（字节 20～29）</p>
+<p>通过上面的介绍可以看出，任何大于 10 字节的分配请求都会失败（返回 NULL），因为没有足够的连续可用空间。而恰好 10 字节的需求可以由两个空闲块中的任何一个满足。但是，如果申请小于 10 字节空间，会发生什么？</p>
+<p>假设我们只申请一个字节的内存。这种情况下，分配程序会执行所谓的<strong>分割（splitting）动作</strong>：它找到一块可以满足请求的空闲空间，将其分割，第一块返回给用户，第二块留在空闲列表中。</p>
+<p>而当 free 掉中间的拦路虎，这个 10byte 的空间时，空闲列表会将空闲空间<strong>合并（coalescing）</strong>，而不是在原位置增加一个【addr ：10，len ：10】</p>
+<p>通过合并，我们会获得一个更大的连续的可分配空间。</p>
+<h3 id="追踪已分配空间的大小"><a href="#追踪已分配空间的大小" class="headerlink" title="追踪已分配空间的大小"></a>追踪已分配空间的大小</h3><p>对于 <code>free(void *ptr)</code>函数调用，这个接口没有块大小的参数。</p>
+<p>要完成这个任务，大多数分配程序都会在头块（header）中保存一点额外的信息，它在内存中，通常就在返回的内存块之前。</p>
+<p>我们检查一个 20 字节的已分配块，由 ptr 指着，设想用户调用了 malloc()，并将结果保存在 ptr 中：ptr = malloc(20)。</p>
+<p>该头块中至少包含所分配空间的大小（这个例子中是 20）。</p>
+<p>它也可能包含一些额外的指针来加速空间释放，包含一个幻数来提供完整性检查，以及其他信息。</p>
+<p>上面的例子看起来会像图 17.2 的样子。用户调用 free(ptr) 时，库会通过简单的指针运算得到头块的位置：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">free</span><span class="hljs-params">(<span class="hljs-type">void</span> *ptr)</span> </span>&#123;<br> <span class="hljs-type">header_t</span> *hptr = (<span class="hljs-type">void</span> *)ptr - <span class="hljs-built_in">sizeof</span>(<span class="hljs-type">header_t</span>);<br>&#125; <br></code></pre></td></tr></table></figure>
+
+<p>也就是说，指针指向完整的一块空间，头块是分配地址时，于这块空间之前，分配的一个结构体，其内部存储了一些信息，比如接下来的分配了的空间的大小。</p>
+<p><img src="/2023/03/23/Operating-Systems/p8.png" srcset="/img/loading.gif" lazyload></p>
+<p><strong>实际释放的是头块大小加上分配给用户的空间的大小</strong>。因此，如果用户请求 N 字节的内存，库不是寻找大小为 N 的空闲块，而是寻找 N 加上头块大小的空闲块。</p>
+<h2 id="嵌入空闲列表"><a href="#嵌入空闲列表" class="headerlink" title="嵌入空闲列表"></a>嵌入空闲列表</h2><p><img src="/2023/03/23/Operating-Systems/p9.png" srcset="/img/loading.gif" lazyload></p>
+<p>类似分配的头块一样，空闲空间的头部，也会有“空闲头块”，来指明其后续空间有多少可用，下一块空闲空间在哪。</p>
+<p>当内存中，前三块分配了100+8（head）的空间后，又将中间那块内存给释放掉，就会出现下图的变化：</p>
+<p><img src="/2023/03/23/Operating-Systems/p10.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="让堆增长"><a href="#让堆增长" class="headerlink" title="让堆增长"></a>让堆增长</h2><p>当堆的空间用完后，有以下两种应对方式：</p>
+<ul>
+<li>直接返回错误/NULL；</li>
+<li>使用某些系统调用（如UNIX中的 sbrk），让堆增长。最开始分配一个小的堆空间，随着使用时的不够用，再增大。</li>
+</ul>
+<h2 id="基本策略"><a href="#基本策略" class="headerlink" title="基本策略"></a>基本策略</h2><h3 id="最优匹配"><a href="#最优匹配" class="headerlink" title="最优匹配"></a>最优匹配</h3><p><strong>最优匹配（best fit）</strong>策略非常简单：首先遍历整个空闲列表，找到和请求大小一样或更大的空闲块，然后返回这组候选者中最小的一块。这就是所谓的最优匹配（也可以称为最小匹配）。只需要遍历一次空闲列表，就足以找到正确的块并返回。</p>
+<p>其可尽量返回最接近用户需求大小的块，尽量避免空间浪费。</p>
+<h3 id="最差匹配"><a href="#最差匹配" class="headerlink" title="最差匹配"></a>最差匹配</h3><p>尽量找最大的块，从中间分一部分给用户的请求。最差匹配尝试在空闲列表中保留较大的块，而不是向最优匹配那样可能剩下很多难以利用的小块。但是，最差匹配同样需要遍历整个空闲列表。更糟糕的是，大多数研究表明它的表现非常差，导致过量的碎片，同时还有很高的开销。</p>
+<h3 id="首次匹配"><a href="#首次匹配" class="headerlink" title="首次匹配"></a>首次匹配</h3><p><strong>首次匹配（first fit）</strong>策略就是找到第一个足够大的块，将请求的空间返回给用户。同样， 剩余的空闲空间留给后续请求。</p>
+<p>首次匹配有速度优势，但有时会让空闲列表开头的部分有很多小块。</p>
+<h3 id="下次匹配"><a href="#下次匹配" class="headerlink" title="下次匹配"></a>下次匹配</h3><p>不同于首次匹配每次都从列表的开始查找，<strong>下次匹配（next fit）</strong>算法多维护一个指针，指向上一次查找结束的位置。其想法是将对空闲空间的查找操作扩散到整个列表中去，避免对列表开头频繁的分割。</p>
+<h2 id="其它方式"><a href="#其它方式" class="headerlink" title="其它方式"></a>其它方式</h2><h3 id="分离空闲列表"><a href="#分离空闲列表" class="headerlink" title="分离空闲列表"></a>分离空闲列表</h3><p>一直以来有一种很有趣的方式叫作<strong>分离空闲列表（segregated list）</strong>。基本想法很简单： 如果某个应用程序经常申请一种（或几种）大小的内存空间，那就用一个独立的列表，只管理这样大小的对象。其他大小的请求都一给更通用的内存分配程序。</p>
+<p>这种方法的好处显而易见。通过拿出一部分内存专门满足某种大小的请求，碎片就不再是问题了。而且，由于没有复杂的列表查找过程，这种特定大小的内存分配和释放都很快。</p>
+<h3 id="伙伴系统"><a href="#伙伴系统" class="headerlink" title="伙伴系统"></a>伙伴系统</h3><p>因为合并对分配程序很关键，所以人们设计了一些方法，让合并变得简单，一个好例子就是<strong>二分伙伴分配程序（binary buddy allocator）</strong></p>
+<p>在这种系统中，空闲空间首先从概念上被看成大小为 2N 的大空间。当有一个内存分配请求时，空闲空间被递归地一分为二，直到刚好可以满足请求的大小（再一分为二就无法满足）。这时，请求的块被返回给用户。在下面的例子中，一个 64KB 大小的空闲空间被切分，以便提供 7KB 的块：</p>
+<p><img src="/2023/03/23/Operating-Systems/p11.png" srcset="/img/loading.gif" lazyload></p>
+<p>在这个例子中，最左边的 8KB 块被分配给用户（如上图中深灰色部分所示）。请注意， 这种分配策略只允许分配 2 的整数次幂大小的空闲块，因此会有<strong>内部碎片（internal fragment）</strong> 的麻烦。</p>
+<p>伙伴系统的漂亮之处在于块被释放时。如果将这个 8KB 的块归还给空闲列表，分配程序会检查“伙伴”8KB 是否空闲。如果是，就合二为一，变成 16KB 的块。然后会检查这个 16KB 块的伙伴是否空闲，如果是，就合并这两块。这个递归合并过程继续上溯，直到合并整个内存区域，或者某一个块的伙伴还没有被释放。</p>
+<p>伙伴系统运转良好的原因，在于很容易确定某个块的伙伴。怎么找？仔细想想上面例子中的各个块的地址。如果你想得够仔细，就会发现每对互为伙伴的块只有<strong>一位不同</strong>，正是这一位决定了它们在整个伙伴树中的层次。现在你应该已经大致了解了二分伙伴分配程序的工作方式。</p>
+<h1 id="第-18-章-分页：介绍"><a href="#第-18-章-分页：介绍" class="headerlink" title="第 18 章 分页：介绍"></a>第 18 章 分页：介绍</h1><p>将空间分割成固定长度的分片。在虚拟内存中，我们称这种思想为分页，可以追溯到一个早期的重要系统，Atlas[KE+62, L78]。分页不是将一个进程的地址空间分割成几个不同长度的逻辑段（即代码、堆、段），而是分割成固定大小的单元，每个单元称为一页。相应地，我们把物理内存看成是定长槽块的阵列，叫作页帧（page frame）。每个这样的页帧包含一个虚拟内存页。</p>
+<p><img src="/2023/03/23/Operating-Systems/p12.png" srcset="/img/loading.gif" lazyload></p>
+<p>为了记录地址空间的每个虚拟页放在物理内存中的位置，操作系统通常为每个进程保存一个数据结构，称为<strong>页表（page table）</strong>。页表的主要作用是为地址空间的每个虚拟页面保存<strong>地址转换（address translation）</strong>，从而让我们知道每个页在物理内存中的位置。</p>
+<p>页表因此具有以下 4 个条目：（虚拟页 0→物理帧 3）、（VP 1→PF 7）、 （VP 2→PF 5）和（VP 3→PF 2）。</p>
+<p>重要的是要记住，这个页表是一个<strong>每进程</strong>的数据结构（我们讨论的大多数页表结构都是每进程的数据结构，我们将接触的一个例外是倒排页表，inverted page table）</p>
+<p>现在，我们了解了足够的信息，可以完成一个地址转换的例子。设想拥有这个小地址 空间（64 字节）的进程正在访问内存：</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs arduino">movl &lt;<span class="hljs-keyword">virtual</span> Address&gt; , %eax<br></code></pre></td></tr></table></figure>
+
+<p>具体来说，注意从地址到寄存器 eax 的数据显式加载（因此忽略之前肯定会发生的指令获取）。</p>
+<p>为了转换（translate）该过程生成的虚拟地址，我们必须首先将它分成两个组件：虚拟页面号（virtual page number，VPN）和页内的偏移量（offset）。对于这个例子，因为进程的虚拟地址空间是 64 字节，我们的虚拟地址总共需要 6 位（26 = 64）。因此，虚拟地址可以表示如下：</p>
+<p>Va5   Va4   Va3  Va2  Va1  Va0</p>
+<p>在该图中，Va5 是虚拟地址的最高位，Va0 是最低位。因为我们知道页的大小（16 字节）， 所以可以进一步划分虚拟地址，如下所示：</p>
+<p><img src="/2023/03/23/Operating-Systems/p13.png" srcset="/img/loading.gif" lazyload></p>
+<p>页面大小为 16 字节，位于 64 字节的地址空间。因此我们需要能够选择 4 个页，地址 的前 2 位就是做这件事的。因此，我们有一个 2 位的虚拟页号（VPN）。其余的位告诉我们， 感兴趣该页的哪个字节，在这个例子中是 4 位，我们称之为偏移量。 当进程生成虚拟地址时，操作系统和硬件必须协作，将它转换为有意义的物理地址。 例如，让我们假设上面的加载是虚拟地址 21：</p>
+<p><code>movl 21 , %eax</code></p>
+<p>将“21”变成二进制形式，是“010101”，因此我们可以检查这个虚拟地址，看看它是 如何分解成虚拟页号（VPN）和偏移量的：</p>
+<p><img src="/2023/03/23/Operating-Systems/p14.png" srcset="/img/loading.gif" lazyload></p>
+<p>因此，虚拟地址“21”在虚拟页“01”（或 1）的第 5 个（“0101”）字节处。通过虚拟 页号，我们现在可以检索页表，找到虚拟页 1 所在的物理页面。在上面的页表中，物理帧号（PFN）（有时也称为物理页号，physical page number 或 PPN）是 7（二进制 111）。因此， 我们可以通过用 PFN 替换 VPN 来转换此虚拟地址， 然后将载入发送给物理内存（见图 18.3）。</p>
+<p><img src="/2023/03/23/Operating-Systems/p15.png" srcset="/img/loading.gif" lazyload></p>
+<p>请注意，偏移量保持不变（即未翻译），因为偏 移量只是告诉我们页面中的哪个字节是我们想要的。 我们的最终物理地址是 1110101（十进制 117），正是 我们希望加载指令（见图 18.2）获取数据的地方。</p>
+<h2 id="页表存在哪里"><a href="#页表存在哪里" class="headerlink" title="页表存在哪里"></a>页表存在哪里</h2><p>稍后我们会看到，很多 操作系统内存本身都可以虚拟化，因此页表可以存储在操 作系统的虚拟内存中（甚至可以交换到磁盘上）</p>
+<h2 id="列表中有什么"><a href="#列表中有什么" class="headerlink" title="列表中有什么"></a>列表中有什么</h2><p>页表就是一种数据结构，用于将虚拟地址（或者实际上，是虚拟页号）映射到物理地址（物理帧号）。</p>
+<p>最简单的形式称为线性页表（linear page table），就是一个数组。操作系统通过虚拟页号（VPN）检索该数组，并在该索引处查找页表项（PTE），以便找到期望的物理帧号（PFN）。</p>
+<p>至于每个 PTE 的内容，我们在其中有许多不同的位，值得有所了解。<strong>有效位（valid bit）</strong> 通常用于指示特定地址转换是否有效。例如，当一个程序开始运行时，它的代码和堆在其地址空间的一端，栈在另一端。所有未使用的中间空间都将被标记为<strong>无效（invalid）</strong>，如果进程尝试访问这种内存，就会陷入操作系统，可能会导致该进程终止。</p>
+<p>我们还可能有<strong>保护位（protection bit）</strong>，表明页是否可以读取、写入或执行。同样，以这 些位不允许的方式访问页，会陷入操作系统</p>
+<p>还有其他一些重要的部分，但现在我们不会过多讨论。<strong>存在位（present bit）</strong>表示该页 是在物理存储器还是在磁盘上（即它已被换出，swapped out）。当我们研究如何将部分地址 <strong>空间交换（swap）</strong>到磁盘，从而支持大于物理内存的地址空间时，我们将进一步理解这一 机制。交换允许操作系统将很少使用的页面移到磁盘，从而释放物理内存。<strong>脏位（dirty bit）</strong> 也很常见，表明页面被带入内存后是否被修改过。</p>
+<p><strong>参考位（reference bit，也被称为访问位，accessed bit）</strong>有时用于追踪页是否被访问，也 用于确定哪些页很受欢迎，因此应该保留在内存中。这些知识在页面替换（page replacement） 时非常重要，我们将在随后的章节中详细研究这一主题。</p>
+<p><img src="/2023/03/23/Operating-Systems/p16.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="分页：也很慢"><a href="#分页：也很慢" class="headerlink" title="分页：也很慢"></a>分页：也很慢</h2><p><strong>页表基址寄存器（page-table base register）</strong>包含页表的起始位置的物理地址。</p>
+<p>为了找到想要的 PTE 的位置，硬件将执行以下功能：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-attr">VPN</span> = (VirtualAddress &amp; VPN_MASK) &gt;&gt; SHIFT<br><span class="hljs-attr">PTEAddr</span> = PageTableBaseRegister + (VPN * sizeof(PTE))<br></code></pre></td></tr></table></figure>
+
+<p>在我们的例子中，VPN MASK 将被设置为 0x30（十六进制 30，或二进制 110000），它 从完整的虚拟地址中挑选出 VPN 位；SHIFT 设置为 4（偏移量的位数），这样我们就可以将 VPN 位向右移动以形成正确的整数虚拟页码。例如，使用虚拟地址 21（010101），掩码将 此值转换为 010000，移位将它变成 01，或虚拟页 1，正是我们期望的值。然后，我们使用 该值作为页表基址寄存器指向的 PTE 数组的索引。</p>
+<p>一旦知道了这个物理地址，硬件就可以从内存中获取 PTE，提取 PFN，并将它与来自 虚拟地址的偏移量连接起来，形成所需的物理地址。具体来说，你可以想象 PFN 被 SHIFT 左移，然后与偏移量进行逻辑或运算，以形成最终地址</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-attr">offset</span> = VirtualAddress &amp; <span class="hljs-literal">OFF</span>SET_MASK<br><span class="hljs-attr">PhysAddr</span> = (PFN &lt;&lt; SHIFT) | <span class="hljs-literal">off</span>set <br></code></pre></td></tr></table></figure>
+
+<figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs basic"><span class="hljs-symbol">1 </span>// Extract the VPN from the virtual address<br><span class="hljs-symbol">2 </span>VPN = (VirtualAddress &amp; VPN_MASK) &gt;&gt; SHIFT<br><span class="hljs-number">3</span><br><span class="hljs-symbol">4 </span>// Form the address of the page-table entry (PTE)<br><span class="hljs-symbol">5 </span>PTEAddr = PTBR + (VPN * sizeof(PTE))<br><span class="hljs-number">6</span><br><span class="hljs-symbol">7 </span>// Fetch the PTE<br><span class="hljs-symbol">8 </span>PTE = AccessMemory(PTEAddr)<br><span class="hljs-number">9</span><br><span class="hljs-symbol">10 </span>// Check <span class="hljs-keyword">if</span> process can access the page<br><span class="hljs-symbol">11 </span><span class="hljs-keyword">if</span> (PTE.Valid == False)<br><span class="hljs-symbol">12 </span>RaiseException(SEGMENTATION_FAULT)<br><span class="hljs-symbol">13 </span><span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (CanAccess(PTE.ProtectBits) == False)<br><span class="hljs-symbol">14 </span>RaiseException(PROTECTION_FAULT)<br><span class="hljs-symbol">15 </span><span class="hljs-keyword">else</span><br><span class="hljs-symbol">16 </span>// Access is OK: form physical address <span class="hljs-keyword">and</span> fetch it<br><span class="hljs-symbol">17 </span>offset = VirtualAddress &amp; OFFSET_MASK<br><span class="hljs-symbol">18 </span>PhysAddr = (PTE.PFN &lt;&lt; PFN_SHIFT) | offset<br><span class="hljs-symbol">19 </span>Register = AccessMemory(PhysAddr) <br></code></pre></td></tr></table></figure>
+
+<p>对于每个内存引用（无论是取指令还是显式加载或存储），分页都需要我们执行一个 额外的内存引用，以便首先从页表中获取地址转换。工作量很大！额外的内存引用开销很 大，在这种情况下，可能会使进程减慢两倍或更多。</p>
+<h2 id="内存追踪"><a href="#内存追踪" class="headerlink" title="内存追踪"></a>内存追踪</h2><p>略（就是小结）</p>
+<h1 id="第-19-章-分页：快速地址转换（TLB）"><a href="#第-19-章-分页：快速地址转换（TLB）" class="headerlink" title="第 19 章 分页：快速地址转换（TLB）"></a>第 19 章 分页：快速地址转换（TLB）</h1><p>虚拟地址转换的<strong>映射信息</strong>，往往储存在<strong>物理内存</strong>中，故转换虚拟地址时，分页逻辑上需要额外一次的内存访问。这个会带来较高的性能开销。</p>
+<p>于是我们需要思考，如何<strong>加速</strong>地址转换。</p>
+<p><strong>TLB（translation-lookaside buffer， TLB）</strong>，即<strong>地址转换旁路缓冲储存器</strong>。</p>
+<p>它就是频繁发生的虚拟到物理地址转换的<strong>硬件缓存（cache）</strong>。</p>
+<p>对每次内存访问，硬件先检查 TLB，看看其中是否有期望的转换映射，如果有，就完成转换（很快），不用访问页表（其中有全部的转换映射）。</p>
+<h2 id="TLB-的基本算法"><a href="#TLB-的基本算法" class="headerlink" title="TLB 的基本算法"></a>TLB 的基本算法</h2><figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs basic"><span class="hljs-symbol">1 </span> VPN = (VirtualAddress &amp; VPN_MASK) &gt;&gt; SHIFT<br><span class="hljs-symbol">2 </span>(Success, TlbEntry) = TLB_Lookup(VPN)<br><span class="hljs-symbol">3 </span><span class="hljs-keyword">if</span> (Success == True) // TLB Hit<br><span class="hljs-symbol">4 </span>    <span class="hljs-keyword">if</span> (CanAccess(TlbEntry.ProtectBits) == True)<br><span class="hljs-symbol">5 </span>        Offset = VirtualAddress &amp; OFFSET_MASK<br><span class="hljs-symbol">6 </span>        PhysAddr = (TlbEntry.PFN &lt;&lt; SHIFT) | Offset<br><span class="hljs-symbol">7 </span>        AccessMemory(PhysAddr)<br><span class="hljs-symbol">8 </span>    <span class="hljs-keyword">else</span><br><span class="hljs-symbol">9 </span>        RaiseException(PROTECTION_FAULT)<br><span class="hljs-symbol">10 </span><span class="hljs-keyword">else</span> // TLB Miss<br><span class="hljs-symbol">11 </span>    PTEAddr = PTBR + (VPN * sizeof(PTE))<br><span class="hljs-symbol">12 </span>    PTE = AccessMemory(PTEAddr) <br><span class="hljs-symbol">13 </span>    <span class="hljs-keyword">if</span> (PTE.Valid == False)<br><span class="hljs-symbol">14 </span>        RaiseException(SEGMENTATION_FAULT)<br><span class="hljs-symbol">15 </span>    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (CanAccess(PTE.ProtectBits) == False)<br><span class="hljs-symbol">16 </span>        RaiseException(PROTECTION_FAULT)<br><span class="hljs-symbol">17 </span>    <span class="hljs-keyword">else</span><br><span class="hljs-symbol">18 </span>        TLB_Insert(VPN, PTE.PFN, PTE.ProtectBits)<br><span class="hljs-symbol">19 </span>        RetryInstruction() <br></code></pre></td></tr></table></figure>
+
+<p>硬件算法的大体流程如下：</p>
+<ul>
+<li>首先从虚拟地址中提取页号（VPN）（见图 19.1 第 1 行）， 然后检查 TLB 是否有该 VPN 的转换映射（第 2 行）。如果有，我们有了 TLB 命中（TLB hit）， 这意味着 TLB 有该页的转换映射。成功！</li>
+<li>接下来我们就可以从相关的 TLB 项中取出页帧号（PFN），与原来虚拟地址中的偏移量组合形成期望的物理地址（PA），并访问内存（第 5～7 行），假定保护检查没有失败（第 4 行）。</li>
+<li>如果 CPU 没有在 TLB 中找到转换映射（TLB 未命中），我们有一些工作要做。在本例中，硬件访问页表来寻找转换映射（第 11～12 行），并用该转换映射更新 TLB（第 18 行）， 假设该虚拟地址有效，而且我们有相关的访问权限（第 13、15 行）。上述系列操作开销较大，主要是因为访问页表需要额外的内存引用（第 12 行）。最后，当 TLB 更新成功后，系统会重新尝试该指令，这时 TLB 中有了这个转换映射，内存引用得到很快处理。</li>
+</ul>
+<p><strong>尽可能利用缓存</strong>：缓存是计算机系统在最基本的性能改进技术之一，一次又一次地用于<strong>让常见的情况更快</strong>。</p>
+<p>其背后的思想是利用指令和数据引用的局部性（如数组的密集存放，往往不命中的只有开头的那一个，随后几个便会命中）</p>
+<p><strong>时间局部性</strong>：最近访问过的指令或数据项可能很快会再次访问。想想循环中的循环变量或指令，它们被多次反复访问。</p>
+<p><strong>空间局部性</strong>：当程序访问内存地址 x 时，可能很快会访问邻近 x 的内存。想想遍历某种数组，访问一个接一个的元素。当然，这些性质取决于程序的特点，并不是绝对的定律，而更像是一种经验法则。</p>
+<h2 id="谁来处理-TLB-未命中"><a href="#谁来处理-TLB-未命中" class="headerlink" title="谁来处理 TLB 未命中"></a>谁来处理 TLB 未命中</h2><p><strong>是硬件</strong></p>
+<p>为了做到这一点，硬件必须知道页表在内存中的确切位置，以及页表的确切格式。发生未命中时，硬件会“遍历”页表，找到正确的页表项，取出想要的转换映射，用它更新 TLB，并重试该指令。这种“旧”体系结构有硬件管理的 TLB，一个例子是 x86 架构，它采用固定的<strong>多级页表（multi-level page table）</strong>。</p>
+<p>更现代的体系结构（例如，MIPS；Sun 公司的 SPARC，都是RISC），有所谓的<strong>软件管理 TLB（software-managed TLB）</strong>，发生 TLB 未命中时，硬件系统会抛出一个异常，这会暂停当前的指令流，将特权级提升至内核模式，跳转至陷阱处理程序（trap handler）。接下来，这个陷阱处理程序是操作系统的一段代码，用于处理 TLB 未命中。</p>
+<p>这段代码在运行时，会查找页表中的转换映射，然后用特别的“特权”指令更新 TLB，并从陷阱返回。此时，硬件会重试该指令（导致 TLB 命中）。</p>
+<h2 id="几个重要的细节"><a href="#几个重要的细节" class="headerlink" title="几个重要的细节"></a>几个重要的细节</h2><ul>
+<li><p>首先，这里的从陷阱返回指令稍稍不同于之前提到的服务于系统调用的从陷阱返回。在后一种情况下，从陷阱返回应该继续执行陷入操作系统之后那条指令，就像从函数调用返回后，会继续执行此次调用之后的语句。</p>
+</li>
+<li><p>在前一种情况下，在从 TLB 未命中的陷阱返回后，<strong>硬件必须从导致陷阱的指令继续执行</strong> 。这次重试因此导致该指令再次执行，但这次会命中 TLB。因此，根据陷阱或异常的原因，系统在陷入内核时，必须保存不同的程序计数器，以便将来能够正确地继续执行。</p>
+</li>
+<li><p>第二，在运行 TLB 未命中处理代码时，操作系统需要格外小心避免引起 TLB 未命中的<strong>无限递归</strong>。有很多解决方案，例如，可以把 TLB 未命中陷阱处理程序直接放到物理内存中[它们没有映射过（unmapped），不用经过地址转换]</p>
+</li>
+<li><p>或者在 TLB 中保留一些项，记录永久有效的地址转换，并将其中一些永久地址转换槽块留给处理代码本身，这些被监听的（wired） 地址转换总是会命中 TLB。</p>
+</li>
+</ul>
+<h2 id="TLB-的内容"><a href="#TLB-的内容" class="headerlink" title="TLB 的内容"></a>TLB 的内容</h2><p>我们来详细看一下硬件 TLB 中的内容。典型的 TLB 有 32 项、64 项或 128 项，并且是 <strong>全相联的（fully associative）</strong>。基本上，这就意味着一条地址映射可能存在 TLB 中的任意位置，硬件会并行地查找 TLB，找到期望的转换映射。</p>
+<p>一条 TLB 项内容可能像下面这样：</p>
+<p>VPN ｜ PFN ｜ 其他位</p>
+<p>注意，VPN 和 PFN 同时存在于 TLB 中，因为一条地址映射可能出现在任意位置（用硬件的术语，TLB 被称为全相联的（fully-associative）缓存）。</p>
+<p>注意：</p>
+<ul>
+<li>TLB 的有效位，只是指出 TLB 项是不是有效的地址映射。</li>
+<li>页表的有效位，表示该页有没有被进程申请使用。</li>
+</ul>
+<p>更有趣的是“其他位”。例如，TLB 通常有一个<strong>有效（valid）位</strong>，用来标识该项是不是有效地转换映射。通常还有一些<strong>保护（protection）位</strong>，用来标识该页是否有访问权限。例如，代码页被标识为可读和可执行，而堆的页被标识为可读和可写。还有其他一些位，包括<strong>地址空间标识符（address-space identifier）</strong>、<strong>脏位（dirty bit）</strong>等。下面会介绍更多信息。</p>
+<h2 id="上下文切换时对-TLB-的处理"><a href="#上下文切换时对-TLB-的处理" class="headerlink" title="上下文切换时对 TLB 的处理"></a>上下文切换时对 TLB 的处理</h2><p>有了 TLB，在进程间切换时（因此有地址空间切换），会面临一些新问题。具体来说， TLB 中包含的虚拟到物理的地址映射只对当前进程有效，对其他进程是没有意义的。所以在发生进程切换时，硬件或操作系统（或二者）必须注意确保即将运行的进程不要<strong>误读</strong>了之前进程的地址映射。</p>
+<ul>
+<li>一种方法是在上下文切换时，简单地<strong>清空（flush）</strong>TLB，这样在新进程运行前 TLB 就变成了空的。如果是<strong>软件管理 TLB</strong> 的系统，可以在发生上下文切换时，通过一条显式（特权）指令来完成。如果是<strong>硬件管理 TLB</strong>，则可以在页表基址寄存器内容发生变化时清空 TLB（注意，在上下文切换时，操作系统必须改变页表基址寄存器（PTBR） 的值）。不论哪种情况，清空操作都是把<strong>全部有效位（valid）置为 0</strong>，本质上清空了 TLB。</li>
+<li>为了减少每次清空以后，之后多次不命中的开销，一些系统增加了硬件支持，实现跨上下文切换的 TLB 共享。比如 有的系统在 TLB 中添加了一个<strong>地址空间标识符（Address Space Identifier，ASID）</strong>。</li>
+<li>可以把 ASID 看作是<strong>进程标识符（Process Identifier，PID）</strong>，但通常比 PID 位数少（PID 一般 32 位， ASID 一般是 8 位）。</li>
+</ul>
+<h2 id="TLB-替换策略"><a href="#TLB-替换策略" class="headerlink" title="TLB 替换策略"></a>TLB 替换策略</h2><p>TLB 和其他缓存一样，还有一个问题要考虑，即<strong>缓存替换（cache replacement）</strong>。具体来说，向 TLB 中插入新项时，会<strong>替换（replace）</strong>一个旧项，这样问题就来了：应该替换那一个？</p>
+<ul>
+<li>替换<strong>最近最少使用（least-recently-used，LRU）</strong>的项；</li>
+<li><strong>随机（random）</strong>策略，即随机选择一项换出去。</li>
+</ul>
+<h2 id="实际系统的-TLB-表项"><a href="#实际系统的-TLB-表项" class="headerlink" title="实际系统的 TLB 表项"></a>实际系统的 TLB 表项</h2><p><img src="/2023/03/23/Operating-Systems/p17.png" srcset="/img/loading.gif" lazyload></p>
+<ul>
+<li>VPN：虚拟页号；</li>
+<li>G：全局位（Global，G），用来指示这个页是不是所有进程全局共享的；</li>
+<li>ASID：地址空间标识符；</li>
+<li>PFN：物理帧号；</li>
+<li>C：一致性位（Coherence，C），决定硬件如何缓存该页；</li>
+<li>D：脏位，表示该页是否被写入新数据；</li>
+<li>V：有效位，告诉硬件该项的地址映射是否有效。</li>
+</ul>
+
             </div>
             <hr>
             <div>
