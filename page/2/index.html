@@ -189,6 +189,91 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2023/03/14/Persistent-Mode/" target="_self">
+          <img src="/MyPic/rain.jpg" srcset="/img/loading.gif" lazyload alt="Persistent Mode">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2023/03/14/Persistent-Mode/" target="_self">
+          Persistent Mode
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2023/03/14/Persistent-Mode/" target="_self">
+          
+          Forkserver Persistent ModePersistent ModeAFL 中采用 Forserver 来加快程序运行效率，其原理是利用 Forkserver 机制 fork() 出子程序进行执行，取代了 execve() 的执行模式，避免了大量重复的链接等操作，大大提升了 Fuzz 的速率。 进一步看，由于某些库提供的 API 是无状态的，或能重置其状态，在一次次循环之间。当 AP
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-03-14 18:46" pubdate>
+              2023-03-14
+            </time>
+          </div>
+        
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2023/03/05/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" target="_self">
+          <img src="/MyPic/rain.jpg" srcset="/img/loading.gif" lazyload alt="计算机网络">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2023/03/05/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" target="_self">
+          计算机网络
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2023/03/05/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" target="_self">
+          
+          第一章-计算机网络和因特网因特网构成 手机、电脑、电视等接入互联网的“物品”称为主机（host）或端系统（end system）； 链接上述终端的是通信链路（communication link） 和 分组交换机（packet switch）； 链路有**传输速率（transmission rate)**，单位是比特每秒（bps）； 端向端发送的数据，分段后加上首部字节，这些信息包称为分组（pac
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-03-05 13:45" pubdate>
+              2023-03-05
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/course/">course</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
         <a href="/2023/03/02/AddressSanitizer/" target="_self">
           <img src="/MyPic/rain.jpg" srcset="/img/loading.gif" lazyload alt="AddressSanitizer">
         </a>
@@ -488,98 +573,6 @@
             <i class="iconfont icon-date"></i>
             <time datetime="2022-03-22 19:57" pubdate>
               2022-03-22
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/ctf-in-do%E2%99%82r/">ctf in do♂r</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/20/create-bin-sh/" target="_self">
-          <img src="/MyPic/rain.jpg" srcset="/img/loading.gif" lazyload alt="create /bin/sh">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/20/create-bin-sh/" target="_self">
-          create /bin/sh
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/20/create-bin-sh/" target="_self">
-          
-          当目标有调用system函数，但无&#x2F;bin&#x2F;sh字符串时xctf pwn新手区最后三题之一，cgpwn2. 打开IDA乍一看，没有后门函数，没有明显的可导向的返回地址。  关注有两个读取输入的地方，一个是有限制大小的读取函数，另一个是gets()这个危险函数。 考虑到这题只开启了NX保护，栈溢出应该是必须的。 于是，思路是通过name字符串，导入“&#x2F;bin&#x2F;sh”字符串。 再通过gets()溢出，
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-20 22:46" pubdate>
-              2022-03-20
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/ctf-in-do%E2%99%82r/">ctf in do♂r</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2022/03/06/xctf-int-overflow%E6%95%B4%E6%95%B0%E7%B1%BB%E5%9E%8B%E7%9A%84%E6%BA%A2%E5%87%BA/" target="_self">
-          <img src="/MyPic/rain.jpg" srcset="/img/loading.gif" lazyload alt="xctf int_overflow整数类型的溢出">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/03/06/xctf-int-overflow%E6%95%B4%E6%95%B0%E7%B1%BB%E5%9E%8B%E7%9A%84%E6%BA%A2%E5%87%BA/" target="_self">
-          xctf int_overflow整数类型的溢出
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/03/06/xctf-int-overflow%E6%95%B4%E6%95%B0%E7%B1%BB%E5%9E%8B%E7%9A%84%E6%BA%A2%E5%87%BA/" target="_self">
-          
-          整数类型的溢出以xctf平台的pwn新手区int_overflow为例into 为rename的elf文件 0X1 file intochmod 777 into.&#x2F;into  先确定into为32位elf文件 0X2win环境下，32位IDA进行分析有明显的后门函数what_is_this()进入login()后结合下图看看首先，我们可以发现，目前为止，找不到合适的直接溢出点，read函数都未越
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-03-06 23:08" pubdate>
-              2022-03-06
             </time>
           </div>
         
