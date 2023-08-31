@@ -24,8 +24,11 @@
 <meta property="og:description" content="该文章将持续记录本人在 vul337 实习过程中，参与的 fuzz 项目的开发经历。 0x01 了解 fuzz  来 vul 337 实习之前，我对 fuzz 处于一无所知的状态，当初抱着“我可能本科毕业后需要找工作，学一下这个看起来很厉害的技术，到时候有口饭吃”的想法，给 chao 老师发送了邮件，申请成为337的一个实习生。  从综述论文开始  刚刚入组实习，X学长为我打开了 fuzz 的大门">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/2023/08/16/My-Fuzzing-Development-Diary/p1.png">
+<meta property="og:image" content="http://example.com/2023/08/16/My-Fuzzing-Development-Diary/p2.png">
+<meta property="og:image" content="http://example.com/2023/08/16/My-Fuzzing-Development-Diary/p3.png">
+<meta property="og:image" content="http://example.com/2023/08/16/My-Fuzzing-Development-Diary/p4.png">
 <meta property="article:published_time" content="2023-08-16T11:41:08.000Z">
-<meta property="article:modified_time" content="2023-08-31T02:45:35.848Z">
+<meta property="article:modified_time" content="2023-08-31T11:57:38.145Z">
 <meta property="article:author" content="kawa_von">
 <meta property="article:tag" content="fuzz">
 <meta name="twitter:card" content="summary_large_image">
@@ -199,7 +202,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      2.4k 字
+      3.8k 字
     </span>
   
 
@@ -208,7 +211,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      21 分钟
+      32 分钟
     </span>
   
 
@@ -309,7 +312,54 @@
 <h2 id="Persistent-Mode"><a href="#Persistent-Mode" class="headerlink" title="Persistent Mode"></a>Persistent Mode</h2><p>  Persistent Mode 是我负责的第一个插件，简单来说，<strong>Persistent Mode 通过在某些情况下不使用程序的<code>fork()</code>而以修改源码，利用程序内的循环达到反复测试的目的</strong>。</p>
 <p>  关于 Persistent Mode 我之前写过两篇博客，但回头看来，又有许多可以改进之处，故留个小坑，过些时于本文中详述下 Persistent Mode。</p>
 <p>  （TODO：详细总结 Persistent Mode 于此）</p>
-<h2 id="Radamsa-Mutator"><a href="#Radamsa-Mutator" class="headerlink" title="Radamsa Mutator"></a>Radamsa Mutator</h2><h2 id="Frida-Mode"><a href="#Frida-Mode" class="headerlink" title="Frida Mode"></a>Frida Mode</h2><h1 id="0x05-Closed-Source-Fuzz"><a href="#0x05-Closed-Source-Fuzz" class="headerlink" title="0x05 Closed Source Fuzz"></a>0x05 Closed Source Fuzz</h1>
+<h2 id="Radamsa-Mutator"><a href="#Radamsa-Mutator" class="headerlink" title="Radamsa Mutator"></a>Radamsa Mutator</h2><h2 id="Frida-Mode"><a href="#Frida-Mode" class="headerlink" title="Frida Mode"></a>Frida Mode</h2><h1 id="0x05-Closed-Source-Fuzz"><a href="#0x05-Closed-Source-Fuzz" class="headerlink" title="0x05 Closed Source Fuzz"></a>0x05 Closed Source Fuzz</h1><p>  由于目前的任务是开发 executor 方向的 frida mode 插件，故着手了解一下无源码 fuzzing</p>
+<p>  参考文章：<a target="_blank" rel="noopener" href="https://airbus-seclab.github.io/AFLplusplus-blogpost/">https://airbus-seclab.github.io/AFLplusplus-blogpost/</a></p>
+<h2 id="无源码插桩"><a href="#无源码插桩" class="headerlink" title="无源码插桩"></a>无源码插桩</h2><h2 id="实践一下"><a href="#实践一下" class="headerlink" title="实践一下"></a>实践一下</h2><p>  今日（2023/08/31），基于昨天配置好的 AFL++，开启了以下的尝试。</p>
+<p>  为什么不是 AFL？因为 AFL 的 qemu mode 需要 python2 而非 python3，且一些依赖的库过时严重，安装之的时候，把我虚拟机 Ubuntu Desktop 搞崩溃了，听说是显卡驱动的原因，反正修了一天没修好，所以决定用 AFL++ ！</p>
+<p>  这是测试程序源代码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;signal.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span>** argv)</span> &#123;<br>  <span class="hljs-type">char</span> buf[<span class="hljs-number">100</span>]; <br>  <span class="hljs-keyword">while</span> (__AFL_LOOP(<span class="hljs-number">1000</span>)) &#123;<br>    <span class="hljs-built_in">memset</span>(buf, <span class="hljs-number">0</span>, <span class="hljs-number">100</span>);<br>    read(<span class="hljs-number">0</span>, buf, <span class="hljs-number">100</span>);<br>    <span class="hljs-keyword">if</span> (buf[<span class="hljs-number">0</span>] == <span class="hljs-string">&#x27;f&#x27;</span>) &#123;<br>      <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;one\n&quot;</span>);<br>      <span class="hljs-keyword">if</span> (buf[<span class="hljs-number">1</span>] == <span class="hljs-string">&#x27;o&#x27;</span>) &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;two\n&quot;</span>);<br>        <span class="hljs-keyword">if</span> (buf[<span class="hljs-number">2</span>] == <span class="hljs-string">&#x27;o&#x27;</span>) &#123;<br>          <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;three\n&quot;</span>);<br>          <span class="hljs-keyword">if</span> (buf[<span class="hljs-number">3</span>] == <span class="hljs-string">&#x27;!&#x27;</span>) &#123;<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;four\n&quot;</span>);<br>            <span class="hljs-built_in">abort</span>();<br>          &#125;<br>        &#125;<br>      &#125;<br>    &#125;<br>  &#125; <span class="hljs-comment">// end of while (__AFL_LOOP(1000))</span><br>  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>  简而言之，就是输入的字符串为<code>foo!</code>时，会触发<code>abort()</code>，检测到 crash。</p>
+<p>  使用以下命令进行 fuzz：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">afl-fuzz -i input -o output -Q vuls/foo<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>-i, -o 参数后为输入/输出文件夹；（我的 input 设置为 foo）</li>
+<li>-Q 参数开启 Qemu mode，无源码 fuzz；</li>
+<li>vuls/foo 是用 gcc 编译的上面的目标 C 文件；</li>
+</ul>
+<p>测试结果：</p>
+<p>  不到一分钟，报出 crash：</p>
+<p>  <img src="/2023/08/16/My-Fuzzing-Development-Diary/p2.png" srcset="/img/loading.gif" lazyload></p>
+<p>  进入<code>output/default/crashes</code>文件夹</p>
+<p>  使用<code>xxd</code>命令查看可得：</p>
+<p><img src="/2023/08/16/My-Fuzzing-Development-Diary/p3.png" srcset="/img/loading.gif" lazyload></p>
+<p>  触发 crash 的输入正是 <code>foo!</code></p>
+<h2 id="对比编译时插桩"><a href="#对比编译时插桩" class="headerlink" title="对比编译时插桩"></a>对比编译时插桩</h2><p>  使用以下指令进行编译/插桩</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">afl-clang-fast vuls/foo.c -o vul1<br></code></pre></td></tr></table></figure>
+
+<p>  然后用以下指令进行 fuzz</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">afl-fuzz -i input -o output vuls/vul1<br></code></pre></td></tr></table></figure>
+
+<p> 注：此处已不再需要<code>-Q</code>参数，因为是已经插桩好了的程序</p>
+<p>  运行时：</p>
+<p><img src="/2023/08/16/My-Fuzzing-Development-Diary/p4.png" srcset="/img/loading.gif" lazyload></p>
+<p>  也是很快的速度就报出了 crash</p>
+<p>  经过对比，不难发现：</p>
+<ul>
+<li><p>有源码会比无源码快 2-5 倍；</p>
+</li>
+<li><p>都很准确；</p>
+<p>无源码的体验暂时到这，接下来的计划：</p>
+</li>
+<li><p>读 qemu mode 代码，了解下其运行时插桩的逻辑；</p>
+</li>
+<li><p>了解 frida；</p>
+</li>
+<li><p>more…</p>
+</li>
+</ul>
+
             </div>
             <hr>
             <div>
