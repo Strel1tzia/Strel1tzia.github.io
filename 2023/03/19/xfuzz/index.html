@@ -236,6 +236,12 @@
             <!-- SEO header -->
             <h1 style="display: none">xfuzz</h1>
             
+              <p class="note note-info">
+                
+                  本文最后更新于：2023年8月16日 晚上
+                
+              </p>
+            
             <div class="markdown-body">
               <p>cc_params传参调用execv</p>
 <figure class="highlight sqf"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></div></td><td class="code"><pre><code class="hljs sqf">cc_params[cc_par_cnt++] = <span class="hljs-string">&quot;-D__AFL_LOOP(_A)=&quot;</span><br>    <span class="hljs-string">&quot;(&#123; static volatile char *_B __attribute__((used)); &quot;</span><br>    <span class="hljs-string">&quot; _B = (char*)\&quot;&quot; PERSIST_SIG &quot;</span>\<span class="hljs-string">&quot;; &quot;</span><br><span class="hljs-meta">#<span class="hljs-keyword">ifdef</span> __APPLE__</span><br>    <span class="hljs-string">&quot;__attribute__((visibility(\&quot;</span><span class="hljs-keyword">default</span>\<span class="hljs-string">&quot;))) &quot;</span><br>    <span class="hljs-string">&quot;int _L(unsigned int) __asm__(\&quot;</span><span class="hljs-variable">___afl_persistent_loop</span>\<span class="hljs-string">&quot;); &quot;</span><br><span class="hljs-meta">#<span class="hljs-keyword">else</span></span><br>    <span class="hljs-string">&quot;__attribute__((visibility(\&quot;</span><span class="hljs-keyword">default</span>\<span class="hljs-string">&quot;))) &quot;</span><br>    <span class="hljs-string">&quot;int _L(unsigned int) __asm__(\&quot;</span><span class="hljs-variable">__afl_persistent_loop</span>\<span class="hljs-string">&quot;); &quot;</span><br><span class="hljs-meta">#<span class="hljs-keyword">endif</span> <span class="hljs-comment">/* ^__APPLE__ */</span></span><br>    <span class="hljs-string">&quot;_L(_A); &#125;)&quot;</span>;<br><br></code></pre></td></tr></table></figure>

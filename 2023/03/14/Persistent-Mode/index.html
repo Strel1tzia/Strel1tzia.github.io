@@ -236,6 +236,12 @@
             <!-- SEO header -->
             <h1 style="display: none">Persistent Mode</h1>
             
+              <p class="note note-info">
+                
+                  本文最后更新于：2023年3月14日 晚上
+                
+              </p>
+            
             <div class="markdown-body">
               <h1 id="Forkserver-Persistent-Mode"><a href="#Forkserver-Persistent-Mode" class="headerlink" title="Forkserver Persistent Mode"></a>Forkserver Persistent Mode</h1><h2 id="Persistent-Mode"><a href="#Persistent-Mode" class="headerlink" title="Persistent Mode"></a>Persistent Mode</h2><p>AFL 中采用 Forserver 来加快程序运行效率，其原理是利用 Forkserver 机制 fork() 出子程序进行执行，取代了 execve() 的执行模式，避免了大量重复的链接等操作，大大提升了 Fuzz 的速率。</p>
 <p>进一步看，由于某些库提供的 API 是无状态的，或能重置其状态，在一次次循环之间。当 API 重置后，一个长期活跃的进程就可以被重复使用，这样可以消除 fork() 函数以及 OS 相关的消耗。</p>

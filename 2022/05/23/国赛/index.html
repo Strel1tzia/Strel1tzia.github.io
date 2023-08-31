@@ -239,6 +239,12 @@
             <!-- SEO header -->
             <h1 style="display: none">国赛</h1>
             
+              <p class="note note-info">
+                
+                  本文最后更新于：2022年5月27日 上午
+                
+              </p>
+            
             <div class="markdown-body">
               <h1 id="0x01-格式化字符串漏洞"><a href="#0x01-格式化字符串漏洞" class="headerlink" title="0x01 格式化字符串漏洞"></a>0x01 格式化字符串漏洞</h1><h2 id="漏洞的产生原因及利用原理"><a href="#漏洞的产生原因及利用原理" class="headerlink" title="漏洞的产生原因及利用原理"></a>漏洞的产生原因及利用原理</h2><p>我们在正常的对格式化字符输出时大都使用printf(*format,*arg);<br>此种形式进行输出，但是部分程序员在开发的使用，为了省事使用了，printf(*format);进行输出<br>错误：<br>#include &lt;stdio.h&gt;<br>void main(){<br>    char str[1024];<br>    scanf(%s,&amp;str);<br>    printf(%s);<br>}</p>
 <p>正确：<br>#include &lt;stdio.h&gt;<br>void main(){<br>    char str[1024];<br>    scanf(%s,&amp;str);<br>    printf(%s,str);<br>}</p>

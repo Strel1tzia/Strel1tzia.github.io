@@ -236,6 +236,12 @@
             <!-- SEO header -->
             <h1 style="display: none">shellcode</h1>
             
+              <p class="note note-info">
+                
+                  本文最后更新于：2022年8月25日 下午
+                
+              </p>
+            
             <div class="markdown-body">
               <h1 id="shellcode的利用"><a href="#shellcode的利用" class="headerlink" title="shellcode的利用"></a>shellcode的利用</h1><p>以国赛提前一天放出的模拟题为例<br>本文基于32位系统<br>打开题目后可以发现一下基础信息</p>
 <figure class="highlight mipsasm"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><pre><code class="hljs mipsasm">没有开任何防护<br>没有开NX保护，意味着第一时间可以想到，把<span class="hljs-keyword">shellcode放在栈上运行</span><br><span class="hljs-keyword"></span>是<span class="hljs-number">32</span>位程序<br></code></pre></td></tr></table></figure>
