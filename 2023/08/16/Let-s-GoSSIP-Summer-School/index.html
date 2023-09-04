@@ -47,8 +47,19 @@
 <meta property="og:image" content="http://example.com/2023/08/16/Let-s-GoSSIP-Summer-School/p14.png">
 <meta property="og:image" content="http://example.com/2023/08/16/Let-s-GoSSIP-Summer-School/p15.png">
 <meta property="og:image" content="http://example.com/2023/08/16/Let-s-GoSSIP-Summer-School/p16.png">
+<meta property="og:image" content="http://example.com/2023/08/16/Let-s-GoSSIP-Summer-School/p17.png">
+<meta property="og:image" content="http://example.com/2023/08/16/Let-s-GoSSIP-Summer-School/p18.png">
+<meta property="og:image" content="http://example.com/2023/08/16/Let-s-GoSSIP-Summer-School/p19.png">
+<meta property="og:image" content="http://example.com/2023/08/16/Let-s-GoSSIP-Summer-School/p20.png">
+<meta property="og:image" content="http://example.com/2023/08/16/Let-s-GoSSIP-Summer-School/p21.png">
+<meta property="og:image" content="http://example.com/2023/08/16/Let-s-GoSSIP-Summer-School/p22.png">
+<meta property="og:image" content="http://example.com/2023/08/16/Let-s-GoSSIP-Summer-School/p23.png">
+<meta property="og:image" content="http://example.com/2023/08/16/Let-s-GoSSIP-Summer-School/p24.png">
+<meta property="og:image" content="http://example.com/2023/08/16/Let-s-GoSSIP-Summer-School/p25.png">
+<meta property="og:image" content="http://example.com/2023/08/16/Let-s-GoSSIP-Summer-School/p26.png">
+<meta property="og:image" content="http://example.com/2023/08/16/Let-s-GoSSIP-Summer-School/p27.png">
 <meta property="article:published_time" content="2023-08-16T11:40:17.000Z">
-<meta property="article:modified_time" content="2023-09-03T08:44:35.097Z">
+<meta property="article:modified_time" content="2023-09-04T08:24:52.253Z">
 <meta property="article:author" content="kawa_von">
 <meta property="article:tag" content="course">
 <meta name="twitter:card" content="summary_large_image">
@@ -222,7 +233,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      2.9k 字
+      3.4k 字
     </span>
   
 
@@ -231,7 +242,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      25 分钟
+      29 分钟
     </span>
   
 
@@ -268,7 +279,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：2023年9月3日 下午
+                  本文最后更新于：2023年9月4日 下午
                 
               </p>
             
@@ -364,6 +375,40 @@
 <p>  开启蓝牙地址的随机化，不使用某一个固定的地址，而是不断的更新。</p>
 <p>  随后张老师介绍了基于 Allowlist 和 mac 地址随机化间隔的一些 tricks。</p>
 <h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>  张老师是一位在蓝牙安全领域硕果满满的研究人员，他的报告十分硬核，有不下五篇文章的相关技术细节，令我大受启发，醍醐灌顶！</p>
+<h1 id="Day2-上午-CDN-安全研究"><a href="#Day2-上午-CDN-安全研究" class="headerlink" title="Day2 上午 CDN 安全研究"></a>Day2 上午 CDN 安全研究</h1><p>  第二天上午的报告由来自<strong>清华大学</strong>的<strong>陈建军</strong>老师主讲，陈老师的研究方向包括互联网基础协议安全，漏洞挖掘技术等等。</p>
+<h2 id="CDN-内容分发网络"><a href="#CDN-内容分发网络" class="headerlink" title="CDN 内容分发网络"></a>CDN 内容分发网络</h2><p>  下面这张图片清晰地描述了 CDN 在网络中发挥的作用</p>
+<p><img src="/2023/08/16/Let-s-GoSSIP-Summer-School/p17.png" srcset="/img/loading.gif" lazyload></p>
+<p>  CDN 的核心功能有：</p>
+<ul>
+<li><p>网络加速；</p>
+</li>
+<li><p>WEB 应用防火墙（WAF）；</p>
+</li>
+<li><p>DDoS 防护等</p>
+<p>下图是 CDN 的工作方式：</p>
+</li>
+</ul>
+<p><img src="/2023/08/16/Let-s-GoSSIP-Summer-School/p18.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="CDN-的安全隐患"><a href="#CDN-的安全隐患" class="headerlink" title="CDN 的安全隐患"></a>CDN 的安全隐患</h2><h3 id="后端通信劫持"><a href="#后端通信劫持" class="headerlink" title="后端通信劫持"></a>后端通信劫持</h3><p>  有部分的 CDN ， 其 CDN 服务器和主机间的通信是 HTTP 明文传输：</p>
+<p><img src="/2023/08/16/Let-s-GoSSIP-Summer-School/p19.png" srcset="/img/loading.gif" lazyload></p>
+<p>  这种情况会导致后端通信可能被劫持，污染 CDN 节点的缓存数据。</p>
+<h3 id="前端通信的授权认证问题"><a href="#前端通信的授权认证问题" class="headerlink" title="前端通信的授权认证问题"></a>前端通信的授权认证问题</h3><p><img src="/2023/08/16/Let-s-GoSSIP-Summer-School/p20.png" srcset="/img/loading.gif" lazyload></p>
+<p>  解决方法：</p>
+<p><img src="/2023/08/16/Let-s-GoSSIP-Summer-School/p21.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="不一致性带来的隐患"><a href="#不一致性带来的隐患" class="headerlink" title="不一致性带来的隐患"></a>不一致性带来的隐患</h3><p>  由于 CDN 是多方交互，其服务器可能会存在不一致性，且不同网站会共享同一 CDN 服务器；</p>
+<p><img src="/2023/08/16/Let-s-GoSSIP-Summer-School/p22.png" srcset="/img/loading.gif" lazyload></p>
+<p>  以上案例利用的不同服务器，对<code>Content-length</code>的前/后选取不同的差异，进行攻击。</p>
+<hr>
+<p><img src="/2023/08/16/Let-s-GoSSIP-Summer-School/p23.png" srcset="/img/loading.gif" lazyload></p>
+<p>  该案例是不同主机对 HOST 解析不同的差异带来的漏洞。</p>
+<p>  下图可看出，不同的系统对 Host 头处理方式是大多不同的，很容易产生隐患。</p>
+<p><img src="/2023/08/16/Let-s-GoSSIP-Summer-School/p24.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/2023/08/16/Let-s-GoSSIP-Summer-School/p25.png" srcset="/img/loading.gif" lazyload></p>
+<p>  可以看到，有<strong>不在少数</strong>的上下游组合可以被该漏洞利用。</p>
+<h3 id="CDN-流量放大攻击"><a href="#CDN-流量放大攻击" class="headerlink" title="CDN 流量放大攻击"></a>CDN 流量放大攻击</h3><p><img src="/2023/08/16/Let-s-GoSSIP-Summer-School/p26.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="论文阅读推荐"><a href="#论文阅读推荐" class="headerlink" title="论文阅读推荐"></a>论文阅读推荐</h2><p><img src="/2023/08/16/Let-s-GoSSIP-Summer-School/p27.png" srcset="/img/loading.gif" lazyload></p>
+<p>  最后，陈老师推荐了以上几篇论文供大家阅读。</p>
+<h2 id="后续"><a href="#后续" class="headerlink" title="后续"></a>后续</h2><p>  众所周知，我的博客目前仍然是挂载在 github 上的，故正准备为我的博客搭建一个 CDN ，随便试试手（笑）；敬请期待。</p>
 
             </div>
             <hr>
