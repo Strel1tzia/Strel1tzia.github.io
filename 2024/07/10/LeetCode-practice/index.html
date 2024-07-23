@@ -24,7 +24,7 @@
 <meta property="og:description" content="LeetCode 刷题本篇文章将持续更新，刷题过程的思路、语言的底层原理等细节。 vector的erase操作与remove操作remove remove的实现方式是用被删除对象的后一个对象将其覆盖。  12345678910111213141516171819202122#include &lt;vector&gt;#include &lt;iostream&gt;#include &lt;al">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-07-10T06:49:32.000Z">
-<meta property="article:modified_time" content="2024-07-10T15:11:10.279Z">
+<meta property="article:modified_time" content="2024-07-23T10:34:03.830Z">
 <meta property="article:author" content="kawa_von">
 <meta name="twitter:card" content="summary_large_image">
   
@@ -196,7 +196,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      3.4k 字
+      4.2k 字
     </span>
   
 
@@ -205,7 +205,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      29 分钟
+      36 分钟
     </span>
   
 
@@ -242,7 +242,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：2024年7月10日 晚上
+                  本文最后更新于：2024年7月23日 晚上
                 
               </p>
             
@@ -276,6 +276,20 @@
 </ul>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>;i&lt;nums.<span class="hljs-built_in">size</span>()<span class="hljs-number">-1</span>;i++)<br>        &#123;<br>            a*=nums[i];<span class="hljs-comment">//乘积，从第一项开始乘，并进行存储</span><br>            prefix.<span class="hljs-built_in">push_back</span>(a);<br>        &#125;<br></code></pre></td></tr></table></figure>
 
+<h2 id="deque的使用"><a href="#deque的使用" class="headerlink" title="deque的使用"></a>deque的使用</h2><p>首先，对比stack、queue、deque，毫无疑问deque是好用的：</p>
+<ul>
+<li>deque可随机访问，另外俩不行；</li>
+<li>deque有迭代器；</li>
+<li>deque可双向操作；</li>
+</ul>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs stylus"><span class="hljs-function"><span class="hljs-title">empty</span><span class="hljs-params">()</span></span><br><span class="hljs-function"><span class="hljs-title">push_back</span><span class="hljs-params">()</span></span><br><span class="hljs-function"><span class="hljs-title">push_front</span><span class="hljs-params">()</span></span><br><span class="hljs-function"><span class="hljs-title">pop_back</span><span class="hljs-params">()</span></span><br><span class="hljs-function"><span class="hljs-title">pop_front</span><span class="hljs-params">()</span></span><br><span class="hljs-function"><span class="hljs-title">front</span><span class="hljs-params">()</span></span><br><span class="hljs-function"><span class="hljs-title">back</span><span class="hljs-params">()</span></span><br><span class="hljs-function"><span class="hljs-title">emplace</span><span class="hljs-params">()</span></span><span class="hljs-comment">//插入指定位置</span><br><span class="hljs-function"><span class="hljs-title">erase</span><span class="hljs-params">()</span></span><br></code></pre></td></tr></table></figure>
+
+<p>成员函数应有尽有</p>
+<p>例题：</p>
+<p>给定一个字符串 <code>s</code> ，请你找出其中不含有重复字符的 <strong>最长 子串</strong> 的长度。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">lengthOfLongestSubstring</span><span class="hljs-params">(string s)</span> </span>&#123;<br>        deque&lt;<span class="hljs-type">char</span>&gt; q;<br>        <span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> res = <span class="hljs-number">0</span>;<br>        deque&lt;<span class="hljs-type">char</span>&gt;::iterator iter;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>;i&lt;s.<span class="hljs-built_in">length</span>();i++)<br>        &#123;<br>            <span class="hljs-keyword">if</span>(q.<span class="hljs-built_in">empty</span>())<br>            &#123;<br>                q.<span class="hljs-built_in">push_back</span>(s[i]);<br>                <span class="hljs-keyword">if</span>(res == <span class="hljs-number">0</span>)<br>                &#123;<br>                    res =<span class="hljs-number">1</span>;<br>                &#125;<br>                <span class="hljs-keyword">continue</span>;<br>            &#125;<br>            <span class="hljs-keyword">for</span>(iter = q.<span class="hljs-built_in">begin</span>();iter!=q.<span class="hljs-built_in">end</span>();iter++)<br>            &#123;<br>                <span class="hljs-keyword">if</span>(s[i] == *iter)<br>                &#123;<br>                    <span class="hljs-keyword">while</span>(q.<span class="hljs-built_in">front</span>()!=s[i] &amp;&amp; !q.<span class="hljs-built_in">empty</span>())<br>                    &#123;<br>                        q.<span class="hljs-built_in">pop_front</span>();<br>                    &#125;<br>                    q.<span class="hljs-built_in">pop_front</span>();<br>                    <span class="hljs-keyword">break</span>;<br>                &#125;<br>            &#125;<br>            q.<span class="hljs-built_in">push_back</span>(s[i]);<br>            res = <span class="hljs-built_in">max</span>(res,q.<span class="hljs-built_in">size</span>());<br>        &#125;<br>        <span class="hljs-keyword">return</span> res;<br><br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<p>个人代码规范并不紧凑，其实行数很好，deque很好用。</p>
 
             </div>
             <hr>
